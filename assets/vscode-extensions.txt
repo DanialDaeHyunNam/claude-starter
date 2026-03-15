@@ -1,0 +1,18 @@
+# VS Code / Cursor 공통 extension 목록
+# bootstrap 스크립트에서 자동 설치됨
+aaron-bond.better-comments
+akamud.vscode-theme-onedark
+charliermarsh.ruff
+christian-kohler.path-intellisense
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+ms-python.black-formatter
+ms-python.debugpy
+ms-python.isort
+ms-python.python
+ms-vscode.makefile-tools
+pranaygp.vscode-css-peek
+shd101wyy.markdown-preview-enhanced
+streetsidesoftware.code-spell-checker
+vscode-icons-team.vscode-icons
+wmaurer.change-case

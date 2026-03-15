@@ -1,0 +1,23 @@
+# 수강생들이 만드는 프로덕트 프로젝트 (각자 독립 git repo)
+projects/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+.bootstrap-logs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+
+# IDE
+.idea/
+*.swp
+*.swo
