@@ -108,8 +108,10 @@ claude-starter/              ← 이 레포 (강의 도구)
 - **임시 스크립트**: `.claude/temp/scripts/`에 생성, 1회성은 작업 후 삭제
 - **디버깅**: 1가설 1검증 원칙. print/console.log로 하나씩 검증. 대규모 동시 테스트 금지
 
-## 트러블슈팅 PR 규칙
+## Git 워크플로우 (필수)
 
-- 브랜치: `fix/이슈설명` 또는 `improve/개선설명`
-- PR 제목: `[fix] 이슈 설명` 또는 `[improve] 개선 설명`
-- 강사가 검토 후 유의미한 것만 merge
+- **main 직접 push 금지** — 반드시 브랜치 → PR → squash and merge
+- 브랜치 네이밍: `feat/기능`, `fix/이슈`, `improve/개선`, `docs/문서`
+- PR 제목: `[feat] 기능 설명`, `[fix] 이슈 설명`, `[improve] 개선 설명`
+- merge 방식: **squash and merge** (히스토리 깔끔하게)
+- 이 원칙은 이 레포(claude-starter)와 수강생 프로젝트 모두 동일하게 적용
