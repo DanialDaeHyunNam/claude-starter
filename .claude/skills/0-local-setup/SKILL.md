@@ -160,38 +160,111 @@ asdf가 아닌 다른 버전 관리자가 발견되면:
      - pyenv: `brew uninstall pyenv` 또는 `rm -rf ~/.pyenv`
    - 제거 후 `bootstrap_mac.sh` 정상 실행
 
-**4-3. 버전 선택**
+**4-3. 선택형 도구 설치**
 
-AskUserQuestion으로 버전 커스터마이징 여부를 물어보세요:
+아래 내용을 사용자에게 보여준 뒤 선택받으세요:
 
+```
+필수 설치 (자동)              선택 설치 (프로젝트에 따라)
+─────────────────────        ─────────────────────────
+ Homebrew + asdf              Python + uv (AI/데이터용)
+ Git                          MySQL (DB)
+ Node.js + Bun                PostgreSQL + pgAdmin4 (DB)
+ Claude Code                  Docker (컨테이너)
+ VS Code / Cursor             AWS CLI (AWS 배포용)
+ iTerm2 + 폰트                Google Chrome
+ Oh My Zsh + Powerlevel10k
+```
+
+AskUserQuestion 도구를 사용하여 질문하세요:
+
+- question: "필수 도구 외에 추가로 설치할 것이 있나요?"
+- header: "선택형 도구"
+- options:
+  - label: "기본만 설치 (추천)" / description: "필수 도구만 설치합니다. 나중에 필요하면 추가할 수 있어요"
+  - label: "DB 추가" / description: "MySQL 또는 PostgreSQL을 추가로 설치합니다"
+  - label: "전부 설치" / description: "Python, DB, Docker, AWS CLI 등 모두 설치합니다"
+  - label: "직접 선택할게요" / description: "하나씩 선택합니다"
+
+**"기본만 설치" 선택 시:** 모든 선택형 플래그를 0으로 두고 다음 단계로 진행
+
+**"DB 추가" 선택 시:** AskUserQuestion으로 DB 종류 선택:
+  - "MySQL" / "PostgreSQL" / "둘 다"
+  - PostgreSQL 선택 시 pgAdmin4도 함께 설치 (INSTALL_PGADMIN=1)
+
+**"전부 설치" 선택 시:** 모든 선택형 플래그를 1로 설정
+
+**"직접 선택할게요" 선택 시:** 각 항목을 AskUserQuestion으로 하나씩 물어보세요:
+  - "Python + uv 설치할까요?" (예/아니오)
+  - "MySQL 설치할까요?" (예/아니오)
+  - "PostgreSQL + pgAdmin4 설치할까요?" (예/아니오)
+  - "Docker 설치할까요?" (예/아니오)
+  - "AWS CLI 설치할까요?" (예/아니오)
+  - "Google Chrome 설치할까요?" (예/아니오)
+
+**4-3-1. 추가 도구 요청**
+
+선택이 끝나면 AskUserQuestion으로 추가 요청을 받으세요:
+
+- question: "이 외에 추가로 설치하고 싶은 도구가 있나요? (없으면 '없음')"
+- header: "추가 도구"
+- options:
+  - label: "없음" / description: "선택한 것만 설치합니다"
+  - label: "있어요" / description: "설치하고 싶은 도구를 직접 입력해주세요"
+
+"있어요"를 선택하면 사용자가 입력한 도구를 분석하여:
+1. brew로 설치 가능한지 확인 (brew search)
+2. 의존 관계 고려하여 적절한 설치 순서에 배치
+3. 설치 명령어를 사용자에게 보여주고 확인 후 진행
+
+**4-4. 버전 선택**
+
+설치 대상이 확정되면, 버전 커스터마이징 여부를 물어보세요.
+
+필수 도구의 기본 버전: Node.js 20.12.0
+선택 도구 기본 버전: Python 3.9.1 / MySQL 8.0.34 / Postgres 17.6
+
+AskUserQuestion:
 - question: "설치할 도구 버전을 기본값으로 진행할까요?"
 - header: "버전 선택"
 - options:
-  - label: "기본값으로 진행 (추천)" / description: "Node.js 20.12.0 / Python 3.9.1 / MySQL 8.0.34 / Postgres 17.6"
+  - label: "기본값으로 진행 (추천)" / description: 선택된 도구와 기본 버전을 나열
   - label: "버전 직접 선택" / description: "각 도구의 버전을 직접 지정합니다"
 
-"버전 직접 선택"이면 AskUserQuestion으로 각 버전을 하나씩 물어보세요.
+"버전 직접 선택"이면 AskUserQuestion으로 선택된 도구의 버전만 하나씩 물어보세요.
 
-**4-4. 스크립트 실행**
+**4-5. 스크립트 실행**
 
-버전이 확정되면, bootstrap_mac.sh를 Bash 도구로 실행합니다.
+선택형 플래그와 버전이 확정되면, 환경변수로 플래그를 넘겨서 bootstrap_mac.sh를 실행합니다.
 스크립트는 이미 설치된 항목은 자동으로 스킵합니다.
 
-```bash
-cd /path/to/claude-starter && bash scripts/bootstrap_mac.sh
-```
-
-주의: 이 스크립트는 interactive prompt(read -r -p)가 있으므로, Claude가 직접 실행할 수 없습니다.
-대신 환경변수로 버전을 주입하거나, 사용자에게 터미널에서 직접 실행하도록 안내하세요:
+환경변수 플래그:
+- `INSTALL_PYTHON=0|1`
+- `INSTALL_MYSQL=0|1`
+- `INSTALL_POSTGRES=0|1`
+- `INSTALL_PGADMIN=0|1`
+- `INSTALL_DOCKER=0|1`
+- `INSTALL_AWSCLI=0|1`
+- `INSTALL_CHROME=0|1`
+- `NODE_VERSION=20.12.0` (필수)
+- `PYTHON_VERSION=3.9.1` (선택 시)
+- `MYSQL_VERSION=8.0.34` (선택 시)
+- `POSTGRES_VERSION=17.6` (선택 시)
 
 방법 A - 사용자에게 직접 실행 안내:
 ```
 아래 명령어를 터미널에 복사-붙여넣기 해주세요:
-cd /path/to/claude-starter && bash scripts/bootstrap_mac.sh
+cd /path/to/claude-starter && \
+  INSTALL_PYTHON=0 INSTALL_MYSQL=0 INSTALL_POSTGRES=0 INSTALL_PGADMIN=0 \
+  INSTALL_DOCKER=0 INSTALL_AWSCLI=0 INSTALL_CHROME=0 \
+  NODE_VERSION=20.12.0 \
+  bash scripts/bootstrap_mac.sh
 ```
+(위 예시에서 사용자 선택에 따라 플래그를 0 또는 1로 바꿔서 안내)
 
 방법 B - 스크립트의 각 함수를 Claude가 개별 Bash 호출로 실행:
 스크립트의 로직을 참고하여, 각 단계를 Bash 도구로 하나씩 실행합니다.
+선택형 도구가 아닌 항목은 건너뜁니다.
 각 단계 실행 후 결과를 사용자에게 보여주고, 실패하면 해결 방안을 안내합니다.
 
 ---
@@ -328,19 +401,25 @@ fc-cache -fv
 
 ### Step 6: 최종 확인
 
-모든 설치가 끝나면 Bash 도구로 전체 상태를 확인하세요:
+모든 설치가 끝나면 Bash 도구로 전체 상태를 확인하세요.
+**필수 도구는 항상 확인하고, 선택형 도구는 사용자가 선택한 것만 확인합니다.**
 
+필수 확인 항목:
 ```bash
 echo "=== 최종 설치 확인 ===" && \
 echo "Node.js: $(node --version 2>/dev/null || echo '❌')" && \
-echo "npm: $(npm --version 2>/dev/null || echo '❌')" && \
-echo "Python: $(python3 --version 2>/dev/null || echo '❌')" && \
+echo "Bun: $(bun --version 2>/dev/null || echo '❌')" && \
 echo "Git: $(git --version 2>/dev/null || echo '❌')" && \
-echo "Claude: $(claude --version 2>/dev/null || echo '❌')" && \
-echo "Docker: $(docker --version 2>/dev/null || echo '❌')" && \
-echo "GitHub CLI: $(gh --version 2>/dev/null | head -1 || echo '❌')" && \
-echo "MySQL: $(mysql --version 2>/dev/null || echo '❌')" && \
+echo "Claude: $(claude --version 2>/dev/null || echo '❌')"
+```
+
+선택형 도구 (선택한 것만 확인):
+```bash
+echo "Python: $(python3 --version 2>/dev/null || echo '❌')"
+echo "MySQL: $(mysql --version 2>/dev/null || echo '❌')"
 echo "PostgreSQL: $(psql --version 2>/dev/null || echo '❌')"
+echo "Docker: $(docker --version 2>/dev/null || echo '❌')"
+echo "AWS CLI: $(aws --version 2>/dev/null || echo '❌')"
 ```
 
 결과를 표로 정리해서 보여주세요:

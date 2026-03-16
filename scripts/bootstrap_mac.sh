@@ -5,7 +5,6 @@ set -Eeuo pipefail
 # bootstrap_mac.sh
 # =========================================================
 
-TOTAL_STEPS=20
 CURRENT_STEP=0
 STEP_START_TS=0
 
@@ -18,10 +17,19 @@ BUN_VERSION="latest"
 UV_VERSION="latest"
 AWSCLI_VERSION="latest"
 
-NODE_VERSION=""
-PYTHON_VERSION=""
-MYSQL_VERSION=""
-POSTGRES_VERSION=""
+NODE_VERSION="${NODE_VERSION:-}"
+PYTHON_VERSION="${PYTHON_VERSION:-}"
+MYSQL_VERSION="${MYSQL_VERSION:-}"
+POSTGRES_VERSION="${POSTGRES_VERSION:-}"
+
+# Optional tool flags (0=skip, 1=install)
+INSTALL_PYTHON="${INSTALL_PYTHON:-0}"
+INSTALL_MYSQL="${INSTALL_MYSQL:-0}"
+INSTALL_POSTGRES="${INSTALL_POSTGRES:-0}"
+INSTALL_DOCKER="${INSTALL_DOCKER:-0}"
+INSTALL_AWSCLI="${INSTALL_AWSCLI:-0}"
+INSTALL_CHROME="${INSTALL_CHROME:-0}"
+INSTALL_PGADMIN="${INSTALL_PGADMIN:-0}"
 
 ZSHRC="${HOME}/.zshrc"
 OHMYZSH_DIR="${HOME}/.oh-my-zsh"
@@ -29,9 +37,6 @@ ZSH_CUSTOM_DIR="${OHMYZSH_DIR}/custom"
 P10K_DIR="${ZSH_CUSTOM_DIR}/themes/powerlevel10k"
 
 ASDF_DIR="${HOME}/.asdf"
-
-MYSQL_INSTALL_DIR="${ASDF_DIR}/installs/mysql"
-POSTGRES_INSTALL_DIR="${ASDF_DIR}/installs/postgres"
 
 LOG_DIR="${HOME}/.bootstrap-logs"
 LOG_FILE="${LOG_DIR}/bootstrap-$(date +%Y%m%d-%H%M%S).log"
@@ -53,6 +58,17 @@ append_if_missing() {
   touch "$file"
   grep -Fqx "$line" "$file" 2>/dev/null || printf '%s\n' "$line" >> "$file"
 }
+
+calc_total_steps() {
+  local total=16  # base required steps
+  [[ "${INSTALL_PYTHON}" == "1" ]] && total=$((total + 2))  # python + uv
+  [[ "${INSTALL_AWSCLI}" == "1" ]] && total=$((total + 1))
+  [[ "${INSTALL_MYSQL}" == "1" ]] && total=$((total + 1))
+  [[ "${INSTALL_POSTGRES}" == "1" ]] && total=$((total + 1))
+  echo "$total"
+}
+
+TOTAL_STEPS=0
 
 start_step() {
   CURRENT_STEP=$((CURRENT_STEP + 1))
@@ -82,21 +98,31 @@ prompt_versions() {
   echo
   bold "설치할 기본 버전을 입력해줘. 엔터면 기본값 사용."
 
-  read -r -p "Node.js version [${DEFAULT_NODE_VERSION}]: " NODE_VERSION
-  read -r -p "Python version [${DEFAULT_PYTHON_VERSION}]: " PYTHON_VERSION
-  read -r -p "MySQL version [${DEFAULT_MYSQL_VERSION}]: " MYSQL_VERSION
-  read -r -p "Postgres version [${DEFAULT_POSTGRES_VERSION}]: " POSTGRES_VERSION
-
+  if [[ -z "${NODE_VERSION}" ]]; then
+    read -r -p "Node.js version [${DEFAULT_NODE_VERSION}]: " NODE_VERSION
+  fi
   NODE_VERSION="${NODE_VERSION:-$DEFAULT_NODE_VERSION}"
+
+  if [[ "${INSTALL_PYTHON}" == "1" && -z "${PYTHON_VERSION}" ]]; then
+    read -r -p "Python version [${DEFAULT_PYTHON_VERSION}]: " PYTHON_VERSION
+  fi
   PYTHON_VERSION="${PYTHON_VERSION:-$DEFAULT_PYTHON_VERSION}"
+
+  if [[ "${INSTALL_MYSQL}" == "1" && -z "${MYSQL_VERSION}" ]]; then
+    read -r -p "MySQL version [${DEFAULT_MYSQL_VERSION}]: " MYSQL_VERSION
+  fi
   MYSQL_VERSION="${MYSQL_VERSION:-$DEFAULT_MYSQL_VERSION}"
+
+  if [[ "${INSTALL_POSTGRES}" == "1" && -z "${POSTGRES_VERSION}" ]]; then
+    read -r -p "Postgres version [${DEFAULT_POSTGRES_VERSION}]: " POSTGRES_VERSION
+  fi
   POSTGRES_VERSION="${POSTGRES_VERSION:-$DEFAULT_POSTGRES_VERSION}"
 
   echo "선택된 버전:"
   echo "  Node.js  : ${NODE_VERSION}"
-  echo "  Python   : ${PYTHON_VERSION}"
-  echo "  MySQL    : ${MYSQL_VERSION}"
-  echo "  Postgres : ${POSTGRES_VERSION}"
+  [[ "${INSTALL_PYTHON}" == "1" ]] && echo "  Python   : ${PYTHON_VERSION}"
+  [[ "${INSTALL_MYSQL}" == "1" ]] && echo "  MySQL    : ${MYSQL_VERSION}"
+  [[ "${INSTALL_POSTGRES}" == "1" ]] && echo "  Postgres : ${POSTGRES_VERSION}"
 }
 
 ensure_xcode_cli_tools() {
@@ -244,11 +270,12 @@ install_brew_packages() {
   install_formula_if_needed asdf
 
   install_cask_if_needed iterm2 "/Applications/iTerm.app"
-  install_cask_if_needed google-chrome "/Applications/Google Chrome.app"
   install_cask_if_needed cursor "/Applications/Cursor.app"
-  install_cask_if_needed docker-desktop "/Applications/Docker.app"
   install_cask_if_needed visual-studio-code "/Applications/Visual Studio Code.app"
-  install_cask_if_needed pgadmin4 "/Applications/pgAdmin 4.app"
+
+  [[ "${INSTALL_CHROME}" == "1" ]] && install_cask_if_needed google-chrome "/Applications/Google Chrome.app"
+  [[ "${INSTALL_DOCKER}" == "1" ]] && install_cask_if_needed docker-desktop "/Applications/Docker.app"
+  [[ "${INSTALL_PGADMIN}" == "1" ]] && install_cask_if_needed pgadmin4 "/Applications/pgAdmin 4.app"
 
   install_font_cask_best_effort font-meslo-lg-nerd-font
   install_font_cask_best_effort font-fira-code
@@ -294,8 +321,9 @@ install_zsh_plugins() {
 }
 
 configure_shell_files() {
-  cat > "${ZSHRC}" <<EOF
-export ZSH="\$HOME/.oh-my-zsh"
+  # Base .zshrc
+  cat > "${ZSHRC}" <<'BASEOF'
+export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -306,38 +334,46 @@ plugins=(
   asdf
 )
 
-source "\$ZSH/oh-my-zsh.sh"
+source "$ZSH/oh-my-zsh.sh"
 
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-eval "\$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null || true)"
+eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null || true)"
 
-export PATH="\$HOME/.local/bin:\$PATH"
-export PATH="\${ASDF_DATA_DIR:-\$HOME/.asdf}/shims:\$PATH"
-export PATH="\$HOME/.bun/bin:\$PATH"
-export PATH="\$HOME/.asdf/installs/mysql/${MYSQL_VERSION}/bin:\$PATH"
-export PATH="\$HOME/.asdf/installs/postgres/${POSTGRES_VERSION}/bin:\$PATH"
-
-export PGDATA="\$HOME/.asdf/installs/postgres/${POSTGRES_VERSION}/data"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
 
 alias python=python3
 alias pip=pip3
 alias ll="ls -lah"
+alias claude-danger='claude --dangerously-skip-permissions'
 
 env_context() {
   if [ -f .env ]; then
-    export \$(grep -v '^#' .env | xargs)
+    export $(grep -v '^#' .env | xargs)
   fi
 }
 alias dotenv-prod=env_context
 
 local_env_context() {
   if [ -f .env.local ]; then
-    export \$(grep -v '^#' .env.local | xargs)
+    export $(grep -v '^#' .env.local | xargs)
   fi
 }
 alias dotenv=local_env_context
-EOF
+BASEOF
+
+  # Optional: MySQL PATH
+  if [[ "${INSTALL_MYSQL}" == "1" ]]; then
+    printf '\nexport PATH="$HOME/.asdf/installs/mysql/%s/bin:$PATH"\n' "${MYSQL_VERSION}" >> "${ZSHRC}"
+  fi
+
+  # Optional: PostgreSQL PATH + PGDATA
+  if [[ "${INSTALL_POSTGRES}" == "1" ]]; then
+    printf '\nexport PATH="$HOME/.asdf/installs/postgres/%s/bin:$PATH"\n' "${POSTGRES_VERSION}" >> "${ZSHRC}"
+    printf 'export PGDATA="$HOME/.asdf/installs/postgres/%s/data"\n' "${POSTGRES_VERSION}" >> "${ZSHRC}"
+  fi
 }
 
 write_p10k_config() {
@@ -368,7 +404,7 @@ write_p10k_config() {
   typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=true
 }
 
-(( \${#p10k_config_opts} )) && setopt \${p10k_config_opts[@]}
+(( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'
 EOF
 }
@@ -392,12 +428,24 @@ install_asdf_plugins() {
   ensure_asdf_on_path
 
   asdf plugin list | grep -qx "nodejs" || asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-  asdf plugin list | grep -qx "python" || asdf plugin add python https://github.com/asdf-community/asdf-python.git
   asdf plugin list | grep -qx "bun" || asdf plugin add bun https://github.com/cometkim/asdf-bun.git
-  asdf plugin list | grep -qx "uv" || asdf plugin add uv https://github.com/asdf-community/asdf-uv.git
-  asdf plugin list | grep -qx "awscli" || asdf plugin add awscli https://github.com/MetricMike/asdf-awscli.git
-  asdf plugin list | grep -qx "mysql" || asdf plugin add mysql https://github.com/iroddis/asdf-mysql.git
-  asdf plugin list | grep -qx "postgres" || asdf plugin add postgres https://github.com/smashedtoatoms/asdf-postgres.git
+
+  if [[ "${INSTALL_PYTHON}" == "1" ]]; then
+    asdf plugin list | grep -qx "python" || asdf plugin add python https://github.com/asdf-community/asdf-python.git
+    asdf plugin list | grep -qx "uv" || asdf plugin add uv https://github.com/asdf-community/asdf-uv.git
+  fi
+
+  if [[ "${INSTALL_AWSCLI}" == "1" ]]; then
+    asdf plugin list | grep -qx "awscli" || asdf plugin add awscli https://github.com/MetricMike/asdf-awscli.git
+  fi
+
+  if [[ "${INSTALL_MYSQL}" == "1" ]]; then
+    asdf plugin list | grep -qx "mysql" || asdf plugin add mysql https://github.com/iroddis/asdf-mysql.git
+  fi
+
+  if [[ "${INSTALL_POSTGRES}" == "1" ]]; then
+    asdf plugin list | grep -qx "postgres" || asdf plugin add postgres https://github.com/smashedtoatoms/asdf-postgres.git
+  fi
 }
 
 asdf_install_if_needed() {
@@ -590,13 +638,14 @@ print_versions() {
   echo "git       : $(git --version || true)"
   echo "asdf      : $(asdf --version || true)"
   echo "node      : $(zsh -lic 'node -v' 2>/dev/null || true)"
-  echo "python    : $(zsh -lic 'python --version' 2>/dev/null || true)"
   echo "bun       : $(zsh -lic 'bun --version' 2>/dev/null || true)"
-  echo "uv        : $(zsh -lic 'uv --version' 2>/dev/null || true)"
-  echo "aws       : $(zsh -lic 'aws --version' 2>/dev/null || true)"
-  echo "mysql     : $(zsh -lic 'mysql --version' 2>/dev/null || true)"
-  echo "postgres  : $(zsh -lic 'psql --version' 2>/dev/null || true)"
   echo "claude    : $(zsh -lic 'claude --version' 2>/dev/null || echo 'restart shell required')"
+
+  [[ "${INSTALL_PYTHON}" == "1" ]] && echo "python    : $(zsh -lic 'python --version' 2>/dev/null || true)"
+  [[ "${INSTALL_PYTHON}" == "1" ]] && echo "uv        : $(zsh -lic 'uv --version' 2>/dev/null || true)"
+  [[ "${INSTALL_AWSCLI}" == "1" ]] && echo "aws       : $(zsh -lic 'aws --version' 2>/dev/null || true)"
+  [[ "${INSTALL_MYSQL}" == "1" ]] && echo "mysql     : $(zsh -lic 'mysql --version' 2>/dev/null || true)"
+  [[ "${INSTALL_POSTGRES}" == "1" ]] && echo "postgres  : $(zsh -lic 'psql --version' 2>/dev/null || true)"
   echo "=================================================="
   echo
 }
@@ -620,29 +669,56 @@ iTerm2 → Settings → Profiles → Text
 [3] powerlevel10k
   p10k configure
 
-[4] MySQL 시작 예시
+EOF
+
+  if [[ "${INSTALL_MYSQL}" == "1" ]]; then
+    cat <<EOF
+[MySQL] 시작 예시
   mysqld --basedir="\$HOME/.asdf/installs/mysql/${MYSQL_VERSION}" --datadir="\$HOME/.asdf/installs/mysql/${MYSQL_VERSION}/data" &
 
-[5] Postgres 시작 예시
+EOF
+  fi
+
+  if [[ "${INSTALL_POSTGRES}" == "1" ]]; then
+    cat <<EOF
+[Postgres] 시작 예시
   pg_ctl -D "\$HOME/.asdf/installs/postgres/${POSTGRES_VERSION}/data" start
 
-[6] dotenv aliases
+EOF
+  fi
+
+  cat <<EOF
+[dotenv] aliases
   dotenv
   dotenv-prod
 
-[7] Claude Code 로그인
+[Claude Code] 로그인
   claude
 
-[8] AWS 설정
+EOF
+
+  if [[ "${INSTALL_AWSCLI}" == "1" ]]; then
+    cat <<EOF
+[AWS] 설정
   aws configure
 
-[9] 확인
-  ll
-  which mysql
-  which psql
-  echo \$PGDATA
+EOF
+  fi
 
-[10] 로그 파일
+  cat <<EOF
+[확인]
+  ll
+  which node
+  which bun
+EOF
+
+  [[ "${INSTALL_MYSQL}" == "1" ]] && echo "  which mysql"
+  [[ "${INSTALL_POSTGRES}" == "1" ]] && echo "  which psql"
+  [[ "${INSTALL_POSTGRES}" == "1" ]] && echo "  echo \$PGDATA"
+
+  cat <<EOF
+
+[로그 파일]
   ${LOG_FILE}
 
 ========================================================
@@ -650,6 +726,8 @@ EOF
 }
 
 main() {
+  TOTAL_STEPS=$(calc_total_steps)
+
   prompt_versions
 
   start_step "Xcode Command Line Tools 확인"
@@ -701,28 +779,39 @@ main() {
   install_node
   finish_step
 
-  start_step "asdf python ${PYTHON_VERSION} 설치 + global"
-  install_python
-  finish_step
-
   start_step "asdf bun ${BUN_VERSION} 설치 + global"
   install_bun
   finish_step
 
-  start_step "asdf uv ${UV_VERSION} 설치 + global"
-  install_uv
-  finish_step
+  if [[ "${INSTALL_PYTHON}" == "1" ]]; then
+    start_step "asdf python ${PYTHON_VERSION} 설치 + global"
+    install_python
+    finish_step
 
-  start_step "asdf awscli ${AWSCLI_VERSION} 설치 + global"
-  install_awscli
-  finish_step
+    start_step "asdf uv ${UV_VERSION} 설치 + global"
+    install_uv
+    finish_step
+  fi
 
-  start_step "asdf mysql ${MYSQL_VERSION} 설치 + 초기화"
-  install_mysql
-  finish_step
+  if [[ "${INSTALL_AWSCLI}" == "1" ]]; then
+    start_step "asdf awscli ${AWSCLI_VERSION} 설치 + global"
+    install_awscli
+    finish_step
+  fi
 
-  start_step "asdf postgres ${POSTGRES_VERSION} 설치 + 초기화 + Claude Code 설치"
-  install_postgres
+  if [[ "${INSTALL_MYSQL}" == "1" ]]; then
+    start_step "asdf mysql ${MYSQL_VERSION} 설치 + 초기화"
+    install_mysql
+    finish_step
+  fi
+
+  if [[ "${INSTALL_POSTGRES}" == "1" ]]; then
+    start_step "asdf postgres ${POSTGRES_VERSION} 설치 + 초기화"
+    install_postgres
+    finish_step
+  fi
+
+  start_step "Claude Code 설치"
   install_claude_code
   finish_step
 
