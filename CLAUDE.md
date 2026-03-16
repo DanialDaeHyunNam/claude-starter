@@ -61,6 +61,7 @@ claude-starter/              ← 이 레포 (강의 도구)
 | - | `/plugin-guide` | 설치된 플러그인 설명 |
 | - | `/help-claude` | 막힌 문제 해결 (질문으로 좁혀서 진단 → 해결) |
 | - | `/wrap-up` | 세션 종료 시 도메인별 작업 기록 (.claude/wrap-up/) |
+| - | `/claude-basic` | Claude Code 핵심 개념 6가지 설명 (최신 확인 후 출력) |
 
 ## 설치된 플러그인
 
