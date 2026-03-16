@@ -49,6 +49,18 @@ Claude Code + Pencil을 활용한 오프라인 강의용 스타터 킷
 각 단계마다 Claude가 **쉬운 비유로 설명**해주고,
 "이해했어요" 버튼을 누르면 다음으로 넘어갑니다.
 
+## 사전 준비
+
+| | macOS | Windows |
+|---|---|---|
+| **OS** | macOS (버전 무관) | Windows 10 이상 |
+| **시작 프로그램** | 터미널 (기본 내장) | PowerShell (기본 내장) |
+| **인터넷** | 필요 | 필요 |
+| **그 외** | 없음 | 없음 |
+
+> macOS는 **터미널**(Spotlight → "터미널"), Windows는 **PowerShell**(시작 메뉴 → "PowerShell")을 열면 됩니다.
+> cmd(명령 프롬프트)에서는 실행되지 않습니다.
+
 ## 빠른 시작
 
 ### 1. 이 레포를 clone합니다
@@ -101,27 +113,26 @@ claude-starter/
 
 ## 설치되는 것들
 
-### macOS (brew + asdf)
+### 필수 (자동 설치)
 
-| 카테고리 | 설치 항목 |
-|---------|----------|
-| 패키지 관리 | Homebrew, asdf |
-| 런타임 | Node.js 20, Python 3.9, Bun, uv |
-| DB | MySQL 8.0, PostgreSQL 17 |
-| 앱 | iTerm2, VS Code, Cursor, Docker, Chrome |
-| 터미널 | Oh My Zsh, Powerlevel10k, Snazzy 테마 |
-| AI | Claude Code |
+| 카테고리 | macOS (brew + asdf) | Windows (Scoop + mise) |
+|---------|---------------------|------------------------|
+| 패키지 관리 | Homebrew, asdf | Scoop, mise |
+| 런타임 | Node.js 20, Bun | Node.js 20, Bun |
+| 에디터 | VS Code, Cursor | VS Code, Cursor |
+| 터미널 | iTerm2, Oh My Zsh, Powerlevel10k | Windows Terminal, Oh My Posh, Paradox 테마 |
+| AI | Claude Code | Claude Code |
 
-### Windows (Scoop + mise)
+### 선택 (프로젝트에 따라)
 
-| 카테고리 | 설치 항목 |
-|---------|----------|
-| 패키지 관리 | Scoop, mise |
-| 런타임 | Node.js 20, Python 3.9, Bun, uv |
-| DB | MySQL, PostgreSQL |
-| 앱 | Windows Terminal, VS Code, Cursor, Docker, Chrome |
-| 터미널 | Oh My Posh, Paradox 테마, Snazzy 컬러 |
-| AI | Claude Code |
+| 항목 | 용도 |
+|------|------|
+| Python + uv | AI/데이터 처리 |
+| MySQL | DB |
+| PostgreSQL + pgAdmin4 | DB |
+| Docker | 컨테이너 |
+| AWS CLI | AWS 배포 |
+| Google Chrome | 브라우저 |
 
 ## 포함된 플러그인
 
