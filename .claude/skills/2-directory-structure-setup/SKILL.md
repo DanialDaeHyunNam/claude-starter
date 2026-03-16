@@ -148,7 +148,35 @@ bun add next-auth
 bun add @clerk/nextjs
 ```
 
-### Step 7: 독립 git repo 초기화
+### Step 7: Claude 스킬 + 플러그인 설정 복사
+
+이 레포(claude-starter)의 `.claude/` 설정을 수강생의 프로젝트에 복사합니다.
+수강생이 프로젝트 폴더에서 Claude Code를 실행해도 동일한 skill과 플러그인을 쓸 수 있도록 합니다.
+
+```bash
+cd projects/{프로젝트명}
+
+# .claude 디렉토리 생성
+mkdir -p .claude/skills
+
+# skill 복사 (이 레포의 skill들을 그대로)
+cp -r ../../.claude/skills/* .claude/skills/
+
+# 플러그인 설정 복사
+cp ../../.claude/settings.json .claude/settings.json
+```
+
+복사 후 프로젝트에 불필요한 skill이 있으면 제거합니다:
+- `0-local-setup`은 이미 완료되었으므로 제거해도 됨 (선택사항)
+- 나머지 skill은 프로젝트에서도 유용하므로 유지
+
+사용자에게 안내:
+```
+강의에서 쓰던 슬래시 커맨드(/help-claude, /wrap-up, /plugin-guide 등)를
+이 프로젝트 폴더에서도 그대로 사용할 수 있어요!
+```
+
+### Step 8: 독립 git repo 초기화
 
 프로젝트 폴더를 독립적인 git 저장소로 초기화합니다.
 
@@ -166,7 +194,7 @@ git commit -m "Initial project setup with Next.js + TypeScript + Tailwind + shad
 나중에 GitHub에 올릴 때 이 폴더만 올라갑니다.
 ```
 
-### Step 8: CLAUDE.md 업데이트
+### Step 9: CLAUDE.md 업데이트
 
 프로젝트 구조가 확정되었으므로, CLAUDE.md의 "프로젝트 구조" 섹션을 실제 생성된 구조로 업데이트합니다.
 
@@ -178,7 +206,7 @@ find . -type f -not -path './node_modules/*' -not -path './.git/*' -not -path '.
 
 이 결과를 기반으로 CLAUDE.md의 프로젝트 구조 섹션을 수정하세요.
 
-### Step 9: 최종 확인
+### Step 10: 최종 확인
 
 생성된 구조를 트리 형태로 보여주고, dev 서버가 정상 동작하는지 확인합니다.
 
