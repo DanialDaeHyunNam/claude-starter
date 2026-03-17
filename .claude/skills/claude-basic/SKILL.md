@@ -130,7 +130,7 @@ MCP 없는 Claude          MCP 있는 Claude
 **바로 해보기**:
 ```bash
 # 현재 연결된 MCP 확인
-cat ~/.claude/settings.local.json
+claude mcp list
 ```
 
 **예시 — Slack으로 메시지 보내기**:
