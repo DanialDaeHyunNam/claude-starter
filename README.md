@@ -112,15 +112,25 @@ claude-starter/
 > **`projects/` 폴더**는 `.gitignore`에 포함되어 있어서
 > 여러분의 프로젝트 코드가 이 강의 레포와 섞이지 않습니다.
 
-## 설치되는 것들
+## 설치되는 것들 (`/0-local-setup`)
 
 | 카테고리 | macOS (brew + asdf) | Windows (Scoop + mise) |
-|---------|---------------------|------------------------|
-| 패키지 관리 | Homebrew, asdf | Scoop, mise |
-| 런타임 | Node.js 20, Bun | Node.js 20, Bun |
-| 에디터 | VS Code, Cursor | VS Code, Cursor |
-| 터미널 | iTerm2, Oh My Zsh, Powerlevel10k | Windows Terminal, Oh My Posh, Paradox 테마 |
-| AI | Claude Code | Claude Code |
+|---------|---------------------|----------------------|
+| 패키지 관리자 | Homebrew | Scoop |
+| 버전 관리자 | asdf | mise (asdf 호환) |
+| Node.js | 20.12.0 (asdf) | 20.12.0 (mise) |
+| Bun | latest (asdf) | latest (mise) |
+| Git | git (brew) | git (scoop) |
+| 에디터 | VS Code + Cursor (brew cask) | VS Code + Cursor (scoop) |
+| AI 도구 | Claude Code | Claude Code |
+| 터미널 앱 | iTerm2 (brew cask) | Windows Terminal |
+| 터미널 꾸미기 | Oh My Zsh + Powerlevel10k | Oh My Posh + paradox 테마 |
+| 터미널 플러그인 | zsh-syntax-highlighting, zsh-autosuggestions | PSReadLine (기본 내장) |
+| 폰트 | MesloLGS NF, FiraCode, Noto Sans Mono CJK KR | MesloLGS NF, FiraCode, NotoSansMono NF |
+| 컬러 스킴 | Snazzy (iTerm2) | Snazzy (Windows Terminal) |
+| GitHub CLI | gh (brew) | gh (scoop) |
+| 빌드 도구 | coreutils, curl, gawk, gpg, openssl 등 | curl, coreutils, openssl, 7zip |
+| VS Code 확장 | `assets/vscode-extensions.txt` 자동 설치 | 동일 |
 
 ## 포함된 플러그인
 
