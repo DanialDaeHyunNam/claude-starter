@@ -51,15 +51,16 @@ Claude Code + Pencil을 활용한 오프라인 강의용 스타터 킷
 
 ## 사전 준비
 
+### 최소 요구사항
+
 | | macOS | Windows |
 |---|---|---|
-| **OS** | macOS (버전 무관) | Windows 10 이상 |
-| **시작 프로그램** | 터미널 (기본 내장) | PowerShell (기본 내장) |
+| **OS** | macOS 13 이상 | Windows 10 **64-bit** 이상 |
+| **RAM** | 8GB 이상 | 8GB 이상 |
+| **디스크** | 10GB 여유 공간 | 10GB 여유 공간 |
 | **인터넷** | 필요 | 필요 |
-| **그 외** | 없음 | 없음 |
 
-> macOS는 **터미널**(Spotlight → "터미널"), Windows는 **PowerShell**(시작 메뉴 → "PowerShell")을 열면 됩니다.
-> cmd(명령 프롬프트)에서는 실행되지 않습니다.
+> **Windows 유저 주의:** 32-bit Windows에서는 Claude Code가 작동하지 않습니다.
 
 ## 빠른 시작
 
@@ -113,8 +114,6 @@ claude-starter/
 
 ## 설치되는 것들
 
-### 필수 (자동 설치)
-
 | 카테고리 | macOS (brew + asdf) | Windows (Scoop + mise) |
 |---------|---------------------|------------------------|
 | 패키지 관리 | Homebrew, asdf | Scoop, mise |
@@ -122,17 +121,6 @@ claude-starter/
 | 에디터 | VS Code, Cursor | VS Code, Cursor |
 | 터미널 | iTerm2, Oh My Zsh, Powerlevel10k | Windows Terminal, Oh My Posh, Paradox 테마 |
 | AI | Claude Code | Claude Code |
-
-### 선택 (프로젝트에 따라)
-
-| 항목 | 용도 |
-|------|------|
-| Python + uv | AI/데이터 처리 |
-| MySQL | DB |
-| PostgreSQL + pgAdmin4 | DB |
-| Docker | 컨테이너 |
-| AWS CLI | AWS 배포 |
-| Google Chrome | 브라우저 |
 
 ## 포함된 플러그인
 
