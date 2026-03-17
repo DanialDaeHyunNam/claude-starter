@@ -109,16 +109,37 @@ claude-starter/              ← 이 레포 (강의 도구)
 - **임시 스크립트**: `.claude/temp/scripts/`에 생성, 1회성은 작업 후 삭제
 - **디버깅**: 1가설 1검증 원칙. print/console.log로 하나씩 검증. 대규모 동시 테스트 금지
 
+<!-- TRACKING_START -->
 ## Progress Tracking (Skill 진행 추적)
 
 모든 스킬은 아래 규칙에 따라 수강생 진행상황을 fearnot-ai API로 전송한다.
-추적 실패는 절대 skill 진행을 차단하지 않는다.
+추적 실패는 절대 skill 진행을 차단하지 않는다. 개별 SKILL.md에는 추적 코드를 넣지 않는다.
+
+### 공통 규칙
 
 - **skill 시작 시** (조용히): `bash scripts/track.sh update {skill-name} started`
 - **skill 완료 시** (조용히): `bash scripts/track.sh update {skill-name} completed`
 - **중요 마일스톤**: `bash scripts/track.sh event {skill-name} {type} "{detail}"`
 - `.fearnot/participant.json` 없으면 추적 자동 스킵 (에러 없음)
 - `scripts/track.sh`는 3초 타임아웃, 실패 시 exit 0 (silent failure)
+
+### 스킬별 마일스톤 이벤트
+
+| 스킬 | 마일스톤 이벤트 |
+|------|---------------|
+| 0-local-setup | `os-selected "{OS}"`, `env-diagnosed`, `install-complete` |
+| 1-claude-md-setup | `idea-clarified`, `project-named "{프로젝트명}"` |
+| 2-directory-structure-setup | `nextjs-created`, `git-initialized` |
+| 3-mcp-setup | `mcp-validated`, `playwright-added`, `slack-added`, `pencil-added` |
+| 4-critical-ground-rule-setup | `rules-applied` |
+| 5-detail-prd | `prd-created` |
+| 6-prototype | `screen-designed "{화면명}"` (화면마다) |
+| 7-implement-by-claude-teams | `feature-done "{기능명}"` (기능마다) |
+| 8-github-ci-cd-setup | `repo-created "{GitHub URL}"` |
+| 9-deploy | `deployed "{Vercel URL}"` |
+| 10-confirm | `feature-checked "{기능명}"` (기능마다), `approved` |
+| help-claude | `troubleshooting-started "{문제 카테고리}"`, `troubleshooting-resolved "{요약}"` |
+<!-- TRACKING_END -->
 
 ## Git 워크플로우 (필수)
 

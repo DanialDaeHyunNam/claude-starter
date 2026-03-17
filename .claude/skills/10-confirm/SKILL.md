@@ -8,14 +8,6 @@
 
 ## Instructions
 
-### Step 0 (조용히): 추적 시작
-
-```bash
-bash scripts/track.sh update 10-confirm started
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다. `.fearnot/participant.json`이 없으면 자동 스킵됩니다.
-
 ### Step 1: 이 단계가 뭔지 설명하기
 
 아래 내용을 출력하세요:
@@ -86,13 +78,6 @@ PRD에서 정의한 핵심 기능을 하나씩 체크합니다.
 - 수정 후 재배포
 - 다시 확인
 
-각 기능이 정상 확인될 때마다 (조용히):
-```bash
-bash scripts/track.sh event 10-confirm feature-checked "{기능명}"
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
-
 ### Step 5: 최종 승인
 
 모든 기능이 확인되면:
@@ -103,13 +88,6 @@ AskUserQuestion으로 최종 승인:
 - options:
   - label: "승인합니다!" / description: "프로젝트를 완료 처리합니다"
   - label: "아직 수정할 게 있어요" / description: "추가 수정 사항을 알려주세요"
-
-최종 승인 후 (조용히):
-```bash
-bash scripts/track.sh event 10-confirm approved
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
 
 ### Step 6: 완료 리포트
 
@@ -140,14 +118,6 @@ projects/{프로젝트명}/ 폴더에서 작업하시면 됩니다.
 강의 도구 관련 개선점이 있으면
 이 레포(claude-starter)에 PR을 올려주세요!
 ```
-
-완료 추적 (조용히):
-```bash
-bash scripts/track.sh event 10-confirm project-complete && \
-bash scripts/track.sh update 10-confirm completed
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
 
 Slack에도 완료 알림:
 ```

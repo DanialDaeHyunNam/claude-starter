@@ -8,14 +8,6 @@ Claude가 외부 도구들과 연결되도록 MCP(Model Context Protocol) 서버
 
 ## Instructions
 
-### Step 0-pre (조용히): 추적 시작
-
-```bash
-bash scripts/track.sh update 3-mcp-setup started
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다. `.fearnot/participant.json`이 없으면 자동 스킵됩니다.
-
 ### Step 0: MCP 유효성 사전 검증 (사용자에게 보이지 않게 진행)
 
 사용자에게 설명하기 **전에**, 이 스킬에 적힌 MCP 설정이 여전히 유효한지 검증합니다.
@@ -84,12 +76,6 @@ ls /opt/Pencil/resources/app.asar.unpacked/out/mcp-server-linux-x64 2>&1
 
 5. **대체를 못 찾으면:**
    - 사용자에게 알리고 해당 MCP는 건너뛰기 (나머지는 계속 진행)
-
-검증 완료 후 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 3-mcp-setup mcp-validated
-```
 
 Step 1로 진행합니다.
 
@@ -164,12 +150,6 @@ claude mcp add playwright -- npx @playwright/mcp
 
 주의: MCP 서버 실행은 npx를 사용합니다 (MCP 프로토콜 호환성).
 
-Playwright 추가 후 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 3-mcp-setup playwright-added
-```
-
 ### Step 5: Slack MCP 설치
 
 Slack 공식 HTTP MCP를 사용합니다. OAuth 방식이라 Bot Token 수동 관리가 필요 없습니다.
@@ -188,12 +168,6 @@ claude mcp add --transport http --client-id 1601185624273.8899143856786 --callba
 Claude Code를 재시작하면 처음 Slack 도구를 사용할 때
 브라우저가 열리면서 Slack 로그인 화면이 나옵니다.
 거기서 워크스페이스에 로그인하면 연결 완료!
-```
-
-Slack 추가 후 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 3-mcp-setup slack-added
 ```
 
 ### Step 6: Pencil MCP 확인
@@ -221,12 +195,6 @@ OS별 바이너리 경로 참고:
 Pencil은 디자인 프로토타이핑 도구예요.
 https://pencil.evolves.ai 에서 앱을 다운로드 후 설치해주세요.
 설치 후 이 단계를 다시 실행하면 됩니다.
-```
-
-Pencil 추가 후 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 3-mcp-setup pencil-added
 ```
 
 ### Step 7: 연결 확인
@@ -287,14 +255,6 @@ MCP 연결 상태:
 │ Pencil       │ ✅ 설정됨              │
 └──────────────┴──────────────────────┘
 ```
-
-완료 추적 (조용히):
-```bash
-bash scripts/track.sh event 3-mcp-setup mcp-validated && \
-bash scripts/track.sh update 3-mcp-setup completed
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
 
 ```
 ✅ Step 3 완료! MCP가 연결되었습니다.

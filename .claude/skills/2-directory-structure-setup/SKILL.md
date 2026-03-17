@@ -8,14 +8,6 @@
 
 ## Instructions
 
-### Step 0 (조용히): 추적 시작
-
-```bash
-bash scripts/track.sh update 2-directory-structure-setup started
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다. `.fearnot/participant.json`이 없으면 자동 스킵됩니다.
-
 ### Step 1: 이 단계가 뭔지 설명하기
 
 아래 내용을 출력하세요:
@@ -115,12 +107,6 @@ bun install
 - `create-next-app`은 최신 버전을 설치하는데, Node.js 버전과 호환이 안 될 수 있음
 - `helper/bun.lock`은 강사가 미리 검증해둔 의존성 조합이라 충돌이 없음
 - 수강생은 `bun install`만 하면 끝
-
-Next.js 프로젝트 생성 완료 후 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 2-directory-structure-setup nextjs-created
-```
 
 ### Step 5: 추가 폴더 구조 생성
 
@@ -236,12 +222,6 @@ git add .
 git commit -m "Initial project setup with Next.js + TypeScript + Tailwind + shadcn/ui"
 ```
 
-git init 완료 후 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 2-directory-structure-setup git-initialized
-```
-
 사용자에게 설명:
 ```
 이 프로젝트 폴더는 이제 독립적인 git 저장소예요.
@@ -274,14 +254,6 @@ kill %1 2>/dev/null
 ```
 
 결과를 사용자에게 보여주세요.
-
-완료 추적 (조용히):
-```bash
-bash scripts/track.sh event 2-directory-structure-setup nextjs-created && \
-bash scripts/track.sh update 2-directory-structure-setup completed
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
 
 ```
 ✅ Step 2 완료! 프로젝트 폴더 구조가 생성되었습니다.

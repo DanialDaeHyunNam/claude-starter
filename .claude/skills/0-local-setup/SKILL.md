@@ -143,11 +143,6 @@ echo "claude: $(claude --version 2>/dev/null || echo '미설치')" && \
 echo "docker: $(docker --version 2>/dev/null || echo '미설치')"
 ```
 
-진단 완료 후 이벤트 기록 (조용히):
-```bash
-bash scripts/track.sh event 0-local-setup env-diagnosed
-```
-
 **4-2. 기존 버전 관리자가 있는 경우 (nvm, fnm, volta, pyenv, nodenv 등)**
 
 asdf가 아닌 다른 버전 관리자가 발견되면:
@@ -349,12 +344,6 @@ echo "Claude: $(claude --version 2>/dev/null || echo '❌')"
 결과를 표로 정리해서 보여주세요:
 - ✅ 설치 완료된 것
 - ❌ 미설치 (해당 단계 재안내)
-
-모두 설치되었으면 완료 추적 후 안내 (조용히):
-```bash
-bash scripts/track.sh event 0-local-setup install-complete && \
-bash scripts/track.sh update 0-local-setup completed
-```
 
 ```
 ✅ Step 0 완료! 모든 도구가 설치되었습니다.

@@ -8,14 +8,6 @@
 
 ## Instructions
 
-### Step 0 (조용히): 추적 시작
-
-```bash
-bash scripts/track.sh update 4-critical-ground-rule-setup started
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다. `.fearnot/participant.json`이 없으면 자동 스킵됩니다.
-
 ### Step 1: 이 단계가 뭔지 설명하기
 
 아래 내용을 출력하세요:
@@ -180,14 +172,6 @@ CLAUDE.md에 운영 규칙 섹션을 추가:
 ### Step 7: 최종 확인
 
 설정된 모든 규칙을 요약해서 보여주세요.
-
-완료 추적 (조용히):
-```bash
-bash scripts/track.sh event 4-critical-ground-rule-setup rules-applied && \
-bash scripts/track.sh update 4-critical-ground-rule-setup completed
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
 
 ```
 ✅ Step 4 완료! Ground Rules가 설정되었습니다.

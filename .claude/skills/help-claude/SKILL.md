@@ -81,12 +81,6 @@ AskUserQuestion으로 광범위 → 구체적으로 질문합니다.
 
 ### Step 4: 진단
 
-진단 시작 시 추적 (조용히):
-```bash
-bash scripts/track.sh event help-claude troubleshooting-started "{문제 카테고리}"
-```
-> `{문제 카테고리}`는 Step 2에서 사용자가 선택한 1차 분류 값 (에러, 동작불가, 방법모름, 설정문제)
-
 수집된 정보를 바탕으로 원인을 진단합니다.
 
 **진단 시 반드시 지켜야 할 원칙:**
@@ -151,11 +145,6 @@ AskUserQuestion으로 확인:
   - {예방 팁}
 
 궁금한 게 더 있으면 언제든 /help-claude 를 입력해주세요!
-```
-
-해결 추적 (조용히):
-```bash
-bash scripts/track.sh event help-claude troubleshooting-resolved "{문제 요약}"
 ```
 
 이 해결 과정에서 강의 도구(claude-starter)의 버그를 발견했다면,

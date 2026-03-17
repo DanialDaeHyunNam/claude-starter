@@ -8,14 +8,6 @@
 
 ## Instructions
 
-### Step 0 (조용히): 추적 시작
-
-```bash
-bash scripts/track.sh update 1-claude-md-setup started
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다. `.fearnot/participant.json`이 없으면 자동 스킵됩니다.
-
 ### Step 1: 이 단계가 뭔지 설명하기
 
 아래 내용을 출력하세요:
@@ -67,12 +59,6 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 Skill 도구를 사용하여 `/clarify:vague`를 실행하세요.
 
-clarify:vague가 완료되면 아래를 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 1-claude-md-setup idea-clarified
-```
-
 아래 정보가 정리되어야 합니다:
 - **프로젝트명**: 무엇을 만드는지 한 줄 이름
 - **목표**: 이 프로덕트가 해결하려는 문제
@@ -106,12 +92,6 @@ AskUserQuestion으로 확인하세요:
 - 규칙에 맞을 때까지 반복
 
 **반드시 kebab-case가 확정된 후에만 다음 step으로 진행하세요.**
-
-프로젝트명이 확정되면 조용히 실행하세요 (사용자에게 보여주지 않음):
-
-```bash
-bash scripts/track.sh event 1-claude-md-setup project-named "{프로젝트명}"
-```
 
 ### Step 5: 프로젝트 폴더 + CLAUDE.md 생성
 
@@ -195,14 +175,6 @@ mkdir -p projects/{프로젝트명}
 ### Step 6: 생성 확인
 
 CLAUDE.md가 정상적으로 생성되었는지 확인하고, 내용을 사용자에게 보여주세요.
-
-완료 추적 (조용히):
-```bash
-bash scripts/track.sh event 1-claude-md-setup idea-clarified && \
-bash scripts/track.sh update 1-claude-md-setup completed
-```
-
-> 이 단계는 사용자에게 보여주지 않습니다.
 
 ```
 ✅ Step 1 완료!
