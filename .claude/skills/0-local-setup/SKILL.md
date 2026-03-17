@@ -144,7 +144,7 @@ asdf가 아닌 다른 버전 관리자가 발견되면:
 
    **"기존 것 유지" 선택 시:**
    - 스크립트에서 asdf 관련 단계(asdf plugin, asdf install)를 건너뛰도록 안내
-   - 이미 설치된 Node.js, Python 등은 스킵
+   - 이미 설치된 Node.js 등은 스킵
    - 없는 것만 brew나 직접 설치로 대체
    - `.zshrc` 설정에서 asdf 관련 라인 제외
 
@@ -158,13 +158,10 @@ asdf가 아닌 다른 버전 관리자가 발견되면:
 
 **4-3. 스크립트 실행**
 
-모든 선택형 플래그를 0으로 설정하여 필수 도구만 설치합니다.
 스크립트는 이미 설치된 항목은 자동으로 스킵합니다.
 
 ```bash
 cd /path/to/claude-starter && \
-  INSTALL_PYTHON=0 INSTALL_MYSQL=0 INSTALL_POSTGRES=0 INSTALL_PGADMIN=0 \
-  INSTALL_DOCKER=0 INSTALL_AWSCLI=0 INSTALL_CHROME=0 \
   NODE_VERSION=20.12.0 \
   bash scripts/bootstrap_mac.sh
 ```

@@ -9,25 +9,9 @@ $ErrorActionPreference = "Stop"
 # ---------------------------------------------------------
 # 버전 설정
 # ---------------------------------------------------------
-$DEFAULT_NODE_VERSION   = "20.12.0"
-$DEFAULT_PYTHON_VERSION = "3.9.1"
-$DEFAULT_MYSQL_VERSION  = "8.0.34"
-$DEFAULT_POSTGRES_VERSION = "17.6"
+$DEFAULT_NODE_VERSION = "20.12.0"
 
-$BUN_VERSION    = "latest"
-$UV_VERSION     = "latest"
-$AWSCLI_VERSION = "latest"
-
-# ---------------------------------------------------------
-# Optional tool flags (0=skip, 1=install)
-# Set via env vars before running the script
-# ---------------------------------------------------------
-$INSTALL_PYTHON   = if ($env:INSTALL_PYTHON)   { $env:INSTALL_PYTHON }   else { "0" }
-$INSTALL_MYSQL    = if ($env:INSTALL_MYSQL)     { $env:INSTALL_MYSQL }    else { "0" }
-$INSTALL_POSTGRES = if ($env:INSTALL_POSTGRES)  { $env:INSTALL_POSTGRES } else { "0" }
-$INSTALL_DOCKER   = if ($env:INSTALL_DOCKER)    { $env:INSTALL_DOCKER }   else { "0" }
-$INSTALL_AWSCLI   = if ($env:INSTALL_AWSCLI)    { $env:INSTALL_AWSCLI }   else { "0" }
-$INSTALL_CHROME   = if ($env:INSTALL_CHROME)    { $env:INSTALL_CHROME }   else { "0" }
+$BUN_VERSION = "latest"
 
 # ---------------------------------------------------------
 # 로그
@@ -60,12 +44,7 @@ $CURRENT_STEP  = 0
 $STEP_START    = $null
 
 function Get-TotalSteps {
-    $total = 12  # base required steps
-    if ($INSTALL_PYTHON -eq "1")   { $total += 2 }  # python + uv
-    if ($INSTALL_AWSCLI -eq "1")   { $total += 1 }
-    if ($INSTALL_MYSQL -eq "1")    { $total += 1 }
-    if ($INSTALL_POSTGRES -eq "1") { $total += 1 }
-    return $total
+    return 12
 }
 
 $TOTAL_STEPS = 0
@@ -115,44 +94,8 @@ function Prompt-Versions {
     }
     if ([string]::IsNullOrWhiteSpace($NODE_VERSION)) { $script:NODE_VERSION = $DEFAULT_NODE_VERSION }
 
-    if ($INSTALL_PYTHON -eq "1") {
-        if ([string]::IsNullOrWhiteSpace($env:PYTHON_VERSION)) {
-            $script:PYTHON_VERSION = Read-Host "Python version [$DEFAULT_PYTHON_VERSION]"
-        } else {
-            $script:PYTHON_VERSION = $env:PYTHON_VERSION
-        }
-        if ([string]::IsNullOrWhiteSpace($PYTHON_VERSION)) { $script:PYTHON_VERSION = $DEFAULT_PYTHON_VERSION }
-    } else {
-        $script:PYTHON_VERSION = $DEFAULT_PYTHON_VERSION
-    }
-
-    if ($INSTALL_MYSQL -eq "1") {
-        if ([string]::IsNullOrWhiteSpace($env:MYSQL_VERSION)) {
-            $script:MYSQL_VERSION = Read-Host "MySQL version [$DEFAULT_MYSQL_VERSION]"
-        } else {
-            $script:MYSQL_VERSION = $env:MYSQL_VERSION
-        }
-        if ([string]::IsNullOrWhiteSpace($MYSQL_VERSION)) { $script:MYSQL_VERSION = $DEFAULT_MYSQL_VERSION }
-    } else {
-        $script:MYSQL_VERSION = $DEFAULT_MYSQL_VERSION
-    }
-
-    if ($INSTALL_POSTGRES -eq "1") {
-        if ([string]::IsNullOrWhiteSpace($env:POSTGRES_VERSION)) {
-            $script:POSTGRES_VERSION = Read-Host "Postgres version [$DEFAULT_POSTGRES_VERSION]"
-        } else {
-            $script:POSTGRES_VERSION = $env:POSTGRES_VERSION
-        }
-        if ([string]::IsNullOrWhiteSpace($POSTGRES_VERSION)) { $script:POSTGRES_VERSION = $DEFAULT_POSTGRES_VERSION }
-    } else {
-        $script:POSTGRES_VERSION = $DEFAULT_POSTGRES_VERSION
-    }
-
     Write-Host "선택된 버전:"
     Write-Host "  Node.js  : $NODE_VERSION"
-    if ($INSTALL_PYTHON -eq "1")   { Write-Host "  Python   : $PYTHON_VERSION" }
-    if ($INSTALL_MYSQL -eq "1")    { Write-Host "  MySQL    : $MYSQL_VERSION" }
-    if ($INSTALL_POSTGRES -eq "1") { Write-Host "  Postgres : $POSTGRES_VERSION" }
 }
 
 # =========================================================
@@ -228,73 +171,12 @@ function Install-Node {
 }
 
 # =========================================================
-# Python (mise) - OPTIONAL
-# =========================================================
-function Install-Python {
-    Write-Log "Installing Python $PYTHON_VERSION via mise..."
-    mise install "python@$PYTHON_VERSION"
-    mise use --global "python@$PYTHON_VERSION"
-    Write-Log "Python: $(python --version 2>$null)"
-}
-
-# =========================================================
 # Bun (mise)
 # =========================================================
 function Install-Bun {
     Write-Log "Installing Bun via mise..."
     mise install "bun@$BUN_VERSION"
     mise use --global "bun@$BUN_VERSION"
-}
-
-# =========================================================
-# uv (mise) - OPTIONAL (tied to Python)
-# =========================================================
-function Install-Uv {
-    Write-Log "Installing uv via mise..."
-    mise install "uv@$UV_VERSION"
-    mise use --global "uv@$UV_VERSION"
-}
-
-# =========================================================
-# AWS CLI - OPTIONAL
-# =========================================================
-function Install-AwsCli {
-    if (Test-Command "aws") {
-        Write-Log "AWS CLI already installed"
-        return
-    }
-
-    Write-Log "Installing AWS CLI..."
-    mise install "awscli@$AWSCLI_VERSION"
-    mise use --global "awscli@$AWSCLI_VERSION"
-}
-
-# =========================================================
-# MySQL - OPTIONAL
-# =========================================================
-function Install-MySQL {
-    if (Test-Command "mysql") {
-        Write-Log "MySQL already installed"
-        return
-    }
-
-    Write-Log "Installing MySQL $MYSQL_VERSION..."
-    Install-ScoopPackage "mysql"
-    Write-Yellow "  MySQL을 mise로 설치할 수 없는 경우 scoop으로 대체합니다."
-}
-
-# =========================================================
-# PostgreSQL - OPTIONAL
-# =========================================================
-function Install-Postgres {
-    if (Test-Command "psql") {
-        Write-Log "PostgreSQL already installed"
-        return
-    }
-
-    Write-Log "Installing PostgreSQL $POSTGRES_VERSION..."
-    Install-ScoopPackage "postgresql"
-    Write-Yellow "  PostgreSQL을 mise로 설치할 수 없는 경우 scoop으로 대체합니다."
 }
 
 # =========================================================
@@ -323,26 +205,6 @@ function Install-Apps {
         Write-Yellow "Cursor: https://cursor.com 에서 직접 설치해주세요"
     } else {
         Write-Log "Cursor already installed"
-    }
-
-    # Docker Desktop - OPTIONAL
-    if ($INSTALL_DOCKER -eq "1") {
-        if (-not (Test-Command "docker")) {
-            Install-ScoopPackage "docker-desktop"
-        } else {
-            Write-Log "Docker already installed"
-        }
-    }
-
-    # Google Chrome - OPTIONAL
-    if ($INSTALL_CHROME -eq "1") {
-        $chromePath = "${env:ProgramFiles}\Google\Chrome\Application\chrome.exe"
-        $chromePath86 = "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
-        if (-not (Test-Path $chromePath) -and -not (Test-Path $chromePath86)) {
-            Install-ScoopPackage "googlechrome"
-        } else {
-            Write-Log "Chrome already installed"
-        }
     }
 
     # GitHub CLI
@@ -605,16 +467,6 @@ function Print-Versions {
         @{ Name = "gh";         Cmd = { gh --version 2>$null | Select-Object -First 1 } }
     )
 
-    # Optional
-    if ($INSTALL_PYTHON -eq "1") {
-        $checks += @{ Name = "python"; Cmd = { python --version 2>$null } }
-        $checks += @{ Name = "uv";     Cmd = { uv --version 2>$null } }
-    }
-    if ($INSTALL_AWSCLI -eq "1")   { $checks += @{ Name = "aws";    Cmd = { aws --version 2>$null } } }
-    if ($INSTALL_MYSQL -eq "1")    { $checks += @{ Name = "mysql";  Cmd = { mysql --version 2>$null } } }
-    if ($INSTALL_POSTGRES -eq "1") { $checks += @{ Name = "psql";   Cmd = { psql --version 2>$null } } }
-    if ($INSTALL_DOCKER -eq "1")   { $checks += @{ Name = "docker"; Cmd = { docker --version 2>$null } } }
-
     foreach ($c in $checks) {
         $ver = try { & $c.Cmd } catch { $null }
         if ($ver) {
@@ -657,18 +509,6 @@ function Print-ManualSteps {
 
 "@
 
-    if ($INSTALL_AWSCLI -eq "1") {
-        Write-Host "[AWS] 설정"
-        Write-Host "  aws configure"
-        Write-Host ""
-    }
-
-    if ($INSTALL_DOCKER -eq "1") {
-        Write-Host "[Docker] Desktop 실행"
-        Write-Host "  시작 메뉴에서 Docker Desktop 실행"
-        Write-Host ""
-    }
-
     Write-Host @"
 [로그 파일]
   $LOG_FILE
@@ -709,34 +549,6 @@ function Main {
     Start-Step "Bun 설치"
     Install-Bun
     Finish-Step
-
-    if ($INSTALL_PYTHON -eq "1") {
-        Start-Step "Python $PYTHON_VERSION 설치"
-        Install-Python
-        Finish-Step
-
-        Start-Step "uv 설치"
-        Install-Uv
-        Finish-Step
-    }
-
-    if ($INSTALL_AWSCLI -eq "1") {
-        Start-Step "AWS CLI 설치"
-        Install-AwsCli
-        Finish-Step
-    }
-
-    if ($INSTALL_MYSQL -eq "1") {
-        Start-Step "MySQL 설치"
-        Install-MySQL
-        Finish-Step
-    }
-
-    if ($INSTALL_POSTGRES -eq "1") {
-        Start-Step "PostgreSQL 설치"
-        Install-Postgres
-        Finish-Step
-    }
 
     Start-Step "앱 설치 (Windows Terminal, VS Code 등)"
     Install-Apps
