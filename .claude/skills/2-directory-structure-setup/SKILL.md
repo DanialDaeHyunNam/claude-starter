@@ -217,7 +217,7 @@ cp ../../.claude/settings.json .claude/settings.json
 ```
 
 > 워크숍 진행용 스킬(0~10, clean-up, season-start 등)은 프로젝트에 복사하지 않습니다.
-> help-claude, wrap-up 등 프로젝트에서도 유용한 스킬만 복사됩니다.
+> help-claude, wrap-up, feedback-council 등 프로젝트에서도 유용한 스킬만 복사됩니다.
 
 사용자에게 안내:
 ```
