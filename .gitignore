@@ -17,6 +17,9 @@ Thumbs.db
 # Node
 node_modules/
 
+# Wrap-up (세션별 작업 기록, 개인용)
+.claude/wrap-up/
+
 # IDE
 .idea/
 *.swp
