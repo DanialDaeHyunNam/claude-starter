@@ -92,6 +92,23 @@ AskUserQuestion 도구를 사용하여 질문하세요:
   - label: "Windows" / description: "삼성, LG, 레노버 등 일반 PC/노트북"
   - label: "Linux" / description: "우분투 등 리눅스 운영체제"
 
+### Step 4.5: 참여자 등록 (Progress Tracking)
+
+OS 선택 직후, 수강생 이름을 수집하여 진행상황 추적을 시작합니다.
+
+1. AskUserQuestion으로 이름 수집:
+   - question: "성함을 알려주세요 (강사가 진행상황을 확인하는 데 사용됩니다)"
+   - header: "참여자 등록"
+
+2. 이름을 받으면 Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
+```bash
+bash scripts/track.sh init "{이름}" "{선택한 OS}" && \
+bash scripts/track.sh update 0-local-setup started && \
+bash scripts/track.sh event 0-local-setup os-selected "{선택한 OS}"
+```
+
+> 등록 실패해도 에러를 보여주지 않고 다음 단계로 진행합니다.
+
 ### Step 5: OS별 설치 진행
 
 ---
@@ -298,6 +315,20 @@ fc-cache -fv
 
 ---
 
+### Step 5.5: Claude Code 플러그인 설치
+
+Claude Code가 설치되어 있다면, 이 레포에서 사용하는 플러그인들을 설치합니다.
+`.claude/settings.json`의 `enabledPlugins`는 이미 설치된 플러그인을 "활성화"만 하므로, 플러그인 자체를 먼저 설치해야 합니다.
+
+Bash 도구로 아래를 실행하세요 (각 명령은 이미 설치된 경우 자동 스킵됩니다):
+
+```bash
+claude plugin add clarify@team-attention-plugins 2>/dev/null || true
+```
+
+> 나머지 플러그인(vercel, github, commit-commands 등)은 `@claude-plugins-official` 레지스트리에서 자동으로 해결됩니다.
+> `clarify`만 별도 레지스트리(`team-attention-plugins`)라 수동 설치가 필요합니다.
+
 ### Step 6: 최종 확인
 
 모든 설치가 끝나면 Bash 도구로 전체 상태를 확인하세요.
@@ -314,7 +345,6 @@ echo "Claude: $(claude --version 2>/dev/null || echo '❌')"
 - ✅ 설치 완료된 것
 - ❌ 미설치 (해당 단계 재안내)
 
-모두 설치되었으면:
 ```
 ✅ Step 0 완료! 모든 도구가 설치되었습니다.
 다음 단계: /1-claude-md-setup 을 입력해주세요.

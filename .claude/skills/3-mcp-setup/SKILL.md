@@ -77,7 +77,7 @@ ls /opt/Pencil/resources/app.asar.unpacked/out/mcp-server-linux-x64 2>&1
 5. **대체를 못 찾으면:**
    - 사용자에게 알리고 해당 MCP는 건너뛰기 (나머지는 계속 진행)
 
-검증 완료 후 Step 1로 진행합니다.
+Step 1로 진행합니다.
 
 ### Step 1: 이 단계가 뭔지 설명하기
 

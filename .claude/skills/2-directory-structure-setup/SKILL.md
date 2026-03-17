@@ -183,16 +183,27 @@ cd projects/{프로젝트명}
 # .claude 디렉토리 생성
 mkdir -p .claude/skills
 
-# skill 복사 (이 레포의 skill들을 그대로)
-cp -r ../../.claude/skills/* .claude/skills/
+# skill 복사 (워크숍 전용 스킬은 제외)
+# 제외 대상: 0~10번 스킬, clean-up, season-start, claude-basic, plugin-guide
+for skill_dir in ../../.claude/skills/*/; do
+  skill_name=$(basename "$skill_dir")
+  case "$skill_name" in
+    0-local-setup|1-claude-md-setup|2-directory-structure-setup|3-mcp-setup|\
+    4-critical-ground-rule-setup|5-detail-prd|6-prototype|7-implement-by-claude-teams|\
+    8-github-ci-cd-setup|9-deploy|10-confirm|clean-up|season-start|claude-basic|plugin-guide)
+      ;; # 워크숍 전용 — 건너뜀
+    *)
+      cp -r "$skill_dir" .claude/skills/
+      ;;
+  esac
+done
 
 # 플러그인 설정 복사
 cp ../../.claude/settings.json .claude/settings.json
 ```
 
-복사 후 프로젝트에 불필요한 skill이 있으면 제거합니다:
-- `0-local-setup`은 이미 완료되었으므로 제거해도 됨 (선택사항)
-- 나머지 skill은 프로젝트에서도 유용하므로 유지
+> 워크숍 진행용 스킬(0~10, clean-up, season-start 등)은 프로젝트에 복사하지 않습니다.
+> help-claude, wrap-up, feedback-council 등 프로젝트에서도 유용한 스킬만 복사됩니다.
 
 사용자에게 안내:
 ```
@@ -242,7 +253,7 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
 kill %1 2>/dev/null
 ```
 
-결과를 사용자에게 보여주세요:
+결과를 사용자에게 보여주세요.
 
 ```
 ✅ Step 2 완료! 프로젝트 폴더 구조가 생성되었습니다.

@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 # ---------------------------------------------------------
 # 버전 설정
 # ---------------------------------------------------------
-$DEFAULT_NODE_VERSION = "20.12.0"
+$DEFAULT_NODE_VERSION = "latest"
 
 $BUN_VERSION = "latest"
 
@@ -44,7 +44,7 @@ $CURRENT_STEP  = 0
 $STEP_START    = $null
 
 function Get-TotalSteps {
-    return 12
+    return 11
 }
 
 $TOTAL_STEPS = 0
@@ -402,53 +402,6 @@ function Install-ClaudeCode {
 }
 
 # =========================================================
-# VS Code / Cursor extension 설치
-# =========================================================
-function Install-VscodeExtensions {
-    $scriptDir = Split-Path -Parent $MyInvocation.ScriptName
-    $extFile   = Join-Path (Split-Path $scriptDir -Parent) "assets\vscode-extensions.txt"
-
-    if (-not (Test-Path $extFile)) {
-        Write-Yellow "vscode-extensions.txt not found: $extFile"
-        return
-    }
-
-    $extensions = Get-Content $extFile | Where-Object { $_ -match '\S' -and $_ -notmatch '^\s*#' } | ForEach-Object { $_.Trim() }
-
-    # VS Code
-    if (Test-Command "code") {
-        Write-Log "Installing extensions to VS Code..."
-        $installed = code --list-extensions 2>$null
-        foreach ($ext in $extensions) {
-            if ($installed -contains $ext) {
-                Write-Log "  already installed: $ext"
-            } else {
-                Write-Log "  installing: $ext"
-                code --install-extension $ext --force 2>$null
-            }
-        }
-    } else {
-        Write-Yellow "VS Code (code) command not found, skipping"
-    }
-
-    # Cursor
-    if (Test-Command "cursor") {
-        Write-Log "Installing extensions to Cursor..."
-        $installed = cursor --list-extensions 2>$null
-        foreach ($ext in $extensions) {
-            if ($installed -contains $ext) {
-                Write-Log "  already installed: $ext"
-            } else {
-                Write-Log "  installing: $ext"
-                cursor --install-extension $ext --force 2>$null
-            }
-        }
-    } else {
-        Write-Yellow "Cursor command not found, skipping"
-    }
-}
-
-# =========================================================
 # 최종 확인
 # =========================================================
 function Print-Versions {
@@ -564,10 +517,6 @@ function Main {
 
     Start-Step "Claude Code 설치"
     Install-ClaudeCode
-    Finish-Step
-
-    Start-Step "VS Code / Cursor extension 설치"
-    Install-VscodeExtensions
     Finish-Step
 
     Start-Step "최종 확인"

@@ -8,7 +8,7 @@ set -Eeuo pipefail
 CURRENT_STEP=0
 STEP_START_TS=0
 
-DEFAULT_NODE_VERSION="20.12.0"
+DEFAULT_NODE_VERSION="latest"
 
 BUN_VERSION="latest"
 
@@ -43,7 +43,7 @@ append_if_missing() {
 }
 
 calc_total_steps() {
-  echo 16
+  echo 15
 }
 
 TOTAL_STEPS=0
@@ -400,49 +400,6 @@ install_bun() {
   asdf reshim bun
 }
 
-install_vscode_extensions() {
-  local script_dir
-  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  local ext_file="${script_dir}/../assets/vscode-extensions.txt"
-
-  if [[ ! -f "$ext_file" ]]; then
-    yellow "vscode-extensions.txt not found at: $ext_file"
-    return 0
-  fi
-
-  # VS Code에 설치
-  if command -v code >/dev/null 2>&1; then
-    echo "Installing extensions to VS Code..."
-    while IFS= read -r ext; do
-      ext="$(echo "$ext" | xargs)"  # trim whitespace
-      [[ -z "$ext" || "$ext" == \#* ]] && continue
-      if code --list-extensions 2>/dev/null | grep -qi "^${ext}$"; then
-        echo "  already installed: $ext"
-      else
-        code --install-extension "$ext" --force 2>/dev/null || yellow "  failed: $ext"
-      fi
-    done < "$ext_file"
-  else
-    yellow "VS Code (code) command not found, skipping VS Code extensions"
-  fi
-
-  # Cursor에도 동일하게 설치
-  if command -v cursor >/dev/null 2>&1; then
-    echo "Installing extensions to Cursor..."
-    while IFS= read -r ext; do
-      ext="$(echo "$ext" | xargs)"
-      [[ -z "$ext" || "$ext" == \#* ]] && continue
-      if cursor --list-extensions 2>/dev/null | grep -qi "^${ext}$"; then
-        echo "  already installed: $ext"
-      else
-        cursor --install-extension "$ext" --force 2>/dev/null || yellow "  failed: $ext"
-      fi
-    done < "$ext_file"
-  else
-    yellow "Cursor command not found, skipping Cursor extensions"
-  fi
-}
-
 import_iterm_colorscheme() {
   local script_dir
   script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -615,10 +572,6 @@ main() {
 
   start_step "Claude Code 설치"
   install_claude_code
-  finish_step
-
-  start_step "VS Code / Cursor extension 설치"
-  install_vscode_extensions
   finish_step
 
   start_step "iTerm2 Snazzy 컬러 스킴 적용 + p10k 설정"
