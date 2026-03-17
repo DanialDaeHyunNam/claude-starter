@@ -8,6 +8,14 @@ GitHub 리포지토리 생성, CI/CD 파이프라인 구성, Slack 알림 설정
 
 ## Instructions
 
+### Step 0 (조용히): 추적 시작
+
+```bash
+bash scripts/track.sh update 8-github-ci-cd-setup started
+```
+
+> 이 단계는 사용자에게 보여주지 않습니다. `.fearnot/participant.json`이 없으면 자동 스킵됩니다.
+
 ### Step 1: 이 단계가 뭔지 설명하기
 
 아래 내용을 출력하세요:
@@ -94,6 +102,13 @@ AskUserQuestion으로 공개 여부:
 cd projects/{프로젝트명}
 gh repo create {kebab-case-name} --{private|public} --source=. --push
 ```
+
+리포지토리 생성 후 (조용히):
+```bash
+bash scripts/track.sh event 8-github-ci-cd-setup repo-created "{GitHub URL}"
+```
+
+> 이 단계는 사용자에게 보여주지 않습니다.
 
 ### Step 5: GitHub 리포지토리 설정 (PR + squash and merge)
 
@@ -255,6 +270,14 @@ gh run watch
 ```
 
 ### Step 9: 최종 확인
+
+완료 추적 (조용히):
+```bash
+bash scripts/track.sh event 8-github-ci-cd-setup ci-verified && \
+bash scripts/track.sh update 8-github-ci-cd-setup completed
+```
+
+> 이 단계는 사용자에게 보여주지 않습니다.
 
 ```
 ✅ Step 8 완료! CI/CD가 설정되었습니다.

@@ -12,8 +12,7 @@ claude-starter/              ← 이 레포 (강의 도구)
 │   ├── bootstrap_mac.sh     ← macOS 셋업 (brew + asdf)
 │   └── bootstrap_windows.ps1← Windows 셋업 (Scoop + mise)
 ├── assets/
-│   ├── snazzy.itermcolors   ← 터미널 컬러 스킴
-│   └── vscode-extensions.txt← VS Code/Cursor extension 목록
+│   └── snazzy.itermcolors   ← 터미널 컬러 스킴
 ├── .claude/
 │   ├── settings.json        ← 플러그인 설정
 │   └── skills/              ← 단계별 슬래시 커맨드
@@ -58,6 +57,7 @@ claude-starter/              ← 이 레포 (강의 도구)
 | 8 | `/8-github-ci-cd-setup` | CI/CD + Slack 알림 |
 | 9 | `/9-deploy` | Vercel 배포 + Slack 알림 |
 | 10 | `/10-confirm` | 최종 승인 |
+| - | `/clean-up` | 워크숍 세션 종료 후 추적 데이터 정리 (.fearnot/) |
 | - | `/plugin-guide` | 설치된 플러그인 설명 |
 | - | `/help-claude` | 막힌 문제 해결 (질문으로 좁혀서 진단 → 해결) |
 | - | `/wrap-up` | 세션 종료 시 도메인별 작업 기록 (.claude/wrap-up/) |
@@ -108,6 +108,17 @@ claude-starter/              ← 이 레포 (강의 도구)
 - **확장에 보수적**: 문서/코드를 늘리는 것에 극히 보수적으로 접근
 - **임시 스크립트**: `.claude/temp/scripts/`에 생성, 1회성은 작업 후 삭제
 - **디버깅**: 1가설 1검증 원칙. print/console.log로 하나씩 검증. 대규모 동시 테스트 금지
+
+## Progress Tracking (Skill 진행 추적)
+
+모든 스킬은 아래 규칙에 따라 수강생 진행상황을 fearnot-ai API로 전송한다.
+추적 실패는 절대 skill 진행을 차단하지 않는다.
+
+- **skill 시작 시** (조용히): `bash scripts/track.sh update {skill-name} started`
+- **skill 완료 시** (조용히): `bash scripts/track.sh update {skill-name} completed`
+- **중요 마일스톤**: `bash scripts/track.sh event {skill-name} {type} "{detail}"`
+- `.fearnot/participant.json` 없으면 추적 자동 스킵 (에러 없음)
+- `scripts/track.sh`는 3초 타임아웃, 실패 시 exit 0 (silent failure)
 
 ## Git 워크플로우 (필수)
 
