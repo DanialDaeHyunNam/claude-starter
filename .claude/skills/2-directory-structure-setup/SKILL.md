@@ -75,17 +75,38 @@ ls projects/*/CLAUDE.md 2>/dev/null
 
 프로젝트의 CLAUDE.md를 읽어서 핵심 기능 목록과 기술 스택을 파악하세요.
 
-### Step 4: Next.js 프로젝트 생성
+### Step 4: Next.js 프로젝트 생성 (검증된 템플릿 복사 방식)
 
-해당 프로젝트 폴더 안에서 Next.js 프로젝트를 생성합니다.
+`create-next-app`을 직접 실행하면 버전 호환성 이슈가 발생할 수 있으므로,
+**검증된 `helper/` 파일을 복사한 뒤 `bun install`하는 방식**을 사용합니다.
 
 ```bash
 cd projects/{프로젝트명}
-bunx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-bun
+
+# 1. CLAUDE.md 백업 (덮어쓰기 방지)
+cp CLAUDE.md /tmp/_CLAUDE.md.bak
+
+# 2. 검증된 템플릿으로 프로젝트 생성
+#    CLAUDE.md를 임시로 옮긴 후 create-next-app 실행
+mv CLAUDE.md /tmp/_CLAUDE.md
+echo "n" | bunx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --use-bun
+
+# 3. CLAUDE.md 복원
+cp /tmp/_CLAUDE.md CLAUDE.md
+
+# 4. 검증된 bun.lock + package.json + .gitignore 덮어쓰기 → 호환성 보장
+cp ../../helper/bun.lock ./bun.lock
+cp ../../helper/package.json ./package.json
+cp ../../helper/.gitignore ./.gitignore
+
+# 5. 검증된 의존성으로 재설치 (shadcn/ui + Prisma 6 + 유틸리티 포함)
+bun install
 ```
 
-주의: `.` (현재 디렉토리)에 생성하여 CLAUDE.md가 있는 폴더에 바로 설치합니다.
-CLAUDE.md가 덮어쓰여지지 않도록 주의하세요. 혹시 덮어쓰여졌다면 1번에서 만든 내용으로 복원합니다.
+**왜 이렇게 하나요?**
+- `create-next-app`은 최신 버전을 설치하는데, Node.js 버전과 호환이 안 될 수 있음
+- `helper/bun.lock`은 강사가 미리 검증해둔 의존성 조합이라 충돌이 없음
+- 수강생은 `bun install`만 하면 끝
 
 ### Step 5: 추가 폴더 구조 생성
 
@@ -99,19 +120,28 @@ cd projects/{프로젝트명}
 mkdir -p src/components/ui
 mkdir -p src/components/layout
 mkdir -p src/components/common
-mkdir -p src/lib
 mkdir -p src/hooks
 mkdir -p src/types
-mkdir -p src/styles
+
+# Prisma 스키마 생성 (prisma init 대신 직접 생성 — 호환성 이슈 방지)
 mkdir -p prisma
+cat > prisma/schema.prisma << 'EOF'
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+EOF
 
 # 핵심 기능별 폴더 (CLAUDE.md 기반으로 판단)
 # 예: 인증 기능이 있으면
-mkdir -p src/app/(auth)/login
-mkdir -p src/app/(auth)/register
+# mkdir -p src/app/(auth)/login
 
 # 예: 대시보드가 있으면
-mkdir -p src/app/(dashboard)/dashboard
+# mkdir -p src/app/admin
 
 # 예: API가 있으면
 mkdir -p src/app/api
@@ -119,26 +149,14 @@ mkdir -p src/app/api
 
 각 주요 폴더에 `.gitkeep` 파일을 생성하여 빈 폴더도 git에 추적되도록 합니다:
 ```bash
-find src -type d -empty -exec touch {}/.gitkeep \;
+find src prisma -type d -empty -exec touch {}/.gitkeep \;
 ```
 
-### Step 6: 핵심 의존성 설치
-
-CLAUDE.md의 기술 스택을 기반으로 필요한 패키지를 설치합니다.
+### Step 6: shadcn/ui 초기화
 
 ```bash
 cd projects/{프로젝트명}
-
-# shadcn/ui 초기화
-bunx shadcn@latest init -y
-
-# Prisma (DB ORM)
-bun add prisma @prisma/client
-bunx prisma init
-
-# 기타 공통 유틸리티
-bun add clsx tailwind-merge lucide-react
-bun add -D @types/node
+echo "" | bunx shadcn@latest init -y --defaults
 ```
 
 CLAUDE.md에서 Auth가 명시되어 있으면:
@@ -146,6 +164,12 @@ CLAUDE.md에서 Auth가 명시되어 있으면:
 bun add next-auth
 # 또는
 bun add @clerk/nextjs
+```
+
+추가 패키지 설치 후 반드시 검증된 bun.lock을 다시 `helper/`에 백업:
+```bash
+cp bun.lock ../../helper/bun.lock
+cp package.json ../../helper/package.json
 ```
 
 ### Step 7: Claude 스킬 + 플러그인 설정 복사
