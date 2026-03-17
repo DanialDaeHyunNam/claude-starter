@@ -18,6 +18,27 @@ Slack MCP가 설정되어 있는지 확인하세요.
 
 설정되어 있으면 다음으로 진행합니다.
 
+### Step 1.5: 최신 설치 방법 확인
+
+메시지를 발송하기 전에, 공식 문서에서 현재 설치 방법이 여전히 유효한지 확인합니다.
+
+WebFetch 도구로 아래 페이지를 확인하세요:
+- URL: `https://docs.anthropic.com/en/docs/claude-code/overview`
+- prompt: "Claude Code 설치 방법을 Mac과 Windows 각각 알려줘. 설치 명령어, 필수 선행 조건(Node.js, Git 등), 지원 OS 요건을 포함해서."
+
+확인할 항목:
+1. **Mac 설치 명령어** — 현재 스킬: `curl -fsSL https://claude.ai/install.sh | bash`
+2. **Windows 설치 명령어** — 현재 스킬: `irm https://claude.ai/install.ps1 | iex`
+3. **Windows 선행 조건** — 현재 스킬: Git Bash 필수, 64-bit 필수
+4. **추가된 요건** — Node.js 사전 설치 필요 여부 등
+
+**공식 문서와 다른 점이 발견되면:**
+- 사용자에게 차이점을 보여주고
+- AskUserQuestion으로 "공식 문서 기준으로 수정해서 보낼까요?" 확인
+- 승인 시 아래 Step 2~3의 메시지 내용을 수정하여 발송
+
+**동일하면:** 그대로 다음 단계로 진행
+
 ### Step 2: Mac 유저 가이드 발송
 
 Slack MCP의 `send_message` 도구로 `notify-step` 채널에 아래 메시지를 보냅니다.
