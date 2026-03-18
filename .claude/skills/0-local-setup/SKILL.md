@@ -81,6 +81,32 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 이 레포에 PR(Pull Request)을 올려서 공유할 수 있어요.
 유용한 개선은 강사가 검토 후 반영합니다.
 
+### Step 3.5: 개발 환경 경험 확인
+
+AskUserQuestion 도구를 사용하여 질문하세요:
+
+- question: "현재 터미널에서 Claude Code를 실행하고 계신 거죠? 개발 환경(터미널, 에디터 등)은 어떤 상태인가요?"
+- header: "개발 환경 확인"
+- options:
+  - label: "처음이에요" / description: "터미널이나 개발 도구를 직접 설정해본 적 없어요"
+  - label: "이미 갖춰져 있어요" / description: "iTerm/터미널, 에디터, Node.js 등 나만의 환경이 있어요"
+
+**"이미 갖춰져 있어요"를 선택한 경우:**
+
+환경 설치(Step 4~5)를 건너뛰고, 참여 경로 확인(Step 4.5)만 진행한 뒤 Step 5.5(플러그인 설치) → Step 6(최종 확인)으로 이동합니다.
+
+사용자에게 안내:
+```
+👍 이미 개발 환경을 갖추고 계시군요!
+환경 설치 단계는 건너뛰고, 필요한 것만 확인하겠습니다.
+```
+
+→ Step 4.5로 이동 (참여 경로 확인)
+→ Step 5.5로 이동 (플러그인 설치)
+→ Step 6으로 이동 (최종 확인)
+
+**"처음이에요"를 선택한 경우:** Step 4로 정상 진행합니다.
+
 ### Step 4: OS 선택
 
 AskUserQuestion 도구를 사용하여 질문하세요:
@@ -92,22 +118,49 @@ AskUserQuestion 도구를 사용하여 질문하세요:
   - label: "Windows" / description: "삼성, LG, 레노버 등 일반 PC/노트북"
   - label: "Linux" / description: "우분투 등 리눅스 운영체제"
 
-### Step 4.5: 참여자 등록 (Progress Tracking)
+### Step 4.5: 참여 경로 확인 + 참여자 등록
 
-OS 선택 직후, 수강생 이름을 수집하여 진행상황 추적을 시작합니다.
+워크숍 참여자인지 개인 사용자인지 확인합니다.
+> Step 4(OS 선택)를 건너뛴 경우, OS는 Bash로 자동 감지합니다: `uname -s` → Darwin이면 "macOS", MINGW/MSYS면 "Windows", 그 외 "Linux"
 
-1. AskUserQuestion으로 이름 수집:
+1. AskUserQuestion으로 참여 경로 확인:
+   - question: "어떻게 이 레포를 사용하게 되셨나요?"
+   - header: "참여 경로"
+   - options:
+     - label: "fearnot.ai 워크숍 참여자" / description: "강사가 진행상황을 실시간으로 확인합니다"
+     - label: "개인적으로 clone했어요" / description: "혼자 학습용으로 사용합니다"
+
+2. **"fearnot.ai 워크숍 참여자"를 선택한 경우:**
+
+   AskUserQuestion으로 이름 수집:
    - question: "성함을 알려주세요 (강사가 진행상황을 확인하는 데 사용됩니다)"
    - header: "참여자 등록"
 
-2. 이름을 받으면 Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
-```bash
-bash scripts/track.sh init "{이름}" "{선택한 OS}" && \
-bash scripts/track.sh update 0-local-setup started && \
-bash scripts/track.sh event 0-local-setup os-selected "{선택한 OS}"
-```
+   이름을 받으면 Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
+   ```bash
+   bash scripts/track.sh init "{이름}" "{선택한 OS}" && \
+   bash scripts/track.sh update 0-local-setup started && \
+   bash scripts/track.sh event 0-local-setup os-selected "{선택한 OS}"
+   ```
 
-> 등록 실패해도 에러를 보여주지 않고 다음 단계로 진행합니다.
+   > 등록 실패해도 에러를 보여주지 않고 다음 단계로 진행합니다.
+
+3. **"개인적으로 clone했어요"를 선택한 경우:**
+
+   추적 관련 데이터를 모두 정리합니다 (조용히, 결과를 사용자에게 보여주지 않음):
+   ```bash
+   rm -rf .fearnot/ 2>/dev/null || true && \
+   sed -i '' '/<!-- TRACKING_START -->/,/<!-- TRACKING_END -->/d' CLAUDE.md 2>/dev/null || true && \
+   sed -i '' '/clean-up/d' CLAUDE.md 2>/dev/null || true
+   ```
+
+   사용자에게 안내:
+   ```
+   👋 혼자 학습하시는 거군요! 진행상황 추적 없이 진행합니다.
+   모든 슬래시 커맨드를 동일하게 사용할 수 있어요.
+   ```
+
+   > `.fearnot/participant.json`이 없으므로 이후 모든 `track.sh` 호출이 자동으로 스킵됩니다.
 
 ### Step 5: OS별 설치 진행
 
