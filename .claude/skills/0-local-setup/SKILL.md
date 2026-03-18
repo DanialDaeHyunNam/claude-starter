@@ -132,11 +132,9 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 2. **"fearnot.ai 워크숍 참여자"를 선택한 경우:**
 
-   AskUserQuestion으로 이름 수집:
-   - question: "성함을 알려주세요 (강사가 진행상황을 확인하는 데 사용됩니다)"
-   - header: "참여자 등록"
-
-   이름을 받으면 Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
+   텍스트 프롬프트로 이름을 질문하세요 (AskUserQuestion 사용하지 않음):
+   "지원할 때 입력하신 이름을 알려주세요."
+   사용자가 이름을 입력하면, Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
    ```bash
    bash scripts/track.sh init "{이름}" "{선택한 OS}" && \
    bash scripts/track.sh update 0-local-setup started && \
