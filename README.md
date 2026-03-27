@@ -107,6 +107,12 @@ claude-starter/
 │   ├── snazzy.itermcolors   ← 터미널 컬러 테마
 │   └── vscode-extensions.txt← 에디터 확장 프로그램 목록
 │
+├── slides/
+│   ├── package.json         ← Slidev 의존성
+│   └── v0/slides.md         ← 강의 슬라이드 (버전별)
+│
+├── Makefile                 ← make slides
+│
 ├── .claude/
 │   ├── settings.json        ← 플러그인 설정
 │   └── skills/              ← 슬래시 커맨드 (13개)
@@ -136,7 +142,28 @@ claude-starter/
 | 컬러 스킴 | Snazzy (iTerm2) | Snazzy (Windows Terminal) |
 | GitHub CLI | gh (brew) | gh (scoop) |
 | 빌드 도구 | coreutils, curl, gawk, gpg, openssl 등 | curl, coreutils, openssl, 7zip |
+| tmux | tmux (brew) — Teams 모드 split-pane용 | tmux (scoop) |
 | VS Code 확장 | `assets/vscode-extensions.txt` 자동 설치 | 동일 |
+
+## 강의 슬라이드
+
+```bash
+make slides              # 최신 버전 슬라이드 열기
+make slides VERSION=v0   # 특정 버전 지정
+```
+
+브라우저에서 `http://localhost:3030`으로 열리며, 발표자 모드는 `/presenter/`에서 사용할 수 있습니다.
+
+> Slidev 기반. 첫 실행 시 `slides/` 디렉토리에서 자동으로 의존성을 설치합니다.
+
+## Teams 모드 (Claude 동시 작업)
+
+`/0-local-setup` 과정에서 자동으로 설정됩니다:
+
+- **tmux** 설치 (Mac: brew, Windows: scoop)
+- 프로젝트 `.claude/settings.json`에 Teams 모드 활성화
+
+설정 후 Claude가 여러 에이전트를 동시에 돌리면 split-pane으로 각각의 작업을 실시간으로 볼 수 있습니다.
 
 ## 포함된 플러그인
 

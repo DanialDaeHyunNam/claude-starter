@@ -130,6 +130,7 @@ function Install-ScoopBasePackages {
     Install-ScoopPackage "coreutils"
     Install-ScoopPackage "openssl"
     Install-ScoopPackage "7zip"
+    Install-ScoopPackage "tmux"
 }
 
 # =========================================================
