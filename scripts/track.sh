@@ -14,10 +14,9 @@ PARTICIPANT_FILE="$(cd "$(dirname "$0")/.." && pwd)/.fearnot/participant.json"
 TIMEOUT=3
 
 # HMAC 키 생성: HMAC-SHA256(key="fearnot.ai", data=YYYYMMDD)
+# openssl+sed는 Windows Git Bash에서 호환 문제 → python3로 통일
 generate_hmac() {
-  local date_str
-  date_str=$(date +%Y%m%d)
-  echo -n "$date_str" | openssl dgst -sha256 -hmac "fearnot.ai" -hex 2>/dev/null | sed 's/^.* //'
+  python3 -c "import hmac,hashlib,datetime; print(hmac.new(b'fearnot.ai',datetime.date.today().strftime('%Y%m%d').encode(),hashlib.sha256).hexdigest())" 2>/dev/null
 }
 
 # JSON 값 추출 (python3 사용, macOS/Linux 기본 내장)
