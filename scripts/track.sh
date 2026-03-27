@@ -7,7 +7,7 @@
 #
 # 추적 실패는 절대 skill 진행을 차단하지 않음 (exit 0)
 
-set -e
+set +e
 
 API_URL="${FEARNOT_API_URL:-https://fearnot-ai.vercel.app}"
 PARTICIPANT_FILE="$(cd "$(dirname "$0")/.." && pwd)/.fearnot/participant.json"
