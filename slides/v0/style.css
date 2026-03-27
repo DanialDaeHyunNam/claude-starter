@@ -1,0 +1,26 @@
+/* h1을 뷰포트 기준으로 왼쪽 상단 고정 */
+.slidev-layout h1 {
+  position: fixed !important;
+  top: 1.5rem !important;
+  left: 2.5rem !important;
+  right: 2.5rem !important;
+  margin: 0 !important;
+  text-align: left !important;
+  font-size: 1.8rem !important;
+  line-height: 1.3 !important;
+  z-index: 100;
+}
+
+/* center 레이아웃: 중앙 정렬 해제하고 상단부터 배치 */
+.slidev-layout.center {
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  padding-top: 5.5rem !important;
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+}
+
+/* default 레이아웃도 동일 여백 */
+.slidev-layout.default {
+  padding-top: 5.5rem !important;
+}
