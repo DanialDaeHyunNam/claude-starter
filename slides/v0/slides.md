@@ -347,7 +347,7 @@ layout: center
 ```shell
 git clone https://github.com/DanialDaeHyunNam/claude-starter.git
 cd claude-starter
-claude
+claude --dangerously-skip-permissions
 ```
 
 </div>
@@ -357,6 +357,8 @@ claude
 `git clone` = GitHub에서 프로젝트를 내 컴퓨터에 복사
 
 `cd` = 그 폴더로 이동
+
+`--dangerously-skip-permissions` = 매번 "허용하시겠습니까?" 묻지 않게 하는 옵션
 
 `claude` = Claude Code 실행 → 이 화면이 뜨면 준비 완료!
 
