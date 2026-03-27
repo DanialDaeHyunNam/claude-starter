@@ -516,9 +516,7 @@ function Main {
     Install-SnazzyColorScheme
     Finish-Step
 
-    Start-Step "Claude Code 설치"
-    Install-ClaudeCode
-    Finish-Step
+    # Claude Code는 슬라이드 가이드에서 사전 설치됨 — 스킵
 
     Start-Step "최종 확인"
     Print-Versions
