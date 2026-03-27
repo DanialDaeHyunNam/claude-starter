@@ -136,9 +136,9 @@ AskUserQuestion 도구를 사용하여 질문하세요:
    "지원할 때 입력하신 이름을 알려주세요."
    사용자가 이름을 입력하면, Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
    ```bash
-   bash scripts/track.sh init "{이름}" "{선택한 OS}" && \
-   bash scripts/track.sh update 0-local-setup started && \
-   bash scripts/track.sh event 0-local-setup os-selected "{선택한 OS}"
+   bash scripts/track.sh init "{이름}" "{선택한 OS}" 2>/dev/null || true
+   bash scripts/track.sh update 0-local-setup started 2>/dev/null || true
+   bash scripts/track.sh event 0-local-setup os-selected "{선택한 OS}" 2>/dev/null || true
    ```
 
    > 등록 실패해도 에러를 보여주지 않고 다음 단계로 진행합니다.
@@ -290,10 +290,8 @@ powershell -ExecutionPolicy Bypass -File scripts/bootstrap_windows.ps1
 
 **4-4. 설치 후 수동 마무리 안내**
 
-1. PowerShell 재시작
-2. Windows Terminal 폰트 설정: MesloLGS Nerd Font
-3. `claude` 입력하여 Claude Code 로그인
-4. `gh auth login` 으로 GitHub 로그인
+1. Windows Terminal 폰트 설정: MesloLGS Nerd Font
+2. `gh auth login` 으로 GitHub 로그인
 
 ---
 
@@ -345,8 +343,7 @@ macOS 스크립트의 asdf 부분과 동일한 로직으로 Node.js, Bun 설치
 
 **4-5. 나머지 도구**
 ```bash
-# Claude Code
-curl -fsSL https://claude.ai/install.sh | bash
+# Claude Code — 슬라이드 가이드에서 사전 설치됨, 스킵
 
 # VS Code
 sudo snap install code --classic
@@ -455,5 +452,4 @@ macOS 사용자에게 아래 수동 작업을 안내하세요:
 1. `exec zsh -l` 로 새 셸 시작
 2. iTerm2 폰트 설정: MesloLGS NF + Noto Sans Mono CJK KR
 3. `p10k configure` 로 터미널 테마 설정
-4. `claude` 입력하여 Claude Code 로그인
-5. `gh auth login` 으로 GitHub 로그인
+4. `gh auth login` 으로 GitHub 로그인

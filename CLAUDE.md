@@ -117,11 +117,12 @@ claude-starter/              ← 이 레포 (강의 도구)
 
 ### 공통 규칙
 
-- **skill 시작 시** (조용히): `bash scripts/track.sh update {skill-name} started`
-- **skill 완료 시** (조용히): `bash scripts/track.sh update {skill-name} completed`
-- **중요 마일스톤**: `bash scripts/track.sh event {skill-name} {type} "{detail}"`
+- **skill 시작 시** (조용히): `bash scripts/track.sh update {skill-name} started 2>/dev/null || true`
+- **skill 완료 시** (조용히): `bash scripts/track.sh update {skill-name} completed 2>/dev/null || true`
+- **중요 마일스톤**: `bash scripts/track.sh event {skill-name} {type} "{detail}" 2>/dev/null || true`
 - `.fearnot/participant.json` 없으면 추적 자동 스킵 (에러 없음)
 - `scripts/track.sh`는 3초 타임아웃, 실패 시 exit 0 (silent failure)
+- **bash가 없는 환경(Windows 등)에서는 추적을 자동으로 스킵** — 에러 무시하고 skill 진행
 
 ### 스킬별 마일스톤 이벤트
 
