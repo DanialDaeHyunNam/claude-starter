@@ -295,6 +295,24 @@ powershell -ExecutionPolicy Bypass -File scripts/bootstrap_windows.ps1
 3. `claude` 입력하여 Claude Code 로그인
 4. `gh auth login` 으로 GitHub 로그인
 
+**4-5. PowerShell 프로필 확인**
+
+`bootstrap_windows.ps1`이 PowerShell 프로필에 alias와 설정을 추가하지만,
+스크립트 미실행 또는 프로필 리셋으로 누락될 수 있습니다.
+사용자에게 PowerShell에서 아래를 실행하도록 안내하여 `claude-danger` alias가 있는지 확인합니다:
+
+```powershell
+Get-Content $PROFILE | Select-String "claude-danger"
+```
+
+**결과가 없으면** 프로필에 직접 추가하도록 안내:
+
+```powershell
+Add-Content -Path $PROFILE -Value "`nfunction claude-danger { claude --dangerously-skip-permissions @args }"
+```
+
+> `claude-danger`는 권한 확인을 건너뛰는 alias로, 워크숍에서 빠른 진행을 위해 사용합니다.
+
 ---
 
 #### Linux (Ubuntu/Debian)를 선택한 경우
@@ -371,14 +389,37 @@ fc-cache -fv
 Claude Code가 설치되어 있다면, 이 레포에서 사용하는 플러그인들을 설치합니다.
 `.claude/settings.json`의 `enabledPlugins`는 이미 설치된 플러그인을 "활성화"만 하므로, 플러그인 자체를 먼저 설치해야 합니다.
 
-Bash 도구로 아래를 실행하세요 (각 명령은 이미 설치된 경우 자동 스킵됩니다):
+Bash 도구로 아래를 **순서대로** 실행하세요:
+
+**1) `clarify` 플러그인용 마켓플레이스 등록**
+
+`clarify`는 별도 마켓플레이스(`team-attention-plugins`)에 있으므로 먼저 등록합니다:
 
 ```bash
-claude plugin add clarify@team-attention-plugins 2>/dev/null || true
+claude plugin marketplace add team-attention/plugins-for-claude-natives 2>/dev/null || true
 ```
 
-> 나머지 플러그인(vercel, github, commit-commands 등)은 `@claude-plugins-official` 레지스트리에서 자동으로 해결됩니다.
-> `clarify`만 별도 레지스트리(`team-attention-plugins`)라 수동 설치가 필요합니다.
+**2) 모든 플러그인 설치**
+
+공식 플러그인 포함 전부 명시적으로 설치합니다 (이미 설치된 경우 자동 스킵):
+
+```bash
+claude plugin install clarify@team-attention-plugins 2>/dev/null || true
+claude plugin install vercel@claude-plugins-official 2>/dev/null || true
+claude plugin install github@claude-plugins-official 2>/dev/null || true
+claude plugin install commit-commands@claude-plugins-official 2>/dev/null || true
+claude plugin install typescript-lsp@claude-plugins-official 2>/dev/null || true
+claude plugin install pr-review-toolkit@claude-plugins-official 2>/dev/null || true
+claude plugin install explanatory-output-style@claude-plugins-official 2>/dev/null || true
+```
+
+**3) 설치 확인**
+
+```bash
+claude plugin list
+```
+
+7개 플러그인이 모두 `enabled`로 표시되는지 확인하세요.
 
 ### Step 5.6: Claude Code Teams Mode 설정
 
