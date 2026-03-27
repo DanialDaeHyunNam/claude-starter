@@ -571,9 +571,7 @@ main() {
   install_bun
   finish_step
 
-  start_step "Claude Code 설치"
-  install_claude_code
-  finish_step
+  # Claude Code는 슬라이드 가이드에서 사전 설치됨 — 스킵
 
   start_step "iTerm2 Snazzy 컬러 스킴 적용 + p10k 설정"
   import_iterm_colorscheme
