@@ -8,20 +8,25 @@
 # 추적 실패는 절대 skill 진행을 차단하지 않음 (exit 0)
 
 set +e
+trap 'exit 0' ERR EXIT
 
 API_URL="${FEARNOT_API_URL:-https://fearnot-ai.vercel.app}"
 PARTICIPANT_FILE="$(cd "$(dirname "$0")/.." && pwd)/.fearnot/participant.json"
 TIMEOUT=3
 
+# python 명령어 감지 (Windows: python, macOS/Linux: python3)
+PYTHON="$(command -v python3 2>/dev/null || command -v python 2>/dev/null || echo "")"
+
 # HMAC 키 생성: HMAC-SHA256(key="fearnot.ai", data=YYYYMMDD)
-# openssl+sed는 Windows Git Bash에서 호환 문제 → python3로 통일
 generate_hmac() {
-  python3 -c "import hmac,hashlib,datetime; print(hmac.new(b'fearnot.ai',datetime.date.today().strftime('%Y%m%d').encode(),hashlib.sha256).hexdigest())" 2>/dev/null
+  [ -z "$PYTHON" ] && return 1
+  "$PYTHON" -c "import hmac,hashlib,datetime; print(hmac.new(b'fearnot.ai',datetime.date.today().strftime('%Y%m%d').encode(),hashlib.sha256).hexdigest())" 2>/dev/null
 }
 
 # JSON 값 추출 (python3 사용, macOS/Linux 기본 내장)
 json_get() {
-  python3 -c "import sys,json; print(json.load(sys.stdin).get('$1',''))" 2>/dev/null
+  [ -z "$PYTHON" ] && return 1
+  "$PYTHON" -c "import sys,json; print(json.load(sys.stdin).get('$1',''))" 2>/dev/null
 }
 
 # --- init: 참여자 등록 ---
