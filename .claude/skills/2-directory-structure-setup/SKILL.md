@@ -207,7 +207,7 @@ cp ../../.claude/settings.json .claude/settings.json
 
 사용자에게 안내:
 ```
-강의에서 쓰던 슬래시 커맨드(/help-claude, /wrap-up, /plugin-guide 등)를
+강의에서 쓰던 슬래시 커맨드(/help-claude, /wrap-up, /follow-up, /plugin-guide 등)를
 이 프로젝트 폴더에서도 그대로 사용할 수 있어요!
 ```
 

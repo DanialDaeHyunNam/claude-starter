@@ -131,6 +131,7 @@ function Install-ScoopBasePackages {
     Install-ScoopPackage "openssl"
     Install-ScoopPackage "7zip"
     Install-ScoopPackage "tmux"
+    Install-ScoopPackage "make"
 }
 
 # =========================================================
@@ -157,6 +158,22 @@ function Install-Mise {
         Write-Log "Added mise activation to PowerShell profile"
     }
 
+    # shim 모드 활성화 — 모든 셸(PowerShell, Git Bash, make 등)에서 mise 도구 사용 가능
+    & mise settings set shims_dir "$env:LOCALAPPDATA\mise\shims"
+    $shimDir = "$env:LOCALAPPDATA\mise\shims"
+    if (-not (Test-Path $shimDir)) { New-Item -ItemType Directory -Path $shimDir -Force | Out-Null }
+
+    # 사용자 PATH에 mise shim 디렉토리 추가 (영구, 모든 셸에 적용)
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    if ($userPath -notlike "*mise\shims*") {
+        [Environment]::SetEnvironmentVariable("Path", "$shimDir;$userPath", "User")
+        Write-Log "Added mise shims to user PATH: $shimDir"
+    }
+    # 현재 세션 PATH에도 추가
+    if ($env:PATH -notlike "*mise\shims*") {
+        $env:PATH = "$shimDir;$env:PATH"
+    }
+
     # 현재 세션에서도 활성화
     & mise activate pwsh | Out-String | Invoke-Expression
 }
@@ -168,6 +185,7 @@ function Install-Node {
     Write-Log "Installing Node.js $NODE_VERSION via mise..."
     mise install "node@$NODE_VERSION"
     mise use --global "node@$NODE_VERSION"
+    mise reshim 2>$null  # shim 디렉토리에 node/npx 심링크 생성
     Write-Log "Node.js: $(node --version 2>$null)"
 }
 
@@ -178,6 +196,7 @@ function Install-Bun {
     Write-Log "Installing Bun via mise..."
     mise install "bun@$BUN_VERSION"
     mise use --global "bun@$BUN_VERSION"
+    mise reshim 2>$null  # shim 디렉토리에 bun/bunx 심링크 생성
 }
 
 # =========================================================

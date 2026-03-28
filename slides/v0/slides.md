@@ -223,6 +223,30 @@ layout: center
 layout: center
 ---
 
+# Step 1.5 — Pencil 설치
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-6 mt-8 text-left">
+
+**1)** 브라우저에서 **pencil.li** 접속
+
+**2)** **Download** 클릭 → 설치 파일 실행
+
+**3)** Mac: `.dmg` → Applications에 드래그 &nbsp;/&nbsp; Windows: `.exe` → 설치 후 실행
+
+**4)** 설치 끝나면 Pencil 앱 실행 → 회원가입 또는 로그인
+
+</div>
+
+<v-click>
+
+Pencil은 나중에 프로토타입을 그릴 때 씁니다. 지금 깔아두면 나중에 안 기다려도 됩니다.
+
+</v-click>
+
+---
+layout: center
+---
+
 # Step 2 — 터미널 열기
 
 <div class="grid grid-cols-2 gap-6 mt-8">
@@ -1430,175 +1454,6 @@ Can read, write, and execute tools
 layout: center
 ---
 
-# 2-2. 하네스 엔지니어링
-
----
-layout: center
----
-
-# LinkedIn에서 한번쯤 본 것들
-
-<div class="grid grid-cols-4 gap-4 mt-8">
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5 text-lg font-mono">gstack</div>
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5 text-lg font-mono">Superpowers</div>
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5 text-lg font-mono">claude-code-harness</div>
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5 text-lg font-mono">omc</div>
-</div>
-
-<v-clicks>
-
-전부 같은 이야기를 하고 있다:
-
-**"AI 에이전트를 잘 쓰려면 환경을 잘 설계해야 한다."**
-
-</v-clicks>
-
----
-layout: center
----
-
-# 하네스 = AI를 위한 환경 설계
-
-<div class="grid grid-cols-2 gap-6 mt-8">
-<div class="bg-red-950/40 border border-red-500/30 rounded-xl p-6 text-left">
-<div class="text-red-400 font-bold text-sm mb-4 tracking-widest">WITHOUT HARNESS</div>
-
-```
-Claude
-
-"What to do?"
-"Conventions?"
-"Can I edit this?"
-
--> random chaos
-```
-
-</div>
-<div class="bg-green-950/40 border border-green-500/30 rounded-xl p-6 text-left">
-<div class="text-green-400 font-bold text-sm mb-4 tracking-widest">WITH HARNESS</div>
-
-```
-CLAUDE.md
-Directory layout
-MCP tools
-Coding rules
-Validation checks
-
--> consistent results
-```
-
-</div>
-</div>
-
----
-layout: center
----
-
-# 2-3. 꼭 써야 하나?
-
----
-layout: center
----
-
-# 쓸 거다. 근데 순서가 있다.
-
-<div class="grid grid-cols-2 gap-6 mt-8">
-<div class="bg-red-950/40 border border-red-500/30 rounded-xl p-6 text-left">
-<div class="text-red-400 font-bold text-sm mb-4 tracking-widest">DON'T</div>
-
-```
-Step 1: Install gstack
-Step 2: Set up Superpowers
-Step 3: Something breaks
-Step 4: No idea why
-```
-
-</div>
-<div class="bg-green-950/40 border border-green-500/30 rounded-xl p-6 text-left">
-<div class="text-green-400 font-bold text-sm mb-4 tracking-widest">DO</div>
-
-```
-Step 1: Plain chat with Claude
-Step 2: Feel the friction
-Step 3: "THAT'S why I need this"
-Step 4: Pick the right tool
-```
-
-</div>
-</div>
-
-<v-click>
-
-불편함을 먼저 겪어야, 도구가 왜 필요한지 안다.
-
-</v-click>
-
----
-layout: center
----
-
-# 이 워크숍이 바로 그 과정
-
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-6 mt-8 inline-block text-left">
-
-```
-/0-local-setup    <- env setup
-/1-claude-md      <- set destination
-/2-directory      <- structure
-      ...
-/9-deploy         <- deploy
-/10-confirm       <- done
-```
-
-</div>
-
-<v-clicks>
-
-이 전체 흐름 자체가 하나의 하네스다.
-
-오늘 직접 겪어보면, 왜 이런 구조가 필요한지 몸으로 알게 된다.
-
-</v-clicks>
-
----
-layout: center
----
-
-# 레포 구조 살펴보기
-
-<div class="mt-4 text-left">
-
-```
-claude-starter/
-├── CLAUDE.md              ← Claude가 읽는 설계도
-├── scripts/               ← 자동 설치 스크립트
-│   ├── bootstrap_mac.sh
-│   └── bootstrap_windows.ps1
-├── .claude/
-│   ├── settings.json      ← 플러그인 설정
-│   └── skills/            ← 슬래시 커맨드 (13개)
-│       ├── 0-local-setup/
-│       ├── 1-claude-md-setup/
-│       ├── ...
-│       └── claude-basic/
-└── projects/              ← 여러분의 작업 공간 (gitignored)
-    └── my-app/            ← 독립 git repo
-```
-
-</div>
-
-<v-clicks>
-
-`CLAUDE.md` = Claude에게 주는 지시서. 이게 하네스의 핵심.
-
-`projects/` = 여러분의 프로젝트. 이 레포와 완전히 분리.
-
-</v-clicks>
-
----
-layout: center
----
-
 # Claude Code 핵심 개념 6가지
 
 <div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-6 mt-6 text-left inline-block">
@@ -1853,39 +1708,6 @@ layout: center
 layout: center
 ---
 
-# Wrap-up
-
-이제 로컬 환경은 설정됐습니다. 모르겠으면 Claude한테 물어보면 됩니다.
-
-그래도 기억하면 좋은 것 3가지:
-
-<v-clicks>
-
-<div class="grid grid-cols-3 gap-5 mt-6 text-left">
-
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5">
-<div class="text-blue-400 font-bold mb-2">1. Git으로 모든 걸 관리</div>
-히스토리 관리의 끝판왕. 언제든 되돌릴 수 있다.
-</div>
-
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5">
-<div class="text-green-400 font-bold mb-2">2. 디렉토리 = 조직</div>
-폴더 구조를 조직이라 생각하고 체계적이고 깔끔하게 관리해라.
-</div>
-
-<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5">
-<div class="text-purple-400 font-bold mb-2">3. 수시로 /wrap-up</div>
-세션 끝날 때마다 실행. 작업 기록이 자동으로 정리된다.
-</div>
-
-</div>
-
-</v-clicks>
-
----
-layout: center
----
-
 # 시작합시다
 
 Claude에서 입력하세요:
@@ -1893,3 +1715,203 @@ Claude에서 입력하세요:
 ```bash
 /1-claude-md-setup
 ```
+
+---
+layout: center
+---
+
+# 오늘 세션 마무리
+
+꼭 기억했으면 좋겠는 것들
+
+---
+layout: center
+---
+
+# 1. GitHub에 익숙해져라
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-6 mt-8 inline-block text-left">
+
+```
+코드 관리의 모든 것이 GitHub에서 시작된다.
+
+  branch, PR, merge — 이 흐름이 몸에 익어야 한다.
+  Claude가 대신 해주더라도, 뭘 하는 건지는 알아야 한다.
+```
+
+</div>
+
+<v-click>
+
+GitHub만큼은 반복해서 손에 익혀라. 모든 협업의 기본이다.
+
+</v-click>
+
+---
+layout: center
+---
+
+# 2. 모든 걸 Claude CLI로 해라
+
+<div class="grid grid-cols-2 gap-6 mt-8">
+<div class="bg-red-950/40 border border-red-500/30 rounded-xl p-6 text-left">
+<div class="text-red-400 font-bold text-sm mb-4 tracking-widest">DON'T</div>
+
+```
+ChatGPT에 복사-붙여넣기
+브라우저에서 Claude 채팅
+결과를 다시 복사-붙여넣기
+```
+
+</div>
+<div class="bg-green-950/40 border border-green-500/30 rounded-xl p-6 text-left">
+<div class="text-green-400 font-bold text-sm mb-4 tracking-widest">DO</div>
+
+```
+터미널에서 claude 실행
+plain chat으로 대화
+파일 수정도 직접 시킴
+```
+
+</div>
+</div>
+
+<v-click>
+
+의도적으로 CLI plain chat을 많이 쓸수록, AI를 다루는 감각이 빠르게 올라온다.
+
+</v-click>
+
+---
+layout: center
+---
+
+# 3. 폴더 구조와 문서 위치에 집착해라
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-6 mt-8 inline-block text-left">
+
+```
+AI는 구조가 깔끔할수록 정확하게 일한다.
+
+  폴더 이름, 파일 위치, 문서 경로
+  — 이걸 대충 두면 AI도 대충 한다.
+
+  반대로, 이걸 정돈하면
+  — AI가 맥락을 정확히 잡고 일한다.
+```
+
+</div>
+
+<v-click>
+
+디렉토리 설계는 AI Native 조직의 생산성을 결정한다. 까다롭게 관리해라.
+
+</v-click>
+
+---
+layout: center
+---
+
+# 4. 프로젝트를 시작할 때
+
+깨끗한 폴더에서 이 순서대로 시작해보라.
+
+<div class="mt-6 text-left">
+
+<v-clicks>
+
+<div class="bg-blue-950/40 border border-blue-500/30 rounded-xl p-5 mb-3">
+<div class="text-blue-400 font-bold mb-2">a) MVP 정리</div>
+<code>/clarify:vague</code> 스킬로 프로젝트 방향을 맞추고, 결과를 해당 폴더 <code>CLAUDE.md</code>에 작성하게 하라.
+</div>
+
+<div class="bg-green-950/40 border border-green-500/30 rounded-xl p-5 mb-3">
+<div class="text-green-400 font-bold mb-2">b) Skill 4개는 꼭 챙기자</div>
+
+```
+i.   /clarify:vague  — 요구사항 구체화 (플러그인)
+ii.  PRD 생성 스킬   — 직접 만드는 걸 추천 (다음 슬라이드)
+iii. /wrap-up        — 세션 기록 자동 정리
+iv.  /follow-up      — 다음 세션 이어가기
+```
+
+</div>
+
+</v-clicks>
+
+</div>
+
+---
+layout: center
+---
+
+# PRD 스킬을 직접 만든다면
+
+이 순서로 정리하면 빠지는 게 없다.
+
+<div class="grid grid-cols-2 gap-4 mt-6 text-sm text-left">
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-4">
+
+```
+1. 선호하는 그림 (레퍼런스)
+2. 유저 효용 (사용자 목표)
+3. 목표 유저 경험
+4. 기존 기능과 충돌 여부
+```
+
+</div>
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-4">
+
+```
+5. 기존 기능과 시너지
+6. 기능 상세 요구사항 (디자인 없이)
+7. 화면 종류 + 정보 위계
+8. 프로토타입 (Pencil) + UX writing
+```
+
+</div>
+</div>
+
+<v-click>
+
+이걸 Skill로 만들어두면, 새 기능을 정리할 때마다 그대로 쓸 수 있다.
+
+</v-click>
+
+---
+layout: center
+---
+
+# 정리
+
+<div class="grid grid-cols-4 gap-4 mt-8 text-left text-sm">
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-4">
+<div class="text-blue-400 font-bold mb-2">1. GitHub</div>
+branch, PR, merge — 모든 협업의 기본이다.
+</div>
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-4">
+<div class="text-green-400 font-bold mb-2">2. Claude CLI</div>
+plain chat을 많이 쓸수록 감각이 올라온다.
+</div>
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-4">
+<div class="text-yellow-400 font-bold mb-2">3. 구조에 집착</div>
+폴더, 문서 위치가 AI 생산성을 결정한다.
+</div>
+
+<div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-4">
+<div class="text-purple-400 font-bold mb-2">4. 순서대로 시작</div>
+vague → CLAUDE.md → PRD → wrap-up
+</div>
+
+</div>
+
+---
+layout: center
+---
+
+# 수고하셨습니다!!
+

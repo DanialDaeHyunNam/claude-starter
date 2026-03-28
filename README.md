@@ -141,7 +141,7 @@ claude-starter/
 | 폰트 | MesloLGS NF, FiraCode, Noto Sans Mono CJK KR | MesloLGS NF, FiraCode, NotoSansMono NF |
 | 컬러 스킴 | Snazzy (iTerm2) | Snazzy (Windows Terminal) |
 | GitHub CLI | gh (brew) | gh (scoop) |
-| 빌드 도구 | coreutils, curl, gawk, gpg, openssl 등 | curl, coreutils, openssl, 7zip |
+| 빌드 도구 | coreutils, curl, gawk, gpg, openssl 등 | curl, coreutils, openssl, 7zip, make |
 | tmux | tmux (brew) — Teams 모드 split-pane용 | tmux (scoop) |
 | VS Code 확장 | `assets/vscode-extensions.txt` 자동 설치 | 동일 |
 

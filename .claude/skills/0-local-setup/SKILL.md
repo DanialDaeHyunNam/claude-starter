@@ -93,7 +93,7 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 **"이미 갖춰져 있어요"를 선택한 경우:**
 
-환경 설치(Step 4~5)를 건너뛰고, 참여 경로 확인(Step 4.5)만 진행한 뒤 Step 5.5(플러그인 설치) → Step 6(최종 확인)으로 이동합니다.
+환경 설치(Step 4~5)를 건너뛰고, Step 5.5(플러그인 설치) → Step 6(최종 확인)으로 이동합니다.
 
 사용자에게 안내:
 ```
@@ -101,7 +101,6 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 환경 설치 단계는 건너뛰고, 필요한 것만 확인하겠습니다.
 ```
 
-→ Step 4.5로 이동 (참여 경로 확인)
 → Step 5.5로 이동 (플러그인 설치)
 → Step 6으로 이동 (최종 확인)
 
@@ -117,48 +116,6 @@ AskUserQuestion 도구를 사용하여 질문하세요:
   - label: "macOS" / description: "맥북, 아이맥 등 애플 컴퓨터"
   - label: "Windows" / description: "삼성, LG, 레노버 등 일반 PC/노트북"
   - label: "Linux" / description: "우분투 등 리눅스 운영체제"
-
-### Step 4.5: 참여 경로 확인 + 참여자 등록
-
-워크숍 참여자인지 개인 사용자인지 확인합니다.
-> Step 4(OS 선택)를 건너뛴 경우, OS는 Bash로 자동 감지합니다: `uname -s` → Darwin이면 "macOS", MINGW/MSYS면 "Windows", 그 외 "Linux"
-
-1. AskUserQuestion으로 참여 경로 확인:
-   - question: "어떻게 이 레포를 사용하게 되셨나요?"
-   - header: "참여 경로"
-   - options:
-     - label: "fearnot.ai 워크숍 참여자" / description: "강사가 진행상황을 실시간으로 확인합니다"
-     - label: "개인적으로 clone했어요" / description: "혼자 학습용으로 사용합니다"
-
-2. **"fearnot.ai 워크숍 참여자"를 선택한 경우:**
-
-   텍스트 프롬프트로 이름을 질문하세요 (AskUserQuestion 사용하지 않음):
-   "지원할 때 입력하신 이름을 알려주세요."
-   사용자가 이름을 입력하면, Bash로 참여자 등록 + 추적 시작 (조용히, 결과를 사용자에게 보여주지 않음):
-   ```bash
-   bash scripts/track.sh init "{이름}" "{선택한 OS}" 2>/dev/null || true
-   bash scripts/track.sh update 0-local-setup started 2>/dev/null || true
-   bash scripts/track.sh event 0-local-setup os-selected "{선택한 OS}" 2>/dev/null || true
-   ```
-
-   > 등록 실패해도 에러를 보여주지 않고 다음 단계로 진행합니다.
-
-3. **"개인적으로 clone했어요"를 선택한 경우:**
-
-   추적 관련 데이터를 모두 정리합니다 (조용히, 결과를 사용자에게 보여주지 않음):
-   ```bash
-   rm -rf .fearnot/ 2>/dev/null || true && \
-   sed -i '' '/<!-- TRACKING_START -->/,/<!-- TRACKING_END -->/d' CLAUDE.md 2>/dev/null || true && \
-   sed -i '' '/clean-up/d' CLAUDE.md 2>/dev/null || true
-   ```
-
-   사용자에게 안내:
-   ```
-   👋 혼자 학습하시는 거군요! 진행상황 추적 없이 진행합니다.
-   모든 슬래시 커맨드를 동일하게 사용할 수 있어요.
-   ```
-
-   > `.fearnot/participant.json`이 없으므로 이후 모든 `track.sh` 호출이 자동으로 스킵됩니다.
 
 ### Step 5: OS별 설치 진행
 
@@ -474,7 +431,8 @@ echo "=== 최종 설치 확인 ===" && \
 echo "Node.js: $(node --version 2>/dev/null || echo '❌')" && \
 echo "Bun: $(bun --version 2>/dev/null || echo '❌')" && \
 echo "Git: $(git --version 2>/dev/null || echo '❌')" && \
-echo "Claude: $(claude --version 2>/dev/null || echo '❌')"
+echo "Claude: $(claude --version 2>/dev/null || echo '❌')" && \
+echo "Make: $(make --version 2>/dev/null | head -1 || echo '❌')"
 ```
 
 결과를 표로 정리해서 보여주세요:
