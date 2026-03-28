@@ -20,9 +20,6 @@ node_modules/
 # Wrap-up (세션별 작업 기록, 개인용)
 .claude/wrap-up/
 
-# Progress tracking (수강생별 참여자 정보)
-.fearnot/
-
 # IDE
 .idea/
 *.swp

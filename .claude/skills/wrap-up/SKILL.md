@@ -35,14 +35,14 @@
 1. 기존 도메인에 해당하지 않는 작업이 있으면 AskUserQuestion으로 제안:
    - question: "{작업내용}은 기존 도메인에 안 맞는데, 새 도메인을 만들까요?"
    - options에 2~3개 후보 제안 + "직접 입력" 옵션
-2. 현재 `.claude/wrap-up/` 하위 폴더 수를 확인하여 **20개를 초과하지 않도록** 제어
+2. 현재 `history/` 하위 폴더 수를 확인하여 **20개를 초과하지 않도록** 제어
 3. 20개에 근접하면 기존 도메인에 병합할 수 있는지 우선 검토
 
 ### Step 3: wrap-up 문서 생성
 
 각 도메인별로 문서를 생성합니다.
 
-**경로**: `.claude/wrap-up/{domain}/{yyyy-mm-dd-shorten-title}.md`
+**경로**: `history/{domain}/{yyyy-mm-dd-shorten-title}.md`
 - `{domain}`: 소문자, 하이픈 없이
 - `{yyyy-mm-dd}`: 오늘 날짜
 - `{shorten-title}`: 핵심 내용 2~4단어 kebab-case (예: `api-auth-setup`, `landing-page`)
@@ -76,7 +76,7 @@
 ### Step 4: 폴더 생성 + 파일 저장
 
 ```bash
-mkdir -p .claude/wrap-up/{domain}
+mkdir -p history/{domain}
 ```
 
 Write 도구로 파일을 생성합니다.
@@ -87,8 +87,8 @@ Write 도구로 파일을 생성합니다.
 ✅ Wrap-up 완료!
 
 📝 저장된 기록:
-  1. .claude/wrap-up/{domain1}/{date}-{title}.md
-  2. .claude/wrap-up/{domain2}/{date}-{title}.md
+  1. history/{domain1}/{date}-{title}.md
+  2. history/{domain2}/{date}-{title}.md
   ...
 
 📊 도메인 현황: {현재 도메인 수}/20
