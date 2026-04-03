@@ -287,32 +287,7 @@ layout: center
 layout: center
 ---
 
-# Step 3 — Git 로그인 (CLI)
-
-터미널/PowerShell에 아래를 **한 줄씩** 입력하세요:
-
-<div class="mt-6">
-
-```shell
-git config --global user.name "내이름"
-git config --global user.email "가입한이메일@gmail.com"
-```
-
-</div>
-
-<v-clicks>
-
-GitHub 유저네임과 가입 이메일을 넣으세요.
-
-이건 "내 컴퓨터에서 올리는 코드는 나 거다"라고 표시하는 것입니다.
-
-</v-clicks>
-
----
-layout: center
----
-
-# Step 4 — Claude Code 설치
+# Step 3 — Claude Code 설치
 
 <div class="grid grid-cols-2 gap-6 mt-8">
 
@@ -323,6 +298,8 @@ layout: center
 
 ```shell
 curl -fsSL https://claude.ai/install.sh | bash
+# 또는
+curl -fsSL https://claude.ai/install.sh | zsh
 ```
 
 <div class="text-gray-400 text-sm mt-4">
@@ -362,7 +339,7 @@ irm https://claude.ai/install.ps1 | iex
 layout: center
 ---
 
-# Step 5 — 레포 받기 + Claude 실행
+# Step 4 — 레포 받기 + Claude 실행
 
 터미널/PowerShell에 한 줄씩 입력하세요:
 
@@ -401,6 +378,9 @@ layout: center
 **`command not found: claude`**
 
 터미널을 완전히 닫고 다시 열기
+
+안 되면:
+`echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc`
 
 </div>
 
