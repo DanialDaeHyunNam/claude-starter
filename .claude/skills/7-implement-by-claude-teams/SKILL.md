@@ -101,7 +101,7 @@ bun run build
 빌드 성공 확인 후:
 
 ```
-✅ Step 7 완료! 앱이 구현되었습니다.
+✅ 구현 완료!
 
 🚀 구현된 기능:
   1. ✅ {기능 1}
@@ -110,6 +110,27 @@ bun run build
 
   빌드 성공 확인 ✅
   로컬에서 확인: bun run dev → http://localhost:3000
+
+이제 SEO + Analytics를 세팅합니다.
+```
+
+### Step 7: Growth Setup 호출
+
+구현이 완료되었으므로 `/growth-setup` skill을 호출하여
+SEO 메타태그, Google Analytics, Vercel Analytics를 세팅합니다.
+
+> 이 단계에서 사용자와 함께 사이트 제목, 설명, GA ID 등을 설정합니다.
+
+### Step 8: 최종 확인
+
+`/growth-setup` 완료 후:
+
+```
+✅ Step 7 완료! 앱 구현 + 성장 도구 세팅이 완료되었습니다.
+
+🚀 구현된 기능: {N}개
+🔍 SEO 세팅 완료
+📊 Analytics 세팅 완료
 
 다음 단계: /8-github-ci-cd-setup 을 입력해주세요.
 ```

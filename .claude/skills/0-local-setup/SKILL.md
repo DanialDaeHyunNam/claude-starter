@@ -205,7 +205,13 @@ Bash 도구로 **순서대로** 실행하세요:
 claude plugin marketplace add team-attention/plugins-for-claude-natives 2>/dev/null || true
 ```
 
-**2) 모든 플러그인 설치**
+**2) omniscitus 마켓플레이스 등록**
+
+```bash
+claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus 2>/dev/null || true
+```
+
+**3) 모든 플러그인 설치**
 
 ```bash
 claude plugin install clarify@team-attention-plugins 2>/dev/null || true
@@ -215,15 +221,20 @@ claude plugin install commit-commands@claude-plugins-official 2>/dev/null || tru
 claude plugin install typescript-lsp@claude-plugins-official 2>/dev/null || true
 claude plugin install pr-review-toolkit@claude-plugins-official 2>/dev/null || true
 claude plugin install explanatory-output-style@claude-plugins-official 2>/dev/null || true
+claude plugin install omniscitus 2>/dev/null || true
 ```
 
-**3) 설치 확인**
+**4) 설치 확인**
 
 ```bash
 claude plugin list
 ```
 
-7개 플러그인이 모두 `enabled`로 표시되는지 확인하세요.
+8개 플러그인이 모두 `enabled`로 표시되는지 확인하세요.
+
+omniscitus가 설치되면 `/wrap-up`, `/follow-up` 명령을 쓸 수 있습니다:
+- `/wrap-up` — 세션 종료 시 도메인별 작업 기록
+- `/follow-up` — 이전 작업 기록 기반 후속 점검
 
 ### Step 7: 레포 구조 안내 + 마무리
 

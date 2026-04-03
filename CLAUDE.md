@@ -60,11 +60,13 @@ claude-starter/              ← 이 레포 (강의 도구)
 | 10 | `/10-confirm` | 최종 승인 |
 | - | `/plugin-guide` | 설치된 플러그인 설명 |
 | - | `/help-claude` | 막힌 문제 해결 (질문으로 좁혀서 진단 → 해결) |
-| - | `/wrap-up` | 세션 종료 시 도메인별 작업 기록 (history/) |
-| - | `/follow-up` | wrap-up 기록 기반 후속 작업 점검 |
 | - | `/claude-basic` | Claude Code 핵심 개념 6가지 설명 (최신 확인 후 출력) |
 | - | `/bootstrap-packages` | 전체 개발 환경 설치 — 터미널 꾸미기, 에디터, 폰트 등 (선택) |
 | - | `/season-start` | 강의 시작 전 Slack에 Mac/Windows 설치 가이드 발송 |
+| - | `/prd-collab` | 추상→구체 12단계 PRD 협업 (경험 단위 하나를 완성) |
+| - | `/prd-split` | 큰 아이디어를 경험 단위로 쪼개고 각각 /prd-collab 호출 |
+| - | `/cto-council` | CTO 페르소나와 기술 Q&A (비개발자 불안감 해소) |
+| - | `/growth-setup` | SEO + Google Analytics + Vercel Analytics 세팅 |
 
 ## 설치된 플러그인
 
