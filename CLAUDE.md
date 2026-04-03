@@ -27,6 +27,7 @@ claude-starter/              ← 이 레포 (강의 도구)
 │       ├── 8-github-ci-cd-setup/
 │       ├── 9-deploy/
 │       ├── 10-confirm/
+│       ├── bootstrap-packages/
 │       └── plugin-guide/
 └── projects/                ← 수강생 작업 공간 (gitignored)
     └── {kebab-case-name}/   ← 각 수강생의 독립 프로젝트
@@ -46,7 +47,7 @@ claude-starter/              ← 이 레포 (강의 도구)
 
 | # | 명령어 | 설명 |
 |---|--------|------|
-| 0 | `/0-local-setup` | OS별 개발 환경 설치 (brew+asdf / Scoop+mise) |
+| 0 | `/0-local-setup` | 필수 도구 5개 확인/설치 (Git, Node.js, Bun, gh) + 플러그인 |
 | 1 | `/1-claude-md-setup` | 프로덕트 아이디어 구체화 → CLAUDE.md 생성 |
 | 2 | `/2-directory-structure-setup` | 프로젝트 폴더 구조 생성 |
 | 3 | `/3-mcp-setup` | MCP 연결 (Playwright, Slack, Pencil, Claude in Chrome) |
@@ -62,6 +63,7 @@ claude-starter/              ← 이 레포 (강의 도구)
 | - | `/wrap-up` | 세션 종료 시 도메인별 작업 기록 (history/) |
 | - | `/follow-up` | wrap-up 기록 기반 후속 작업 점검 |
 | - | `/claude-basic` | Claude Code 핵심 개념 6가지 설명 (최신 확인 후 출력) |
+| - | `/bootstrap-packages` | 전체 개발 환경 설치 — 터미널 꾸미기, 에디터, 폰트 등 (선택) |
 | - | `/season-start` | 강의 시작 전 Slack에 Mac/Windows 설치 가이드 발송 |
 
 ## 설치된 플러그인
@@ -79,9 +81,10 @@ claude-starter/              ← 이 레포 (강의 도구)
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS + shadcn/ui
-- **ORM**: Prisma 또는 Drizzle
+- **ORM**: Prisma
+- **DB (로컬)**: SQLite (설치 불필요, file:./dev.db)
+- **DB (배포)**: Neon Postgres (Vercel Marketplace 원클릭)
 - **Auth**: 프로젝트별 선택
-- **DB**: 프로젝트별 선택
 - **Deployment**: Vercel
 - **Package Manager**: bun (npm/npx 대신 bun/bunx 사용)
 - **Python Package Manager**: uv (pip 대신 uv 사용)

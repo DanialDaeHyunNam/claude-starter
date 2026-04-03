@@ -229,6 +229,7 @@ install_brew_packages() {
   install_formula_if_needed zstd
   install_formula_if_needed asdf
   install_formula_if_needed tmux
+  install_formula_if_needed gh
 
   install_cask_if_needed iterm2 "/Applications/iTerm.app"
   install_cask_if_needed cursor "/Applications/Cursor.app"
