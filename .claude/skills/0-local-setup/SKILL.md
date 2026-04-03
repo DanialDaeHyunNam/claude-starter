@@ -205,13 +205,7 @@ Bash 도구로 **순서대로** 실행하세요:
 claude plugin marketplace add team-attention/plugins-for-claude-natives 2>/dev/null || true
 ```
 
-**2) omniscitus 마켓플레이스 등록**
-
-```bash
-claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus 2>/dev/null || true
-```
-
-**3) 모든 플러그인 설치**
+**2) 모든 플러그인 설치**
 
 ```bash
 claude plugin install clarify@team-attention-plugins 2>/dev/null || true
@@ -221,22 +215,125 @@ claude plugin install commit-commands@claude-plugins-official 2>/dev/null || tru
 claude plugin install typescript-lsp@claude-plugins-official 2>/dev/null || true
 claude plugin install pr-review-toolkit@claude-plugins-official 2>/dev/null || true
 claude plugin install explanatory-output-style@claude-plugins-official 2>/dev/null || true
-claude plugin install omniscitus 2>/dev/null || true
 ```
 
-**4) 설치 확인**
+**3) 설치 확인**
 
 ```bash
 claude plugin list
 ```
 
-8개 플러그인이 모두 `enabled`로 표시되는지 확인하세요.
+7개 플러그인이 모두 `enabled`로 표시되는지 확인하세요.
 
-omniscitus가 설치되면 `/wrap-up`, `/follow-up` 명령을 쓸 수 있습니다:
-- `/wrap-up` — 세션 종료 시 도메인별 작업 기록
-- `/follow-up` — 이전 작업 기록 기반 후속 점검
+### Step 7: Status Bar 설정
 
-### Step 7: 레포 구조 안내 + 마무리
+Claude Code 하단에 유용한 정보(모델명, 컨텍스트 사용률, 라인 수 등)를 표시합니다.
+
+```
+예시:
+ claude-starter | Opus 4.6 (1M context) | +1126 lines | ctx:13% | 5h:44% 7d:7%
+```
+
+**macOS / Linux:**
+
+Bash 도구로 실행:
+```bash
+# statusline 스크립트 생성
+cat > ~/.claude/statusline-command.sh << 'STATUSLINE_EOF'
+#!/usr/bin/env bash
+input=$(cat)
+
+model=$(echo "$input" | jq -r '.model.display_name // "Claude"')
+cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
+used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+lines_added=$(echo "$input" | jq -r '.cost.total_lines_added // 0')
+five_h=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
+seven_d=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+
+DIM="\033[2m"
+RST="\033[0m"
+SEP=" ${DIM}|${RST} "
+
+# Workspace (folder name only)
+cwd="${cwd##*/}"
+
+# Context color
+ctx_part=""
+if [ -n "$used" ]; then
+  used_int=${used%.*}
+  if [ "$used_int" -ge 80 ]; then
+    cc="\033[31m"
+  elif [ "$used_int" -ge 50 ]; then
+    cc="\033[33m"
+  else
+    cc="\033[32m"
+  fi
+  ctx_part="${SEP}${cc}ctx:${used_int}%${RST}"
+fi
+
+# Rate limits (only when available)
+rl_part=""
+if [ -n "$five_h" ] || [ -n "$seven_d" ]; then
+  rl_parts=""
+  if [ -n "$five_h" ]; then
+    five_int=${five_h%.*}
+    rl_parts="5h:${five_int}%"
+  fi
+  if [ -n "$seven_d" ]; then
+    seven_int=${seven_d%.*}
+    rl_parts="${rl_parts:+$rl_parts }7d:${seven_int}%"
+  fi
+  rl_part="${SEP}\033[38;5;178m${rl_parts}${RST}"
+fi
+
+printf '%b' "\033[33m${cwd}${RST}${SEP}\033[35m${model}${RST}${SEP}\033[36m+${lines_added} lines${RST}${ctx_part}${rl_part}"
+STATUSLINE_EOF
+
+chmod +x ~/.claude/statusline-command.sh
+```
+
+그 다음, `~/.claude/settings.json`에 statusLine 설정을 추가합니다.
+**기존 settings.json이 있으면 statusLine 키만 추가하고, 다른 설정은 건드리지 않습니다.**
+
+Bash 도구로 실행:
+```bash
+# jq가 있으면 안전하게 merge, 없으면 안내
+if command -v jq >/dev/null 2>&1; then
+  SETTINGS=~/.claude/settings.json
+  if [ -f "$SETTINGS" ]; then
+    jq '. + {"statusLine": {"type": "command", "command": "~/.claude/statusline-command.sh"}}' "$SETTINGS" > "${SETTINGS}.tmp" && mv "${SETTINGS}.tmp" "$SETTINGS"
+  else
+    echo '{"statusLine": {"type": "command", "command": "~/.claude/statusline-command.sh"}}' > "$SETTINGS"
+  fi
+  echo "✅ statusLine 설정 완료"
+else
+  echo "⚠️ jq가 설치되어 있지 않습니다. 수동으로 설정해주세요."
+fi
+```
+
+**Windows:** 사용자에게 안내
+```
+Windows에서는 아래 내용을 ~/.claude/settings.json에 추가해주세요:
+
+"statusLine": {
+  "type": "command",
+  "command": "bash ~/.claude/statusline-command.sh"
+}
+
+statusline-command.sh 파일은 Git Bash에서 동일하게 생성하면 됩니다.
+```
+
+사용자에게 안내:
+```
+✅ Status Bar가 설정되었습니다!
+Claude Code를 다시 시작하면 하단에 아래 정보가 표시됩니다:
+
+  폴더명 | 모델명 | 추가한 줄 수 | 컨텍스트 사용률 | 요금 한도
+
+컨텍스트가 50% 넘으면 노란색, 80% 넘으면 빨간색으로 바뀌어요.
+```
+
+### Step 8: 레포 구조 안내 + 마무리
 
 사용자에게 아래를 설명하세요:
 

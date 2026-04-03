@@ -172,54 +172,26 @@ cp bun.lock ../../helper/bun.lock
 cp package.json ../../helper/package.json
 ```
 
-### Step 7: Claude 스킬 + 플러그인 설정 복사
+### Step 7: omniscitus 플러그인 설치
 
-이 레포(claude-starter)의 `.claude/` 설정을 수강생의 프로젝트에 복사합니다.
-수강생이 프로젝트 폴더에서 Claude Code를 실행해도 동일한 skill과 플러그인을 쓸 수 있도록 합니다.
+프로젝트 폴더에서 세션 기록과 파일 추적이 동작하도록 omniscitus를 설치합니다.
+
+> 스킬과 플러그인 설정은 `/1-claude-md-setup`에서 이미 복사되어 있습니다.
 
 ```bash
 cd projects/{프로젝트명}
 
-# .claude 디렉토리 생성
-mkdir -p .claude/skills
-
-# skill 복사 (워크숍 전용 스킬은 제외)
-# 제외 대상: 0~10번 스킬, clean-up, season-start, claude-basic, plugin-guide, bootstrap-packages
-# 포함 대상: help-claude, wrap-up, follow-up, prd-collab, prd-split, cto-council, growth-setup 등
-for skill_dir in ../../.claude/skills/*/; do
-  skill_name=$(basename "$skill_dir")
-  case "$skill_name" in
-    0-local-setup|1-claude-md-setup|2-directory-structure-setup|3-mcp-setup|\
-    4-critical-ground-rule-setup|5-detail-prd|6-prototype|7-implement-by-claude-teams|\
-    8-github-ci-cd-setup|9-deploy|10-confirm|clean-up|season-start|claude-basic|plugin-guide|bootstrap-packages)
-      ;; # 워크숍 전용 — 건너뜀
-    *)
-      cp -r "$skill_dir" .claude/skills/
-      ;;
-  esac
-done
-
-# 플러그인 설정 복사
-cp ../../.claude/settings.json .claude/settings.json
-
-# omniscitus 플러그인 설치 (세션 기록 + 파일 추적)
-claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus
+# omniscitus 마켓플레이스 등록 + 설치
+claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus 2>/dev/null || true
+claude plugin install omniscitus 2>/dev/null || true
 ```
-
-> 워크숍 진행용 스킬(0~10, clean-up, season-start 등)은 프로젝트에 복사하지 않습니다.
-> help-claude, prd-collab, prd-split, cto-council, growth-setup 등 프로젝트에서도 유용한 스킬만 복사됩니다.
-> omniscitus 플러그인이 /wrap-up, /follow-up을 제공하므로 별도 스킬 복사 불필요.
 
 사용자에게 안내:
 ```
-이 프로젝트에서 쓸 수 있는 슬래시 커맨드:
-  /help-claude     — 막힌 문제 해결
-  /prd-collab      — 12단계 PRD 협업
-  /prd-split       — 큰 아이디어를 경험 단위로 쪼개기
-  /cto-council     — CTO에게 기술 질문
-  /growth-setup    — SEO + Analytics 세팅
-  /wrap-up         — 세션 종료 시 작업 기록 (omniscitus)
-  /follow-up       — 후속 작업 점검 (omniscitus)
+omniscitus가 설치되었어요! 이제 자동으로:
+  - 파일 변경이 추적됩니다 (.omniscitus/blueprints.yaml)
+  - /wrap-up  — 세션 종료 시 작업 기록
+  - /follow-up — 후��� 작업 점검
 ```
 
 ### Step 8: 독립 git repo 초기화
