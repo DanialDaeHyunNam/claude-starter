@@ -24,3 +24,11 @@ node_modules/
 .idea/
 *.swp
 *.swo
+
+# Local tools / plugins
+.fearnot/
+.omc/
+.playwright-mcp/
+
+# Session history
+history/
