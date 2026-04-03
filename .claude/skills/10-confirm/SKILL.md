@@ -83,15 +83,46 @@ PRD에서 정의한 핵심 기능을 하나씩 체크합니다.
 모든 기능이 확인되면:
 
 AskUserQuestion으로 최종 승인:
-- question: "모든 것이 만족스러우신가요? 이 프로젝트를 완료 처리할까요?"
+- question: "모든 것이 만족스러우신가요? 이 프���젝트를 완료 처리할까요?"
 - header: "최종 승인"
 - options:
   - label: "승인합니다!" / description: "프로젝트를 완료 처리합니다"
-  - label: "아직 수정할 게 있어요" / description: "추가 수정 사항을 알려주세요"
+  - label: "아직 수정할 게 있어요" / description: "추가 수정 사항을 알려주���요"
 
-### Step 6: 완료 리포트
+### Step 6: 워크숍 스킬 정리
 
-승인이 되면 최종 리포트를 출력합니다:
+워크숍 진행용 스킬(0~10번)은 이제 필요 없으므로 프로젝트에서 제거합니다.
+
+사용자에게 안내:
+```
+워크숍 진행용 슬래시 커맨드(0~10번)를 정리합니다.
+이 명령들은 워크숍에서만 필요했고,
+앞으로는 /help-claude, /prd-collab, /cto-council 등만 사용하게 됩니다.
+```
+
+Bash 도구로 실행:
+```bash
+# 워크숍 전용 스킬 제거
+rm -rf .claude/skills/0-local-setup
+rm -rf .claude/skills/1-claude-md-setup
+rm -rf .claude/skills/2-directory-structure-setup
+rm -rf .claude/skills/3-mcp-setup
+rm -rf .claude/skills/4-critical-ground-rule-setup
+rm -rf .claude/skills/5-detail-prd
+rm -rf .claude/skills/6-prototype
+rm -rf .claude/skills/7-implement-by-claude-teams
+rm -rf .claude/skills/8-github-ci-cd-setup
+rm -rf .claude/skills/9-deploy
+rm -rf .claude/skills/10-confirm
+rm -rf .claude/skills/season-start
+rm -rf .claude/skills/claude-basic
+rm -rf .claude/skills/plugin-guide
+rm -rf .claude/skills/bootstrap-packages
+```
+
+### Step 7: 완료 리포트
+
+정리가 끝나면 최종 리포트를 출력합니다:
 
 ```
 🎉 축하합니다! 프로젝트가 완료되었습니다!
@@ -108,15 +139,21 @@ AskUserQuestion으로 최종 승인:
 
 🛠️ 사용된 기술:
   Next.js + TypeScript + Tailwind + shadcn/ui + ...
-
-📁 프로젝트 위치: projects/{프로젝트명}/
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-앞으로 수정/추가하고 싶은 게 있으면 언제든
-projects/{프로젝트명}/ 폴더에서 작업하시면 됩니다.
+🧹 워크숍 스킬 정리 완료
 
-강의 도구 관련 개선점이 있으면
-이 레포(claude-starter)에 PR을 올려주세요!
+앞으로 쓸 수 있는 명령어:
+  /help-claude     — 막힌 문제 해결
+  /prd-collab      — 새 기능 기획
+  /prd-split       — 큰 아이디어 쪼개기
+  /cto-council     — 기술 질문
+  /growth-setup    — SEO + Analytics
+  /wrap-up         — 세션 기록
+  /follow-up       — 후속 점검
+
+수정/추가하고 싶은 게 있으면 언제든
+이 폴더에서 claude 를 실행하세요!
 ```
 
 Slack에도 완료 알림:
