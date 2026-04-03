@@ -67,16 +67,72 @@ vercel link
 
 또는 `/vercel-setup` 플러그인 skill을 활용할 수 있습니다.
 
-### Step 5: 환경 변수 설정
+### Step 5: Neon Postgres 프로비저닝 + 환경 변수
 
-프로젝트에 환경 변수가 필요한 경우 (DB URL, API 키 등) Vercel에 설정합니다.
+로컬에서는 SQLite를 썼지만, Vercel 배포에는 Neon Postgres를 사용합니다.
+
+**5-1. Neon 연결 (Vercel Marketplace)**
 
 ```bash
 cd projects/{프로젝트명}
-vercel env add DATABASE_URL production
+vercel integration add neon
 ```
 
-필요한 환경 변수 목록은 CLAUDE.md와 `.env.example`을 참고합니다.
+이 명령이 안 되면 Vercel 대시보드에서 Storage → Create Database → Neon 으로 연결하도록 안내.
+
+**5-2. 환경 변수 가져오기**
+
+Neon 연결 후 Vercel에 자동 생성된 `DATABASE_URL` 등을 로컬로 가져옵니다:
+
+```bash
+cd projects/{프로젝트명}
+vercel env pull .env.local
+```
+
+이 명령은 Vercel에 설정된 환경 변수를 `.env.local` 파일로 다운로드합니다.
+
+**5-3. .gitignore 보호 확인**
+
+`.env*` 파일이 절대 git에 올라가지 않도록 확인합니다:
+
+```bash
+cd projects/{프로젝트명}
+grep -q "^\.env" .gitignore || echo -e "\n.env\n.env.*\n!.env.example" >> .gitignore
+```
+
+Bash 도구로 보호 상태 확인:
+```bash
+cd projects/{프로젝트명}
+git check-ignore .env .env.local .env.production 2>/dev/null
+```
+
+3개 모두 출력되면 OK. 하나라도 빠지면 `.gitignore`에 추가.
+
+**5-4. Prisma 스키마를 Postgres로 전환**
+
+배포용으로 `prisma/schema.prisma`의 datasource를 변경합니다:
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+그리고 마이그레이션 생성 + 적용:
+```bash
+cd projects/{프로젝트명}
+bunx prisma migrate dev --name init
+```
+
+**5-5. 추가 환경 변수**
+
+프로젝트에 다른 환경 변수가 필요한 경우 (API 키 등) Vercel에 추가합니다:
+
+```bash
+cd projects/{프로젝트명}
+vercel env add {KEY} production
+```
 
 ### Step 6: 프로덕션 배포
 
