@@ -182,16 +182,35 @@ cp package.json ../../helper/package.json
 cd projects/{프로젝트명}
 
 # omniscitus 마켓플레이스 등록 + 설치
-claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus 2>/dev/null || true
-claude plugin install omniscitus 2>/dev/null || true
+claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus
+claude plugin install omniscitus
 ```
+
+**설치 확인** — 아래 명령으로 설치가 정상적으로 되었는지 반드시 확인하세요:
+```bash
+claude plugins list 2>/dev/null | grep -i omniscitus
+```
+
+- 목록에 omniscitus가 보이면 → 설치 성공
+- 보이지 않으면 → 사용자에게 아래 안내:
+  ```
+  ⚠️ omniscitus 플러그인 설치가 실패했어요.
+  프로젝트 폴더에서 Claude Code를 새로 시작한 뒤 아래 명령을 직접 실행해주세요:
+
+    claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus
+    claude plugin install omniscitus
+  ```
 
 사용자에게 안내:
 ```
 omniscitus가 설치되었어요! 이제 자동으로:
-  - 파일 변경이 추적됩니다 (.omniscitus/blueprints.yaml)
+  - 파일 변경이 추적됩니다 (.omniscitus/blueprints/)
   - /wrap-up  — 세션 종료 시 작업 기록
-  - /follow-up — 후��� 작업 점검
+  - /follow-up — 후속 작업 점검
+
+⚠️ 중요: omniscitus의 hook(자동 파일 추적)이 동작하려면
+   이 단계를 마친 뒤 Claude Code를 재시작해야 합니다.
+   Step 8(git init) 완료 후 Claude Code를 종료하고 다시 시작하세요.
 ```
 
 ### Step 8: 독립 git repo 초기화
@@ -247,6 +266,9 @@ kill %1 2>/dev/null
    ├── Prisma 설치 완료
    ├── 독립 git repo 초기화 완료
    └── dev 서버 정상 동작 확인 ✅ (http://localhost:3000)
+
+⚠️ omniscitus hook 활성화를 위해 Claude Code를 재시작하세요.
+   종료 후 프로젝트 폴더에서 다시 `claude`를 실행하면 됩니다.
 
 다음 단계: /3-mcp-setup 을 입력해주세요.
 ```
