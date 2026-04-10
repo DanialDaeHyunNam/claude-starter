@@ -91,7 +91,6 @@ AskUserQuestion으로 공개 여부:
   - label: "공개" / description: "누구나 볼 수 있음"
 
 ```bash
-cd projects/{프로젝트명}
 gh repo create {kebab-case-name} --{private|public} --source=. --push
 ```
 
@@ -100,7 +99,6 @@ gh repo create {kebab-case-name} --{private|public} --source=. --push
 **이 설정은 필수입니다.** main 브랜치를 보호하고 squash and merge를 기본으로 설정합니다.
 
 ```bash
-cd projects/{프로젝트명}
 
 # main 브랜치 보호: 직접 push 금지, PR 필수
 gh api repos/{owner}/{repo}/branches/main/protection \
@@ -152,7 +150,7 @@ GitHub 저장소 설정이 완료되었어요!
 프로젝트 폴더에 CI 설정 파일을 생성합니다.
 
 ```bash
-mkdir -p projects/{프로젝트명}/.github/workflows
+mkdir -p .github/workflows
 ```
 
 `.github/workflows/ci.yml`:
@@ -235,14 +233,12 @@ AskUserQuestion으로:
 
 Webhook URL을 받으면 GitHub Secrets에 저장:
 ```bash
-cd projects/{프로젝트명}
 gh secret set SLACK_WEBHOOK_URL --body "{webhook-url}"
 ```
 
 ### Step 8: 초기 push + CI 확인
 
 ```bash
-cd projects/{프로젝트명}
 git add .
 git commit -m "ci: GitHub Actions CI/CD 파이프라인 설정"
 git push

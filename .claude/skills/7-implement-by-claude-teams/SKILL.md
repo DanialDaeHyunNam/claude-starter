@@ -57,8 +57,8 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 PRD와 프로토타입을 기반으로 구현 계획을 세웁니다.
 
-1. `projects/{프로젝트명}/docs/PRD.md` 읽기
-2. `projects/{프로젝트명}/CLAUDE.md` 읽기
+1. `docs/PRD.md` 읽기
+2. `CLAUDE.md` 읽기
 3. 프로토타입 이미지 확인
 
 Phase 1 (MVP) 기능부터 구현 순서를 정합니다.
@@ -84,7 +84,6 @@ PRD의 우선순위 순서대로 기능을 구현합니다.
 각 기능이 완료되고 확인되면 커밋합니다.
 
 ```bash
-cd projects/{프로젝트명}
 git add .
 git commit -m "feat: {기능 설명}"
 ```
@@ -94,7 +93,6 @@ git commit -m "feat: {기능 설명}"
 모든 MVP 기능이 구현되면:
 
 ```bash
-cd projects/{프로젝트명}
 bun run build
 ```
 

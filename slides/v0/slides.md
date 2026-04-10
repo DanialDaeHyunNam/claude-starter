@@ -1097,7 +1097,7 @@ layout: center
 <div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5">
 <div class="text-blue-400 font-bold mb-2">1. 나는 어디에 있나?</div>
 <div class="text-gray-300">프로젝트 폴더가 시작점</div>
-<div class="font-mono text-sm text-gray-500 mt-2">~/projects/my-app/</div>
+<div class="font-mono text-sm text-gray-500 mt-2">~/workspace/my-app/</div>
 </div>
 
 <div class="bg-zinc-800/60 border border-zinc-600/40 rounded-xl p-5">

@@ -55,7 +55,6 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 배포된 URL에 접속 가능한지 확인합니다.
 
 ```bash
-cd projects/{프로젝트명}
 DEPLOY_URL=$(vercel inspect 2>/dev/null | grep "url" | head -1 || echo "")
 echo "배포 URL: $DEPLOY_URL"
 curl -s -o /dev/null -w "%{http_code}" "$DEPLOY_URL"
@@ -65,7 +64,7 @@ curl -s -o /dev/null -w "%{http_code}" "$DEPLOY_URL"
 
 PRD에서 정의한 핵심 기능을 하나씩 체크합니다.
 
-`projects/{프로젝트명}/docs/PRD.md`를 읽어서 Phase 1 기능 목록을 가져오고,
+`docs/PRD.md`를 읽어서 Phase 1 기능 목록을 가져오고,
 각 기능에 대해 AskUserQuestion으로 확인:
 
 - question: "{기능명} 이 정상 동작하나요?"

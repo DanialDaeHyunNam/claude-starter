@@ -5,7 +5,7 @@
 #   make slides              # latest version
 #   make slides VERSION=v0   # specific version
 #   make claude              # tmux + claude (Teams split-pane)
-#   make claude PROJECT=my-app  # 특정 프로젝트에서 실행
+#   make claude PROJECT=../my-app  # 특정 프로젝트 디렉토리에서 실행 (claude-starter 바깥의 sibling 경로)
 # ──────────────────────────────────────────────
 
 SLIDES_DIR := slides
@@ -46,7 +46,7 @@ claude:
 	@if [ -n "$$TMUX" ]; then \
 		echo "Already inside tmux. Run claude directly."; exit 1; \
 	fi
-	$(eval WORK_DIR := $(if $(PROJECT),projects/$(PROJECT),.))
+	$(eval WORK_DIR := $(if $(PROJECT),$(PROJECT),.))
 	@if [ "$(WORK_DIR)" != "." ] && [ ! -d "$(WORK_DIR)" ]; then \
 		echo "Error: $(WORK_DIR) not found"; exit 1; \
 	fi
