@@ -452,7 +452,9 @@ layout: center
 
 # 1-1. 로컬 개발 환경
 
-/0-local-setup 에서 설치하는 것들
+<div class="text-gray-400 mt-2">이제는 <code>/bootstrap-packages</code> 로 원할 때 설치 · 필수 아님</div>
+
+<div class="text-gray-500 text-sm mt-6">참고용으로 훑고 넘어갑니다</div>
 
 ---
 layout: center
