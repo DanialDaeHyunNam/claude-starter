@@ -339,42 +339,65 @@ fc-cache -fv
 
 ---
 
-### Step 5.5: Claude Code 플러그인 설치
+### Step 5.5: Claude Code 플러그인 설치 (수강생이 직접 입력)
 
 Claude Code가 설치되어 있다면, 이 레포에서 사용하는 플러그인들을 설치합니다.
 `.claude/settings.json`의 `enabledPlugins`는 이미 설치된 플러그인을 "활성화"만 하므로, 플러그인 자체를 먼저 설치해야 합니다.
 
-Bash 도구로 아래를 **순서대로** 실행하세요:
+**중요**: Claude Code 플러그인 설치는 **세션 내부 슬래시 커맨드**로만 동작하므로, Bash 도구로 자동 실행할 수 없습니다. 수강생이 이 Claude 세션 입력창에 슬래시 커맨드를 **직접 입력**해야 합니다. Claude는 안내 메시지만 출력하세요.
 
-**1) `clarify` 플러그인용 마켓플레이스 등록**
+사용자에게 아래 안내를 출력:
 
-`clarify`는 별도 마켓플레이스(`team-attention-plugins`)에 있으므로 먼저 등록합니다:
+```
+📦 Claude Code 플러그인 7개를 설치할 차례예요.
 
-```bash
-claude plugin marketplace add team-attention/plugins-for-claude-natives 2>/dev/null || true
+이 단계는 제가 대신 실행할 수 없어요. 아래 8줄을 **위에서부터 한 줄씩 순서대로**
+이 채팅창에 직접 입력해주세요. (복사 → 붙여넣기 → 엔터, 한 줄씩 반복)
+
+1단계 — 마켓플레이스 등록 (clarify 플러그인은 별도 마켓플레이스에 있음):
+
+    /plugin marketplace add team-attention/plugins-for-claude-natives
+
+2단계 — 플러그인 7개 순서대로 설치:
+
+    /plugin install clarify@team-attention-plugins
+    /plugin install vercel@claude-plugins-official
+    /plugin install github@claude-plugins-official
+    /plugin install commit-commands@claude-plugins-official
+    /plugin install typescript-lsp@claude-plugins-official
+    /plugin install pr-review-toolkit@claude-plugins-official
+    /plugin install explanatory-output-style@claude-plugins-official
+
+각 줄마다 짧은 성공 메시지가 뜹니다. 이미 설치된 플러그인은
+"already installed" 같은 메시지가 떠도 괜찮아요.
+
+모든 줄이 끝나면, 입력창에 `/` 만 쳐서 슬래시 커맨드 목록을 열어보세요.
+목록에 `/clarify:vague`, `/commit`, `/vercel:deploy` 가 보이면 설치 성공이에요!
 ```
 
-**2) 모든 플러그인 설치**
+### Step 5.5a: 설치 확인
 
-공식 플러그인 포함 전부 명시적으로 설치합니다 (이미 설치된 경우 자동 스킵):
+AskUserQuestion 도구를 사용하여 설치 결과를 확인하세요:
 
-```bash
-claude plugin install clarify@team-attention-plugins 2>/dev/null || true
-claude plugin install vercel@claude-plugins-official 2>/dev/null || true
-claude plugin install github@claude-plugins-official 2>/dev/null || true
-claude plugin install commit-commands@claude-plugins-official 2>/dev/null || true
-claude plugin install typescript-lsp@claude-plugins-official 2>/dev/null || true
-claude plugin install pr-review-toolkit@claude-plugins-official 2>/dev/null || true
-claude plugin install explanatory-output-style@claude-plugins-official 2>/dev/null || true
-```
+- question: "플러그인 설치가 끝났나요? `/` 를 눌렀을 때 `/clarify:vague`, `/commit`, `/vercel:deploy` 가 모두 보이나요?"
+- header: "플러그인 설치 확인"
+- options:
+  - label: "네, 모두 보여요" / description: "설치 성공, 다음 단계로 진행"
+  - label: "일부만 보여요" / description: "어떤 커맨드가 안 보이는지 알려주시면 재설치 안내합니다"
+  - label: "에러가 났어요" / description: "에러 메시지를 공유해주시면 함께 해결합니다"
 
-**3) 설치 확인**
+**"일부만 보여요"** 선택 시:
+- 누락된 플러그인의 `/plugin install ...` 줄만 다시 입력하도록 안내
+- `clarify`가 빠졌다면 1단계 마켓플레이스 등록이 실패했을 가능성이 높음 → 마켓플레이스 재등록부터 시도
 
-```bash
-claude plugin list
-```
-
-7개 플러그인이 모두 `enabled`로 표시되는지 확인하세요.
+**"에러가 났어요"** 선택 시:
+- 사용자 에러 메시지를 읽고 진단 (네트워크 / 중복 등록 / 이미 설치 등)
+- 필요 시 복구 안내:
+  ```
+  /plugin marketplace remove team-attention-plugins
+  /plugin marketplace add team-attention/plugins-for-claude-natives
+  /plugin install clarify@team-attention-plugins
+  ```
 
 ### Step 5.6: Claude Code Teams Mode 설정
 
