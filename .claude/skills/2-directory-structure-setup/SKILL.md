@@ -177,67 +177,26 @@ cp bun.lock "$STARTER_DIR/helper/bun.lock"
 cp package.json "$STARTER_DIR/helper/package.json"
 ```
 
-### Step 7: omniscitus 플러그인 설치 (수강생이 직접 입력)
+### Step 7: omniscitus 플러그인 확인
 
-프로젝트 폴더에서 세션 기록과 파일 추적이 동작하도록 omniscitus를 설치합니다.
+omniscitus 플러그인은 `/0-local-setup` Step 6에서 이미 bash로 설치되었고, `/1-claude-md-setup`에서 `.claude/settings.json`이 복사되면서 이 프로젝트에도 활성화되어 있습니다. 이 Step에서는 **설치가 제대로 되어 있는지 확인**만 하고, 필요 시 hook 활성화를 위해 Claude Code 재시작을 안내합니다.
 
-> 스킬과 플러그인 설정은 `/1-claude-md-setup`에서 이미 복사되어 있습니다.
-
-**중요**: Claude Code의 플러그인 설치는 **세션 내부 슬래시 커맨드**로만 동작합니다. 즉 이 단계는 Bash 도구로 자동 실행할 수 없고, 수강생이 현재 열려 있는 이 Claude 세션의 입력창에 두 줄을 **직접 입력**해야 합니다. Claude는 실행 대신 안내 메시지만 출력하세요.
-
-사용자에게 아래 안내를 출력:
-
-```
-📦 이제 omniscitus 플러그인을 설치할 차례예요.
-
-이 단계는 제가 대신 실행할 수 없어요. Claude Code 플러그인은 여러분이 직접
-이 채팅창에 슬래시 커맨드를 입력해야 설치됩니다.
-
-1단계 — 마켓플레이스 등록
-아래를 이 채팅창에 그대로 입력해주세요:
-
-    /plugin marketplace add DanialDaeHyunNam/omniscitus
-
-성공 메시지가 뜨면 이어서 2단계로.
-
-2단계 — 플러그인 설치
-다시 아래를 이 채팅창에 입력:
-
-    /plugin install omniscitus@omniscitus
-
-두 줄이 모두 끝나면, 입력창에 `/` 만 쳐서 슬래시 커맨드 목록을 열어보세요.
-목록에 `/wrap-up` 과 `/follow-up` 이 새로 보이면 설치 성공이에요!
+Bash 도구로 설치 확인:
+```bash
+claude plugin list 2>/dev/null | grep -i omniscitus
 ```
 
-### Step 7.5: 설치 확인
-
-AskUserQuestion 도구를 사용하여 설치 결과를 확인하세요:
-
-- question: "omniscitus 설치가 끝났나요? `/` 를 눌렀을 때 `/wrap-up` 이 보이나요?"
-- header: "omniscitus 설치 확인"
-- options:
-  - label: "네, `/wrap-up` 이 보여요" / description: "설치 성공, 다음 단계로 진행"
-  - label: "에러가 났어요" / description: "에러 메시지를 공유해주시면 함께 해결합니다"
-  - label: "`/wrap-up` 이 안 보여요" / description: "설치는 된 것 같은데 커맨드가 없어요"
-
-**"에러가 났어요"** 선택 시:
-- 사용자가 공유한 에러 메시지를 읽고 원인을 진단
-- 자주 나오는 케이스: 네트워크 문제, 마켓플레이스 이름 충돌, 이미 등록된 마켓플레이스
-- 필요 시 아래 복구 커맨드 안내:
-  ```
-  /plugin marketplace remove omniscitus
-  /plugin marketplace add DanialDaeHyunNam/omniscitus
-  /plugin install omniscitus@omniscitus
+- `omniscitus`가 출력되면 → 정상. 다음 Step으로 진행.
+- 출력이 없으면 → `/0-local-setup`의 플러그인 설치가 건너뛰어졌을 가능성이 있으므로, 아래 복구 bash를 실행합니다:
+  ```bash
+  claude plugin marketplace add DanialDaeHyunNam/omniscitus 2>/dev/null || true
+  claude plugin install omniscitus@omniscitus 2>/dev/null || true
   ```
 
-**"`/wrap-up` 이 안 보여요"** 선택 시:
-- Claude Code를 종료하고 다시 시작하도록 안내 (플러그인 설치 후 슬래시 커맨드 목록은 세션 재시작 시 갱신됨)
-- 재시작 후 다시 `/` 를 눌러서 확인하도록 안내
-
-설치가 확인되면 사용자에게 안내:
+사용자에게 안내:
 ```
-omniscitus 설치 완료! 이제부터 이 프로젝트에서는:
-  - 파일 변경이 자동으로 추적됩니다 (.omniscitus/blueprints/)
+omniscitus가 이 프로젝트에서 활성화되어 있어요. 이제부터 자동으로:
+  - 파일 변경이 추적됩니다 (.omniscitus/blueprints/)
   - /wrap-up  — 세션 종료 시 작업 기록
   - /follow-up — 후속 작업 점검
 

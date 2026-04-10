@@ -194,67 +194,43 @@ sudo apt install -y gh 2>/dev/null || \
 - 모두 ✅ → Step 6으로
 - ❌ 있으면 → 해당 항목 재설치 안내
 
-### Step 6: 플러그인 설치 (수강생이 직접 입력)
+### Step 6: 플러그인 설치
 
-Claude Code 플러그인 설치는 **세션 내부 슬래시 커맨드**로만 동작합니다. 이 단계는 Bash 도구로 자동 실행할 수 없고, 수강생이 현재 열려 있는 이 Claude 세션 입력창에 슬래시 커맨드를 직접 입력해야 합니다. Claude는 실행 대신 안내 메시지만 출력하세요.
+Claude Code 플러그인을 설치합니다. 공식 플러그인과 제3자 마켓플레이스 플러그인이 섞여 있으므로, 마켓플레이스 2개를 먼저 등록한 뒤 8개 플러그인을 설치합니다.
 
-사용자에게 아래 안내를 출력:
+Bash 도구로 **순서대로** 실행하세요:
 
-```
-📦 Claude Code 플러그인 7개를 설치할 차례예요.
+**1) 마켓플레이스 등록**
 
-이 단계는 제가 대신 실행할 수 없어요. Claude Code 플러그인은 여러분이 직접
-이 채팅창에 슬래시 커맨드를 입력해야 설치됩니다.
+`clarify`는 `team-attention-plugins`, `omniscitus`는 `DanialDaeHyunNam/omniscitus` 마켓플레이스에 있으므로 둘 다 등록합니다:
 
-아래 8줄을 **위에서부터 한 줄씩 순서대로** 이 채팅창에 입력해주세요.
-(스킬 메시지에서 복사 → 붙여넣기 → 엔터, 한 줄씩 반복하면 편해요)
-
-1단계 — 마켓플레이스 등록 (clarify 플러그인은 별도 마켓플레이스에 있음):
-
-    /plugin marketplace add team-attention/plugins-for-claude-natives
-
-2단계 — 플러그인 7개 순서대로 설치:
-
-    /plugin install clarify@team-attention-plugins
-    /plugin install vercel@claude-plugins-official
-    /plugin install github@claude-plugins-official
-    /plugin install commit-commands@claude-plugins-official
-    /plugin install typescript-lsp@claude-plugins-official
-    /plugin install pr-review-toolkit@claude-plugins-official
-    /plugin install explanatory-output-style@claude-plugins-official
-
-각 줄을 입력할 때마다 짧은 성공 메시지가 뜹니다. 이미 설치된 플러그인은
-"already installed" 같은 메시지가 떠도 괜찮아요.
-
-모든 줄이 끝나면, 입력창에 `/` 만 쳐서 슬래시 커맨드 목록을 열어보세요.
-목록에 `/clarify:vague`, `/commit`, `/vercel:deploy` 같은 커맨드가 보이면
-설치 성공이에요!
+```bash
+claude plugin marketplace add team-attention/plugins-for-claude-natives 2>/dev/null || true
+claude plugin marketplace add DanialDaeHyunNam/omniscitus 2>/dev/null || true
 ```
 
-### Step 6.5: 설치 확인
+**2) 모든 플러그인 설치**
 
-AskUserQuestion 도구를 사용하여 설치 결과를 확인하세요:
+```bash
+claude plugin install clarify@team-attention-plugins 2>/dev/null || true
+claude plugin install vercel@claude-plugins-official 2>/dev/null || true
+claude plugin install github@claude-plugins-official 2>/dev/null || true
+claude plugin install commit-commands@claude-plugins-official 2>/dev/null || true
+claude plugin install typescript-lsp@claude-plugins-official 2>/dev/null || true
+claude plugin install pr-review-toolkit@claude-plugins-official 2>/dev/null || true
+claude plugin install explanatory-output-style@claude-plugins-official 2>/dev/null || true
+claude plugin install omniscitus@omniscitus 2>/dev/null || true
+```
 
-- question: "플러그인 설치가 끝났나요? `/` 를 눌렀을 때 `/clarify:vague`, `/commit`, `/vercel:deploy` 가 모두 보이나요?"
-- header: "플러그인 설치 확인"
-- options:
-  - label: "네, 모두 보여요" / description: "7개 모두 설치 성공, 다음 단계로 진행"
-  - label: "일부만 보여요" / description: "어떤 커맨드가 안 보이는지 알려주시면 재설치 안내합니다"
-  - label: "에러가 났어요" / description: "에러 메시지를 공유해주시면 함께 해결합니다"
+**3) 설치 확인**
 
-**"일부만 보여요"** 선택 시:
-- 누락된 플러그인이 무엇인지 물어보고, 해당 `/plugin install ...` 줄만 다시 입력하도록 안내
-- 특히 `clarify`가 빠졌다면 1단계 마켓플레이스 등록이 실패했을 가능성이 높음 → `/plugin marketplace add team-attention/plugins-for-claude-natives` 부터 다시 시도
+```bash
+claude plugin list
+```
 
-**"에러가 났어요"** 선택 시:
-- 사용자가 공유한 에러 메시지를 읽고 원인 진단
-- 자주 나오는 케이스: 네트워크 문제, 마켓플레이스 중복 등록, 이미 설치된 플러그인
-- 필요 시 아래 복구 안내:
-  ```
-  /plugin marketplace remove team-attention-plugins
-  /plugin marketplace add team-attention/plugins-for-claude-natives
-  /plugin install clarify@team-attention-plugins
-  ```
+8개 플러그인이 모두 `enabled`로 표시되는지 확인하세요. 누락된 것이 있으면 해당 install 커맨드만 다시 실행하거나, 마켓플레이스 등록부터 재시도합니다.
+
+> **참고**: `omniscitus`의 hook(파일 자동 추적)은 다음에 Claude Code를 새로 시작할 때부터 활성화됩니다. `/2-directory-structure-setup` 마지막에 프로젝트 폴더에서 Claude Code를 재시작하는 단계가 있어 자연스럽게 활성화됩니다.
 
 ### Step 7: Status Bar 설정
 
