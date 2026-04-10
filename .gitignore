@@ -1,4 +1,7 @@
-# 수강생들이 만드는 프로덕트 프로젝트 (각자 독립 git repo)
+# (legacy) 예전 플로우에서는 수강생 프로젝트를 claude-starter 내부 projects/ 아래에 만들었음.
+# 현재는 /1-claude-md-setup이 ../{name}/으로 claude-starter 바깥에 폴더를 만들기 때문에
+# 이 레포 안에 projects/가 생길 일은 없지만, 구 플로우로 남은 폴더나 실수로 만든 케이스를
+# 위한 안전망으로 유지.
 projects/
 
 # OS

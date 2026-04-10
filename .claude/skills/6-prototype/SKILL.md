@@ -53,7 +53,7 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 ### Step 3: PRD 읽기
 
-`projects/{프로젝트명}/docs/PRD.md`를 읽어서 화면 목록과 각 화면의 구성 요소를 파악합니다.
+현재 프로젝트 폴더의 `docs/PRD.md`를 읽어서 화면 목록과 각 화면의 구성 요소를 파악합니다.
 
 PRD가 없으면 `/5-detail-prd`를 먼저 실행하도록 안내.
 
@@ -87,11 +87,11 @@ AskUserQuestion으로 각 화면마다 피드백:
 모든 화면이 확정되면 이미지로 내보냅니다.
 
 ```bash
-mkdir -p projects/{프로젝트명}/docs/prototype
+mkdir -p docs/prototype
 ```
 
 `export_nodes`를 사용하여 각 화면을 PNG로 내보내기:
-- 저장 경로: `projects/{프로젝트명}/docs/prototype/`
+- 저장 경로: `docs/prototype/`
 - 파일명: `01-home.png`, `02-login.png` 등 화면 순서대로
 
 ### Step 6: PRD 업데이트

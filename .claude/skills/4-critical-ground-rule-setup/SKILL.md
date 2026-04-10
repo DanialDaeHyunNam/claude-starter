@@ -52,8 +52,8 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 ### Step 3: 프로젝트 폴더 확인
 
-`projects/` 하위에 프로젝트 폴더가 있는지 확인합니다.
-없으면 `/2-directory-structure-setup`을 먼저 실행하도록 안내.
+현재 작업 디렉토리가 프로젝트 폴더인지 확인합니다 (`CLAUDE.md`와 `package.json`이 함께 존재하는지).
+없으면 "먼저 claude-starter에서 `/1-claude-md-setup`과 `/2-directory-structure-setup`을 실행하고 생성된 프로젝트 폴더로 이동해주세요"라고 안내.
 
 ### Step 4: 코딩 컨벤션 (기본 설정 + 안내)
 
@@ -79,7 +79,6 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 **4-3. Prettier 설치**
 ```bash
-cd projects/{프로젝트명}
 bun add -D prettier eslint-config-prettier
 ```
 

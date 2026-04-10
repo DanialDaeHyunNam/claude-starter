@@ -17,7 +17,7 @@
 ## Step 2: 프로젝트 폴더 구조 만들기
 
 ```
-projects/{프로젝트명}/
+{프로젝트명}/               ← 이미 claude-starter 바깥에 만들어진 폴더
 ├── 📁 src/
 │   ├── 📁 app/           ← 페이지들이 들어가는 곳
 │   │   ├── layout.tsx       (모든 페이지의 기본 틀)
@@ -61,27 +61,31 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 
 "더 설명해주세요"를 선택하면 사용자의 추가 질문에 **어린아이도 이해할 수 있는 비유**로 답변한 뒤, 다시 같은 AskUserQuestion을 반복하세요.
 
-### Step 3: 프로젝트 폴더 확인
+### Step 3: 사전 조건 확인 (현재 위치가 프로젝트 폴더인가)
 
-1번 step에서 만든 프로젝트 폴더와 CLAUDE.md가 있는지 확인합니다.
+`/1-claude-md-setup`이 끝나면 사용자는 새 터미널에서 `cd ../{프로젝트명} && claude`로 프로젝트 폴더에 들어와 이 스킬을 실행합니다. 따라서 이 skill은 **현재 작업 디렉토리가 이미 프로젝트 폴더**라는 전제로 동작합니다.
 
 Bash 도구로 실행:
 ```bash
-ls projects/*/CLAUDE.md 2>/dev/null
+[ -f CLAUDE.md ] && [ -f .claude/.starter-path ] && echo "ok" || echo "missing"
 ```
 
-- 프로젝트 폴더가 없으면: "먼저 `/1-claude-md-setup`을 실행해주세요" 안내 후 중단
-- 여러 프로젝트가 있으면: AskUserQuestion으로 어떤 프로젝트를 설정할지 선택
+- `missing`이면: "먼저 claude-starter 레포에서 `/1-claude-md-setup`을 실행한 뒤, 생성된 `../{프로젝트명}/` 폴더로 이동해서 새 Claude 세션에서 `/2-directory-structure-setup`을 입력해주세요" 안내 후 중단
+- `ok`이면: 계속 진행
 
 프로젝트의 CLAUDE.md를 읽어서 핵심 기능 목록과 기술 스택을 파악하세요.
+
+그리고 claude-starter의 helper/ 등에 접근할 수 있도록 절대 경로를 변수로 확보합니다. (이후 모든 Bash 호출에서 `$(cat .claude/.starter-path)` 패턴을 사용합니다.)
 
 ### Step 4: Next.js 프로젝트 생성 (검증된 템플릿 복사 방식)
 
 `create-next-app`을 직접 실행하면 버전 호환성 이슈가 발생할 수 있으므로,
 **검증된 `helper/` 파일을 복사한 뒤 `bun install`하는 방식**을 사용합니다.
 
+현재 CWD는 이미 프로젝트 폴더입니다. claude-starter의 helper/는 `.claude/.starter-path`에 기록된 절대 경로로 접근합니다.
+
 ```bash
-cd projects/{프로젝트명}
+STARTER_DIR=$(cat .claude/.starter-path)
 
 # 1. CLAUDE.md 백업 (덮어쓰기 방지)
 cp CLAUDE.md /tmp/_CLAUDE.md.bak
@@ -95,9 +99,9 @@ echo "n" | bunx create-next-app@latest . --typescript --tailwind --eslint --app 
 cp /tmp/_CLAUDE.md CLAUDE.md
 
 # 4. 검증된 bun.lock + package.json + .gitignore 덮어쓰기 → 호환성 보장
-cp ../../helper/bun.lock ./bun.lock
-cp ../../helper/package.json ./package.json
-cp ../../helper/.gitignore ./.gitignore
+cp "$STARTER_DIR/helper/bun.lock" ./bun.lock
+cp "$STARTER_DIR/helper/package.json" ./package.json
+cp "$STARTER_DIR/helper/.gitignore" ./.gitignore
 
 # 5. 검증된 의존성으로 재설치 (shadcn/ui + Prisma 6 + 유틸리티 포함)
 bun install
@@ -114,8 +118,6 @@ create-next-app이 만들지 않는 폴더들을 추가로 생성합니다.
 CLAUDE.md에서 파악한 핵심 기능에 맞춰 구조를 확장하세요.
 
 ```bash
-cd projects/{프로젝트명}
-
 # 기본 추가 폴더
 mkdir -p src/components/ui
 mkdir -p src/components/layout
@@ -155,7 +157,6 @@ find src prisma -type d -empty -exec touch {}/.gitkeep \;
 ### Step 6: shadcn/ui 초기화
 
 ```bash
-cd projects/{프로젝트명}
 echo "" | bunx shadcn@latest init -y --defaults
 ```
 
@@ -166,10 +167,14 @@ bun add next-auth
 bun add @clerk/nextjs
 ```
 
-추가 패키지 설치 후 반드시 검증된 bun.lock을 다시 `helper/`에 백업:
+추가 패키지 설치 후, 현재 Mac의 claude-starter clone에 있는 `helper/`로 검증된 bun.lock을 다시 백업합니다.
+
+> **왜 백업하나요?** 강사(또는 같은 Mac에서 여러 번 테스트하는 사람)가 다음 프로젝트에서 `/2`를 재실행할 때, 방금 성공한 의존성 스냅샷을 그대로 재사용하기 위한 **로컬 캐시**입니다. 이 수정은 각자의 로컬 claude-starter clone에만 남고, 다른 수강생이나 원격 레포에는 전파되지 않습니다. (수강생이 claude-starter에 PR을 올리지 않는 한 안전)
+
 ```bash
-cp bun.lock ../../helper/bun.lock
-cp package.json ../../helper/package.json
+STARTER_DIR=$(cat .claude/.starter-path)
+cp bun.lock "$STARTER_DIR/helper/bun.lock"
+cp package.json "$STARTER_DIR/helper/package.json"
 ```
 
 ### Step 7: omniscitus 플러그인 설치
@@ -179,8 +184,6 @@ cp package.json ../../helper/package.json
 > 스킬과 플러그인 설정은 `/1-claude-md-setup`에서 이미 복사되어 있습니다.
 
 ```bash
-cd projects/{프로젝트명}
-
 # omniscitus 마켓플레이스 등록 + 설치
 claude plugins:marketplace add omniscitus https://github.com/DanialDaeHyunNam/omniscitus
 claude plugin install omniscitus
@@ -218,7 +221,6 @@ omniscitus가 설치되었어요! 이제 자동으로:
 프로젝트 폴더를 독립적인 git 저장소로 초기화합니다.
 
 ```bash
-cd projects/{프로젝트명}
 git init
 git add .
 git commit -m "Initial project setup with Next.js + TypeScript + Tailwind + shadcn/ui"
@@ -237,7 +239,6 @@ git commit -m "Initial project setup with Next.js + TypeScript + Tailwind + shad
 
 Bash 도구로 현재 구조를 확인:
 ```bash
-cd projects/{프로젝트명}
 find . -type f -not -path './node_modules/*' -not -path './.git/*' -not -path './.next/*' | sort | head -50
 ```
 
@@ -248,7 +249,6 @@ find . -type f -not -path './node_modules/*' -not -path './.git/*' -not -path '.
 생성된 구조를 트리 형태로 보여주고, dev 서버가 정상 동작하는지 확인합니다.
 
 ```bash
-cd projects/{프로젝트명}
 bun run dev &
 sleep 3
 curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
@@ -260,7 +260,7 @@ kill %1 2>/dev/null
 ```
 ✅ Step 2 완료! 프로젝트 폴더 구조가 생성되었습니다.
 
-📁 projects/{프로젝트명}/
+📁 ../{프로젝트명}/ (claude-starter 바깥 sibling 디렉토리)
    ├── Next.js + TypeScript + Tailwind 설치 완료
    ├── shadcn/ui 초기화 완료
    ├── Prisma 설치 완료

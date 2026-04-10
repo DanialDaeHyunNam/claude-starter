@@ -60,23 +60,23 @@ AskUserQuestion 도구를 사용하여 질문하세요:
 사용자에게 아래를 설명하세요:
 
 ```
-이 레포의 구조
+이 레포와 여러분의 프로덕트는 "나란히" 존재해요
 ┌─────────────────────────────────────────┐
-│ claude-starter/  (이 레포 = 강의 도구)    │
-│ ├── scripts/     ← 설치 스크립트         │
-│ ├── assets/      ← 설정 파일들           │
-│ ├── .claude/     ← skill, 플러그인       │
+│ workspace/                              │
+│ ├── claude-starter/ (이 레포 = 강의 도구)│
+│ │   ├── scripts/    ← 설치 스크립트     │
+│ │   ├── assets/     ← 설정 파일들       │
+│ │   └── .claude/    ← skill, 플러그인   │
 │ │                                       │
-│ └── projects/    ← 여러분의 작업 공간     │
-│     └── my-app/  ← 여러분의 프로젝트     │
-│         ├── .git ← 독립 저장소           │
-│         └── ...                         │
+│ └── my-app/         ← 여러분의 프로젝트  │
+│     ├── .git        ← 독립 저장소       │
+│     └── ...                             │
 └─────────────────────────────────────────┘
 ```
 
 이 레포는 여러분을 도와주는 **도구 상자**예요.
-여러분이 만드는 프로젝트는 `projects/` 폴더 안에 따로 만들어집니다.
-도구 상자와 여러분의 작품은 완전히 분리되어 있어서 섞일 걱정이 없어요!
+여러분이 만드는 프로젝트는 claude-starter **바깥의 sibling(형제) 폴더**로 만들어집니다.
+도구 상자와 여러분의 작품이 완전히 분리되어 있어서 git/파일이 섞일 걱정이 없어요!
 
 그리고 강의 중에 발견한 개선점이나 버그가 있으면,
 이 레포에 PR(Pull Request)을 올려서 공유할 수 있어요.
@@ -401,8 +401,8 @@ Bash 도구로 프로젝트의 `.claude/settings.json`에 설정을 추가하세
 기존 settings.json 내용을 읽어서, `env`와 `teammateMode` 키를 머지합니다:
 
 ```bash
-# 수강생 프로젝트 디렉토리의 settings.json
-cd projects/{프로젝트명}/.claude
+# 수강생 프로젝트 디렉토리의 settings.json (현재 CWD가 이미 프로젝트 폴더)
+cd .claude
 
 # settings.json이 없으면 생성, 있으면 기존 내용에 머지
 # env에 CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 추가
@@ -420,7 +420,7 @@ cd projects/{프로젝트명}/.claude
 ```
 
 > **주의**: 기존 settings.json에 다른 설정이 있으면 덮어쓰지 말고 머지합니다.
-> 이 설정은 수강생 프로젝트 디렉토리(`projects/{프로젝트명}/.claude/settings.json`)에 추가합니다.
+> 이 설정은 수강생 프로젝트 디렉토리의 `.claude/settings.json`에 추가합니다.
 > claude-starter 레포의 settings.json이 아닙니다.
 
 ### Step 6: 최종 확인

@@ -94,35 +94,33 @@ claude
 ## 레포 구조
 
 ```
-claude-starter/
-├── CLAUDE.md                ← Claude가 읽는 프로젝트 설계도
-├── README.md                ← 지금 보고 있는 이 파일
-├── .gitignore
+workspace/                         ← 이 레포의 부모 디렉토리
+├── claude-starter/                ← 이 레포 (강의 도구)
+│   ├── CLAUDE.md                  ← Claude가 읽는 설계도
+│   ├── README.md                  ← 지금 보고 있는 이 파일
+│   ├── scripts/
+│   │   ├── bootstrap_mac.sh       ← macOS 자동 설치 (brew + asdf)
+│   │   └── bootstrap_windows.ps1  ← Windows 자동 설치 (Scoop + mise)
+│   ├── helper/                    ← 검증된 템플릿 (bun.lock, package.json)
+│   ├── assets/
+│   │   ├── snazzy.itermcolors     ← 터미널 컬러 테마
+│   │   └── vscode-extensions.txt  ← 에디터 확장 프로그램 목록
+│   ├── slides/
+│   │   ├── package.json           ← Slidev 의존성
+│   │   └── v0/slides.md           ← 강의 슬라이드 (버전별)
+│   ├── Makefile                   ← make slides
+│   └── .claude/
+│       ├── settings.json          ← 플러그인 설정
+│       └── skills/                ← 슬래시 커맨드
 │
-├── scripts/
-│   ├── bootstrap_mac.sh     ← macOS 자동 설치 (brew + asdf)
-│   └── bootstrap_windows.ps1← Windows 자동 설치 (Scoop + mise)
-│
-├── assets/
-│   ├── snazzy.itermcolors   ← 터미널 컬러 테마
-│   └── vscode-extensions.txt← 에디터 확장 프로그램 목록
-│
-├── slides/
-│   ├── package.json         ← Slidev 의존성
-│   └── v0/slides.md         ← 강의 슬라이드 (버전별)
-│
-├── Makefile                 ← make slides
-│
-├── .claude/
-│   ├── settings.json        ← 플러그인 설정
-│   └── skills/              ← 슬래시 커맨드 (13개)
-│
-└── projects/                ← 여러분의 작업 공간 (gitignored)
-    └── my-awesome-app/      ← 독립 git repo로 생성됨
+└── my-awesome-app/                ← 여러분의 프로젝트 (sibling로 독립 git repo)
+    ├── .git/
+    ├── CLAUDE.md
+    └── ...
 ```
 
-> **`projects/` 폴더**는 `.gitignore`에 포함되어 있어서
-> 여러분의 프로젝트 코드가 이 강의 레포와 섞이지 않습니다.
+> 여러분의 프로젝트는 `/1-claude-md-setup`이 **claude-starter 바깥의 sibling 디렉토리**로 생성합니다.
+> 도구 상자(`claude-starter`)와 여러분의 작품(`my-awesome-app`)이 완전히 분리되어 git/파일이 섞이지 않아요.
 
 ## 설치되는 것들 (`/0-local-setup`)
 

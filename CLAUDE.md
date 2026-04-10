@@ -5,41 +5,34 @@ Claude를 처음 시작하는 비개발자/기획자가 로컬 셋업부터 Verc
 ## 레포 구조
 
 ```
-claude-starter/              ← 이 레포 (강의 도구)
-├── CLAUDE.md                ← 이 파일
-├── .gitignore               ← projects/ 제외
-├── scripts/
-│   ├── bootstrap_mac.sh     ← macOS 셋업 (brew + asdf)
-│   └── bootstrap_windows.ps1← Windows 셋업 (Scoop + mise)
-├── assets/
-│   └── snazzy.itermcolors   ← 터미널 컬러 스킴
-├── .claude/
-│   ├── settings.json        ← 플러그인 설정
-│   └── skills/              ← 단계별 슬래시 커맨드
-│       ├── 0-local-setup/
-│       ├── 1-claude-md-setup/
-│       ├── 2-directory-structure-setup/
-│       ├── 3-mcp-setup/
-│       ├── 4-critical-ground-rule-setup/
-│       ├── 5-detail-prd/
-│       ├── 6-prototype/
-│       ├── 7-implement-by-claude-teams/
-│       ├── 8-github-ci-cd-setup/
-│       ├── 9-deploy/
-│       ├── 10-confirm/
-│       ├── bootstrap-packages/
-│       └── plugin-guide/
-└── projects/                ← 수강생 작업 공간 (gitignored)
-    └── {kebab-case-name}/   ← 각 수강생의 독립 프로젝트
-        ├── .git/            ← 독립 git repo
-        ├── CLAUDE.md        ← 프로젝트별 설계도
-        └── ...
+workspace/                         ← 이 레포의 부모 디렉토리
+├── claude-starter/                ← 이 레포 (강의 도구)
+│   ├── CLAUDE.md                  ← 이 파일
+│   ├── .gitignore                 ← (legacy) projects/ 안전망
+│   ├── scripts/
+│   │   ├── bootstrap_mac.sh       ← macOS 셋업 (brew + asdf)
+│   │   └── bootstrap_windows.ps1  ← Windows 셋업 (Scoop + mise)
+│   ├── helper/                    ← 검증된 bun.lock/package.json 템플릿
+│   ├── assets/
+│   │   └── snazzy.itermcolors     ← 터미널 컬러 스킴
+│   └── .claude/
+│       ├── settings.json          ← 플러그인 설정
+│       └── skills/                ← 단계별 슬래시 커맨드 (0~10 + 보조)
+│
+└── {kebab-case-name}/             ← 각 수강생의 독립 프로젝트 (sibling)
+    ├── .git/                      ← 독립 git repo
+    ├── CLAUDE.md                  ← 프로젝트별 설계도
+    ├── .claude/
+    │   ├── skills/                ← /1에서 복사된 스킬
+    │   ├── settings.json          ← /1에서 복사된 설정
+    │   └── .starter-path          ← claude-starter 절대 경로 (helper/ 접근용)
+    └── ...
 ```
 
 ## 핵심 원칙
 
 1. **이 레포는 도구 상자** — 수강생의 프로덕트 코드는 절대 이 레포에 포함되지 않음
-2. **수강생 작업은 projects/ 하위에만** — `projects/`는 `.gitignore`로 제외되어 git diff 없음
+2. **수강생 작업은 claude-starter 바깥 sibling 디렉토리에** — `/1-claude-md-setup`이 `../{kebab-case-name}/`으로 폴더를 만들고 세션을 전환시킴. 이후 모든 스킬은 프로젝트 폴더 안의 CWD에서 동작
 3. **트러블슈팅은 PR로** — 강의 도구(scripts/, .claude/)의 버그/개선은 이 레포에 PR
 4. **프로젝트 디렉토리명은 kebab-case** — GitHub 레포명이 되므로 필수
 
@@ -62,7 +55,6 @@ claude-starter/              ← 이 레포 (강의 도구)
 | - | `/help-claude` | 막힌 문제 해결 (질문으로 좁혀서 진단 → 해결) |
 | - | `/claude-basic` | Claude Code 핵심 개념 6가지 설명 (최신 확인 후 출력) |
 | - | `/bootstrap-packages` | 전체 개발 환경 설치 — 터미널 꾸미기, 에디터, 폰트 등 (선택) |
-| - | `/season-start` | 강의 시작 전 Slack에 Mac/Windows 설치 가이드 발송 |
 | - | `/prd-collab` | 추상→구체 12단계 PRD 협업 (경험 단위 하나를 완성) |
 | - | `/prd-split` | 큰 아이디어를 경험 단위로 쪼개고 각각 /prd-collab 호출 |
 | - | `/cto-council` | CTO 페르소나와 기술 Q&A (비개발자 불안감 해소) |
