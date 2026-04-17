@@ -185,7 +185,7 @@ cd "../{kebab-case-name}"
 # .claude 디렉토리 생성
 mkdir -p .claude/skills
 
-# 모든 스킬 복사 (워크숍 완료 후 /10-confirm에서 불필요한 것 정리)
+# 모든 스킬 복사 (워크숍 완료 후 /9-confirm에서 불필요한 것 정리)
 for skill_dir in "$STARTER_DIR"/.claude/skills/*/; do
   cp -r "$skill_dir" .claude/skills/
 done

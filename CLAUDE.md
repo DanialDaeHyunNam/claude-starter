@@ -45,12 +45,11 @@ workspace/                         ← 이 레포의 부모 디렉토리
 | 2 | `/2-directory-structure-setup` | 프로젝트 폴더 구조 생성 |
 | 3 | `/3-mcp-setup` | MCP 연결 (Playwright, Slack, Pencil, Claude in Chrome) |
 | 4 | `/4-critical-ground-rule-setup` | 코딩 컨벤션 + Claude 협업 규칙 + 운영 규칙 |
-| 5 | `/5-detail-prd` | 상세 PRD 작성 |
-| 6 | `/6-prototype` | Pencil 프로토타이핑 |
-| 7 | `/7-implement-by-claude-teams` | Claude Teams로 구현 |
-| 8 | `/8-github-ci-cd-setup` | CI/CD + Slack 알림 |
-| 9 | `/9-deploy` | Vercel 배포 + Slack 알림 |
-| 10 | `/10-confirm` | 최종 승인 |
+| 5 | `/5-detail-prd` | 상세 PRD 작성 (`/prd-collab` 내부에서 Pencil 와이어프레임까지 함께 작성) |
+| 6 | `/6-implement-by-claude-teams` | Claude Teams로 구현 |
+| 7 | `/7-github-ci-cd-setup` | CI/CD + Slack 알림 |
+| 8 | `/8-deploy` | Vercel 배포 + Slack 알림 |
+| 9 | `/9-confirm` | 최종 승인 |
 | - | `/plugin-guide` | 설치된 플러그인 설명 |
 | - | `/help-claude` | 막힌 문제 해결 (질문으로 좁혀서 진단 → 해결) |
 | - | `/claude-basic` | Claude Code 핵심 개념 6가지 설명 (최신 확인 후 출력) |
@@ -59,6 +58,7 @@ workspace/                         ← 이 레포의 부모 디렉토리
 | - | `/prd-split` | 큰 아이디어를 경험 단위로 쪼개고 각각 /prd-collab 호출 |
 | - | `/cto-council` | CTO 페르소나와 기술 Q&A (비개발자 불안감 해소) |
 | - | `/growth-setup` | SEO + Google Analytics + Vercel Analytics 세팅 |
+| - | `/find-context` | 현재 대화 주제 관련 과거 의사결정(why) / 교훈(lessons learned)을 문서에서 찾아 리포트 |
 
 ## 설치된 플러그인
 

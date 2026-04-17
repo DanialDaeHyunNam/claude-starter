@@ -1,10 +1,10 @@
-# 8. GitHub CI/CD Setup
+# 7. GitHub CI/CD Setup
 
 GitHub 리포지토리 생성, CI/CD 파이프라인 구성, Slack 알림 설정을 하는 단계입니다.
 
 ## When to Use
 
-- 사용자가 `/8-github-ci-cd-setup` 을 입력했을 때
+- 사용자가 `/7-github-ci-cd-setup` 을 입력했을 때
 
 ## Instructions
 
@@ -14,7 +14,7 @@ GitHub 리포지토리 생성, CI/CD 파이프라인 구성, Slack 알림 설정
 
 ---
 
-## Step 8: GitHub + 자동 검사 시스템 (CI/CD)
+## Step 7: GitHub + 자동 검사 시스템 (CI/CD)
 
 ```
 지금: 내 컴퓨터에만 있음     설정 후: 자동 시스템 완비
@@ -253,7 +253,7 @@ gh run watch
 ### Step 9: 최종 확인
 
 ```
-✅ Step 8 완료! CI/CD가 설정되었습니다.
+✅ Step 7 완료! CI/CD가 설정되었습니다.
 
 🔧 설정된 파이프라인:
   1. 코드 push/PR → 자동 Lint 검사 → Slack 알림
@@ -263,5 +263,5 @@ gh run watch
 📢 Slack 알림: {설정됨/나중에 설정}
 🔗 GitHub: {repo URL}
 
-다음 단계: /9-deploy 를 입력해주세요.
+다음 단계: /8-deploy 를 입력해주세요.
 ```

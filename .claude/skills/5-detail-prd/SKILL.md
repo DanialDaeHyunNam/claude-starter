@@ -73,5 +73,5 @@ Claude가 코드 작성 시 바로 참고할 수 있게 합니다.
 📋 docs/prd/ROADMAP.md — 경험 로드맵
 📄 docs/prd/{각 경험별 PRD 파일들}
 
-다음 단계: /6-prototype 을 입력해주세요.
+다음 단계: /6-implement-by-claude-teams 를 입력해주세요.
 ```
