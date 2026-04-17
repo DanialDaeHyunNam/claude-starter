@@ -39,17 +39,15 @@ Claude Code + Pencil을 활용한 오프라인 강의용 스타터 킷
         ↓
 /4-ground-rule-setup     코딩 규칙 세우기
         ↓
-/5-detail-prd            상세 기획서 작성
+/5-detail-prd            상세 기획서 작성 (Pencil 와이어프레임 포함)
         ↓
-/6-prototype             Pencil로 화면 시안 만들기
+/6-implement             Claude Teams로 본격 구현
         ↓
-/7-implement             Claude Teams로 본격 구현
+/7-ci-cd-setup           자동 검사 + Slack 알림
         ↓
-/8-ci-cd-setup           자동 검사 + Slack 알림
+/8-deploy                Vercel에 배포
         ↓
-/9-deploy                Vercel에 배포
-        ↓
-/10-confirm              최종 확인 + 완료!
+/9-confirm               최종 확인 + 완료!
 ```
 
 각 단계마다 Claude가 **쉬운 비유로 설명**해주고,

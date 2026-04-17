@@ -1,10 +1,10 @@
-# 10. Confirm
+# 9. Confirm
 
 배포된 결과물을 사용자가 최종 확인하고 승인하는 단계입니다.
 
 ## When to Use
 
-- 사용자가 `/10-confirm` 을 입력했을 때
+- 사용자가 `/9-confirm` 을 입력했을 때
 
 ## Instructions
 
@@ -14,7 +14,7 @@
 
 ---
 
-## Step 10: 최종 확인
+## Step 9: 최종 확인
 
 ```
   여기까지 온 여정
@@ -108,11 +108,10 @@ rm -rf .claude/skills/2-directory-structure-setup
 rm -rf .claude/skills/3-mcp-setup
 rm -rf .claude/skills/4-critical-ground-rule-setup
 rm -rf .claude/skills/5-detail-prd
-rm -rf .claude/skills/6-prototype
-rm -rf .claude/skills/7-implement-by-claude-teams
-rm -rf .claude/skills/8-github-ci-cd-setup
-rm -rf .claude/skills/9-deploy
-rm -rf .claude/skills/10-confirm
+rm -rf .claude/skills/6-implement-by-claude-teams
+rm -rf .claude/skills/7-github-ci-cd-setup
+rm -rf .claude/skills/8-deploy
+rm -rf .claude/skills/9-confirm
 rm -rf .claude/skills/season-start
 rm -rf .claude/skills/claude-basic
 rm -rf .claude/skills/plugin-guide

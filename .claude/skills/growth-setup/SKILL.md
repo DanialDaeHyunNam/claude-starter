@@ -12,7 +12,7 @@ SEO, Google Analytics, Vercel Analytics를 프로젝트에 세팅합니다.
 ## When to Use
 
 - 사용자가 `/growth-setup`을 입력했을 때
-- `/7-implement-by-claude-teams` 완료 후 자동 호출
+- `/6-implement-by-claude-teams` 완료 후 자동 호출
 
 ## Instructions
 
