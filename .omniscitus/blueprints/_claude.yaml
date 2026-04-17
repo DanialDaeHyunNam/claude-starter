@@ -1,0 +1,119 @@
+version: 1
+updated: 2026-04-17T16:04:51.471Z
+
+files:
+  ".claude/skills/6-implement-by-claude-teams/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:02:09.154Z
+    change_count: 3
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:02:09.154Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:02:00.446Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:01:56.448Z
+        action: edit
+        source: "claude"
+  ".claude/skills/7-github-ci-cd-setup/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:02:45.385Z
+    change_count: 4
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:02:45.385Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:02:41.406Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:02:32.392Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:02:28.405Z
+        action: edit
+        source: "claude"
+  ".claude/skills/8-deploy/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:03:13.198Z
+    change_count: 3
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:03:13.198Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:03:03.300Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:02:59.287Z
+        action: edit
+        source: "claude"
+  ".claude/skills/9-confirm/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:03:37.047Z
+    change_count: 3
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:03:37.047Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:03:30.514Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-17T16:03:26.711Z
+        action: edit
+        source: "claude"
+  ".claude/skills/5-detail-prd/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:03:45.193Z
+    change_count: 1
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:03:45.193Z
+        action: edit
+        source: "claude"
+  ".claude/skills/growth-setup/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:04:05.906Z
+    change_count: 1
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:04:05.906Z
+        action: edit
+        source: "claude"
+  ".claude/skills/1-claude-md-setup/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:04:15.428Z
+    change_count: 1
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:04:15.428Z
+        action: edit
+        source: "claude"
+  ".claude/skills/find-context/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-04-17
+    last_modified: 2026-04-17T16:04:51.471Z
+    change_count: 1
+    purpose: ""
+    change_log:
+      - date: 2026-04-17T16:04:51.471Z
+        action: write
+        source: "claude"
