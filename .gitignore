@@ -31,6 +31,7 @@ node_modules/
 # Local tools / plugins
 .fearnot/
 .omc/
+.omniscitus/
 .playwright-mcp/
 
 # Session history
