@@ -1,5 +1,5 @@
 version: 1
-updated: 2026-04-18T00:06:53.064Z
+updated: 2026-04-18T02:30:28.636Z
 
 files:
   "CLAUDE.md":
@@ -34,10 +34,13 @@ files:
     status: active
     source: "claude"
     created: 2026-04-17
-    last_modified: 2026-04-18T00:06:53.064Z
-    change_count: 4
+    last_modified: 2026-04-18T02:30:28.636Z
+    change_count: 5
     purpose: "git 추적 제외 패턴 — legacy projects/, OS 아티팩트, logs, .env, node_modules, .claude/wrap-up(세션별 개인 기록), 로컬 플러그인 디렉토리(.fearnot/.omc/.playwright-mcp)"
     change_log:
+      - date: 2026-04-18T02:30:28.636Z
+        action: edit
+        source: "claude"
       - date: 2026-04-18T00:06:53.064Z
         action: edit
         source: "claude"
