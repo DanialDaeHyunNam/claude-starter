@@ -32,6 +32,3 @@ node_modules/
 .fearnot/
 .omc/
 .playwright-mcp/
-
-# Legacy per-repo history (pre-omniscitus); .omniscitus/history/는 추적 대상
-/history/

@@ -15,3 +15,19 @@ units:
     last_updated: 2026-04-18
     session_count: 1
     title: "Omniscitus Tracking 정책 결정 + helper 의존성 bump"
+  - id: local-setup-restructure
+    file: devops/2026-04-04-local-setup-restructure.md
+    domain: devops
+    status: open
+    created: 2026-04-04
+    last_updated: 2026-04-04
+    session_count: 1
+    title: "/0-local-setup 경량화 + DB 기본값 통일"
+  - id: slides-cleanup
+    file: product/2026-04-04-slides-cleanup.md
+    domain: product
+    status: open
+    created: 2026-04-04
+    last_updated: 2026-04-04
+    session_count: 1
+    title: "슬라이드 Git 로그인 제거 + zsh 설치 옵션"
