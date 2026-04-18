@@ -1,0 +1,17 @@
+units:
+  - id: skill-curriculum-restructure
+    file: product/2026-04-18-skill-curriculum-restructure.md
+    domain: product
+    status: open
+    created: 2026-04-18
+    last_updated: 2026-04-18
+    session_count: 1
+    title: "Skill Curriculum Restructure (6-prototype 제거 + find-context 추가)"
+  - id: omniscitus-tracking-and-deps
+    file: devops/2026-04-18-omniscitus-tracking-and-deps.md
+    domain: devops
+    status: open
+    created: 2026-04-18
+    last_updated: 2026-04-18
+    session_count: 1
+    title: "Omniscitus Tracking 정책 결정 + helper 의존성 bump"

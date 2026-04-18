@@ -8,7 +8,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:02:09.154Z
     change_count: 3
-    purpose: ""
+    purpose: "커리큘럼 Step 6 — Claude Teams로 PRD/프로토타입을 실제 코드로 동시 구현하고 기능별 커밋, growth-setup 자동 호출"
     change_log:
       - date: 2026-04-17T16:02:09.154Z
         action: edit
@@ -25,7 +25,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:02:45.385Z
     change_count: 4
-    purpose: ""
+    purpose: "커리큘럼 Step 7 — GitHub 레포 생성, PR+squash merge 정책, GitHub Actions CI 파이프라인(lint/build), Slack webhook 알림 설정"
     change_log:
       - date: 2026-04-17T16:02:45.385Z
         action: edit
@@ -45,7 +45,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:03:13.198Z
     change_count: 3
-    purpose: ""
+    purpose: "커리큘럼 Step 8 — Vercel 프로젝트 연결/배포, 자동 배포(main push) 설정, Slack 배포 알림"
     change_log:
       - date: 2026-04-17T16:03:13.198Z
         action: edit
@@ -62,7 +62,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:03:37.047Z
     change_count: 3
-    purpose: ""
+    purpose: "커리큘럼 Step 9(최종) — 배포 결과 확인, 완료 리포트, 수강용 skill 일괄 정리(rm -rf 워크숍 스킬 디렉토리들)"
     change_log:
       - date: 2026-04-17T16:03:37.047Z
         action: edit
@@ -79,7 +79,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:03:45.193Z
     change_count: 1
-    purpose: ""
+    purpose: "커리큘럼 Step 5 — /prd-split 호출로 아이디어를 경험 단위로 쪼개고 각 경험에 /prd-collab 12단계 워크플로우 적용(Pencil 와이어프레임 포함)"
     change_log:
       - date: 2026-04-17T16:03:45.193Z
         action: edit
@@ -90,7 +90,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:04:05.906Z
     change_count: 1
-    purpose: ""
+    purpose: "보조 skill — SEO 메타태그 + Google Analytics + Vercel Analytics 일괄 세팅 (/6-implement-by-claude-teams 완료 후 자동 호출)"
     change_log:
       - date: 2026-04-17T16:04:05.906Z
         action: edit
@@ -101,7 +101,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:04:15.428Z
     change_count: 1
-    purpose: ""
+    purpose: "커리큘럼 Step 1 — /clarify:vague로 아이디어 구체화 후 kebab-case 프로젝트명 확정, claude-starter 바깥 sibling 디렉토리에 CLAUDE.md + .claude/ 복사 후 세션 전환 안내"
     change_log:
       - date: 2026-04-17T16:04:15.428Z
         action: edit
@@ -112,7 +112,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:04:51.471Z
     change_count: 1
-    purpose: ""
+    purpose: "보조 skill(유틸리티) — 현재 대화 주제 관련 과거 의사결정(why)과 교훈(lessons learned)을 PRD/docs/history/CLAUDE.md에서 출처(file:line) 포함 리포트로 추출"
     change_log:
       - date: 2026-04-17T16:04:51.471Z
         action: write
