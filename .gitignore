@@ -33,5 +33,5 @@ node_modules/
 .omc/
 .playwright-mcp/
 
-# Session history
-history/
+# Legacy per-repo history (pre-omniscitus); .omniscitus/history/는 추적 대상
+/history/

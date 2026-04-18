@@ -1,5 +1,5 @@
 version: 1
-updated: 2026-04-17T23:59:08.550Z
+updated: 2026-04-18T00:06:53.064Z
 
 files:
   "CLAUDE.md":
@@ -8,7 +8,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T15:43:49.363Z
     change_count: 3
-    purpose: ""
+    purpose: "claude-starter 프로젝트 설계도 — 레포 구조, 핵심 원칙, skill 흐름(0~9 + 보조), 기술 스택, git 워크플로우(브랜치/PR/squash merge) 정의"
     change_log:
       - date: 2026-04-17T15:43:49.363Z
         action: edit
@@ -25,7 +25,7 @@ files:
     created: 2026-04-17
     last_modified: 2026-04-17T16:03:57.204Z
     change_count: 1
-    purpose: ""
+    purpose: "공개용 레포 소개 — 대상 독자, skill 흐름 다이어그램, 사전 요건, 빠른 시작(clone → claude → /0-local-setup), 플러그인 목록, 기여 가이드"
     change_log:
       - date: 2026-04-17T16:03:57.204Z
         action: edit
@@ -34,10 +34,16 @@ files:
     status: active
     source: "claude"
     created: 2026-04-17
-    last_modified: 2026-04-17T23:59:08.550Z
-    change_count: 2
-    purpose: ""
+    last_modified: 2026-04-18T00:06:53.064Z
+    change_count: 4
+    purpose: "git 추적 제외 패턴 — legacy projects/, OS 아티팩트, logs, .env, node_modules, .claude/wrap-up(세션별 개인 기록), 로컬 플러그인 디렉토리(.fearnot/.omc/.playwright-mcp)"
     change_log:
+      - date: 2026-04-18T00:06:53.064Z
+        action: edit
+        source: "claude"
+      - date: 2026-04-18T00:06:06.183Z
+        action: edit
+        source: "claude"
       - date: 2026-04-17T23:59:08.550Z
         action: edit
         source: "claude"
