@@ -1,15 +1,18 @@
 version: 1
-updated: 2026-04-18T02:30:28.636Z
+updated: 2026-04-24T14:57:53.240Z
 
 files:
   "CLAUDE.md":
     status: active
     source: "claude"
     created: 2026-04-17
-    last_modified: 2026-04-17T15:43:49.363Z
-    change_count: 3
+    last_modified: 2026-04-24T14:57:37.014Z
+    change_count: 4
     purpose: "claude-starter 프로젝트 설계도 — 레포 구조, 핵심 원칙, skill 흐름(0~9 + 보조), 기술 스택, git 워크플로우(브랜치/PR/squash merge) 정의"
     change_log:
+      - date: 2026-04-24T14:57:37.014Z
+        action: edit
+        source: "claude"
       - date: 2026-04-17T15:43:49.363Z
         action: edit
         source: "claude"
@@ -52,4 +55,15 @@ files:
         source: "claude"
       - date: 2026-04-17T16:21:56.778Z
         action: edit
+        source: "claude"
+  ".gitattributes":
+    status: active
+    source: "claude"
+    created: 2026-04-24
+    last_modified: 2026-04-24T14:57:53.240Z
+    change_count: 1
+    purpose: ""
+    change_log:
+      - date: 2026-04-24T14:57:53.240Z
+        action: write
         source: "claude"
