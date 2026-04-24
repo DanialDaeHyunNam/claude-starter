@@ -1,0 +1,38 @@
+version: 1
+
+# Pre-migration git state — the point /omniscitus-uninstall reverts to.
+# Bootstrapped retroactively on 2026-04-24: the original migration ran
+# with a pre-0.6 plugin version that did not record this file. The SHA
+# below is HEAD at the time of bootstrap, not the true pre-migration
+# SHA (which is no longer identifiable).
+anchor:
+  sha: e87c8bc07c77675103825f392ef7cbb786ba6401
+  branch: main
+  timestamp: 2026-04-24T14:54:13Z
+  git_project: true
+
+# Plugin version that last wrote the canonical footprint content.
+# Set to the installed version since no external files were written
+# by the previous migration — nothing to compare, nothing stale.
+migrate_version: 0.8.3
+
+# Files modified OUTSIDE .omniscitus/ by omniscitus skills.
+# The pre-0.6 migration only produced .omniscitus/ content; the entries
+# below were added on 2026-04-24 to bring the project up to the v0.8.3
+# canonical footprint (CLAUDE.md onboarding block, README, .gitattributes
+# linguist-generated rule). `.omniscitus/README.md` is listed for audit
+# symmetry even though uninstall removes the whole .omniscitus/ dir.
+footprint:
+  - path: CLAUDE.md
+    action: appended
+    marker: "### 🗂 Omniscitus (auto-tracking)"
+    by: migrate
+    timestamp: 2026-04-24T14:54:13Z
+  - path: .omniscitus/README.md
+    action: created
+    by: migrate
+    timestamp: 2026-04-24T14:54:13Z
+  - path: .gitattributes
+    action: created
+    by: migrate
+    timestamp: 2026-04-24T14:54:13Z

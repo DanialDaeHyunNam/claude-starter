@@ -113,3 +113,12 @@ workspace/                         ← 이 레포의 부모 디렉토리
 - PR 제목: `[feat] 기능 설명`, `[fix] 이슈 설명`, `[improve] 개선 설명`
 - merge 방식: **squash and merge** (히스토리 깔끔하게)
 - 이 원칙은 이 레포(claude-starter)와 수강생 프로젝트 모두 동일하게 적용
+
+### 🗂 Omniscitus (auto-tracking)
+
+- **Blueprints**: 모든 Write/Edit은 PostToolUse 훅으로 자동 추적됨. `.omniscitus/blueprints/*.yaml`을 손으로 수정하지 말 것.
+- **세션 종료 시**: `/wrap-up` 실행 (또는 "wrap up", "마무리"). 작업은 도메인 기반 토픽 유닛으로 분류되어 `.omniscitus/history/{domain}/`에 저장됨.
+- **Pending 리뷰**: `/follow-up` — 현재 세션(최근 3일) 관련 오픈 아이템 확인.
+- **Visual browser**: `/birdview` — 블루프린트 + 히스토리 + 테스트 통합 뷰어.
+- **Tests**: 실제 테스트 파일은 원래 위치에 그대로 유지. `/test-add {file}`로 오버레이 `.omniscitus/tests/{mirrored-path}/meta.yaml`를 생성 — 파일 이동 없음, 프레임워크 변경 없음. LLM 판정 프롬프트 테스트는 `/test-add:prompt {name}` 사용.
+- **Domain taxonomy**: `.omniscitus/ontology.yaml` (있는 경우) — /wrap-up 분류 기준 정의.
