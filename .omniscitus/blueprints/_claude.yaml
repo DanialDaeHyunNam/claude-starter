@@ -1,5 +1,5 @@
 version: 1
-updated: 2026-04-17T16:04:51.471Z
+updated: 2026-05-22T23:53:32.593Z
 
 files:
   ".claude/skills/6-implement-by-claude-teams/SKILL.md":
@@ -116,4 +116,21 @@ files:
     change_log:
       - date: 2026-04-17T16:04:51.471Z
         action: write
+        source: "claude"
+  ".claude/skills/0-local-setup/SKILL.md":
+    status: active
+    source: "claude"
+    created: 2026-05-22
+    last_modified: 2026-05-22T23:53:32.593Z
+    change_count: 3
+    purpose: ""
+    change_log:
+      - date: 2026-05-22T23:53:32.593Z
+        action: edit
+        source: "claude"
+      - date: 2026-05-22T23:53:22.589Z
+        action: edit
+        source: "claude"
+      - date: 2026-05-22T23:53:11.120Z
+        action: edit
         source: "claude"

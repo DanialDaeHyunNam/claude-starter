@@ -1,6 +1,6 @@
 # 0. Local Setup
 
-앱을 만들기 위한 필수 도구 5개만 빠르게 확인/설치합니다.
+앱을 만들기 위한 필수 도구 4개만 빠르게 확인/설치합니다.
 
 ## When to Use
 
@@ -16,22 +16,22 @@
 
 ## Step 0: 필수 도구 확인
 
-지금부터 앱을 만들기 위해 꼭 필요한 도구 5개만 확인할 거예요.
+Claude Code는 이미 설치되어 있어요 (지금 이 대화로 들어와 계시잖아요!).
+앞으로 Claude가 일하려면 필요한 **나머지 도구 4개**를 확인할 거예요.
 
 ```
-필수 도구 5개
+필수 도구 4개
 ┌──────────────────────────────────────────┐
-│ 1. Claude Code  ← 지금 쓰고 있는 AI 도우미 │
-│ 2. Git          ← 코드 저장소 (타임머신)    │
-│ 3. Node.js      ← 앱을 돌리는 엔진         │
-│ 4. Bun          ← 빠른 패키지 관리자        │
-│ 5. gh           ← GitHub 연결 도구         │
+│ 1. Git          ← 코드 저장소 (타임머신)    │
+│ 2. Node.js      ← 앱을 돌리는 엔진         │
+│ 3. Bun          ← 빠른 패키지 관리자        │
+│ 4. gh           ← GitHub 연결 도구         │
 └──────────────────────────────────────────┘
 ```
 
 **쉽게 말하면:**
 가게를 차리려면 최소한 전기, 수도, 가스는 들어와야 하죠?
-이 5개가 앱을 만들기 위한 "전기, 수도, 가스"예요.
+이 4개가 앱을 만들기 위한 "전기, 수도, 가스"예요.
 
 > 터미널 꾸미기, 에디터, 폰트 등 전체 환경 설정은
 > `/bootstrap-packages` 로 별도 진행할 수 있습니다.
@@ -66,17 +66,16 @@ uname -s
 
 ```bash
 echo "=== 필수 도구 확인 ===" && \
-echo "1. Claude Code: $(claude --version 2>/dev/null || echo '❌ 미설치')" && \
-echo "2. Git: $(git --version 2>/dev/null || echo '❌ 미설치')" && \
-echo "3. Node.js: $(node --version 2>/dev/null || echo '❌ 미설치')" && \
-echo "4. Bun: $(bun --version 2>/dev/null || echo '❌ 미설치')" && \
-echo "5. gh: $(gh --version 2>/dev/null | head -1 || echo '❌ 미설치')"
+echo "1. Git: $(git --version 2>/dev/null || echo '❌ 미설치')" && \
+echo "2. Node.js: $(node --version 2>/dev/null || echo '❌ 미설치')" && \
+echo "3. Bun: $(bun --version 2>/dev/null || echo '❌ 미설치')" && \
+echo "4. gh: $(gh --version 2>/dev/null | head -1 || echo '❌ 미설치')"
 ```
 
 **Windows인 경우** 사용자에게 PowerShell에 붙여넣기 안내:
 
 ```powershell
-@("claude","git","node","bun","gh") | ForEach-Object {
+@("git","node","bun","gh") | ForEach-Object {
     $v = try { & $_ --version 2>$null | Select-Object -First 1 } catch { $null }
     if ($v) { Write-Host "  ${_}: $v" -ForegroundColor Green }
     else    { Write-Host "  ${_}: 미설치" -ForegroundColor Yellow }
@@ -183,7 +182,6 @@ sudo apt install -y gh 2>/dev/null || \
 ┌─────────────┬──────────┬─────────┐
 │ 도구         │ 상태     │ 버전     │
 ├─────────────┼──────────┼─────────┤
-│ Claude Code  │ ✅       │ x.x.x   │
 │ Git          │ ✅       │ x.x.x   │
 │ Node.js      │ ✅       │ x.x.x   │
 │ Bun          │ ✅       │ x.x.x   │
